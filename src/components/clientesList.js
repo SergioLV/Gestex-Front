@@ -32,7 +32,7 @@ export default function ClientesList() {
   const [clientesList, setClientesList] = useState([]);
 
   const getCliente = async () => {
-    await Axios.get("http://localhost:3001/get/clientes").then((response) => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/productos/clientes").then((response) => {
       // console.log(response);
       setClientesList(response.data);
       console.log(response.data)

@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import CustomizedDialogs from "./dialog";
 
 const ClientForm = ({ clientesList, setClientesList }) => {
-  const url = "http://localhost:3001/add/cliente";
+  const url = "https://gestex-backend.herokuapp.com/get/productos/add/cliente";
   const formik = useFormik({
     initialValues: {
       name: "",

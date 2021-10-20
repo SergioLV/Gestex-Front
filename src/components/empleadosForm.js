@@ -37,7 +37,7 @@ export default function Empleados() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       // alert(JSON.stringify(values, null, 2));
-      await Axios.post("http://localhost:3001/add/empleado", values).then(
+      await Axios.post("https://gestex-backend.herokuapp.com/get/productos/add/empleado", values).then(
         (response) => {
           console.log(response);
         }

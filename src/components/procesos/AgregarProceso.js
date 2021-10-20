@@ -88,7 +88,7 @@ function AgregarProducto({
 
     //Se hace la peticion Post a add/producto del productoAdd
    
-    Axios.post("http://localhost:3001/add/proceso", { proceso }).then(
+    Axios.post("https://gestex-backend.herokuapp.com/get/productos/add/proceso", { proceso }).then(
       (response) => {
         console.log(response)
         console.log(procesoAdd)
@@ -102,7 +102,7 @@ function AgregarProducto({
   };
 
   const getProceso = async (procesoAdd) => {
-    const url = "http://localhost:3001/get/proceso/".concat(procesoAdd[0]);
+    const url = "https://gestex-backend.herokuapp.com/get/productos/get/proceso/".concat(procesoAdd[0]);
     await Axios.get(url).then((response) => {
       console.log(response.data)
       //Response.data.rows[0] devuelve un Json con la fila de la consulta de productAdd a la bd

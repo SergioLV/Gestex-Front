@@ -59,7 +59,7 @@ function EditProductos({
     e.preventDefault();
     // console.log(openPopUpEdit)
     
-    Axios.put("http://localhost:3001/update/producto/", updatedProducto).then(
+    Axios.put("https://gestex-backend.herokuapp.com/get/productos/update/producto/", updatedProducto).then(
       (response) => {
         setOpenEdit(false);
         const aux = [...productos]
@@ -82,7 +82,7 @@ function EditProductos({
   };
 
   const handleDelete = () => {
-    Axios.delete("http://localhost:3001/delete/producto", {updatedProducto}).then(
+    Axios.delete("https://gestex-backend.herokuapp.com/get/productos/delete/producto", {updatedProducto}).then(
       (response) => {
         setOpenEdit(false);
         console.log(response.data)
