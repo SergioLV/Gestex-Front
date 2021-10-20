@@ -1,0 +1,244 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.insert-empleados {
+  display: flex;
+  align-items: center;
+}
+ .empleados-list{
+  display:flex;
+  flex-direction: column;
+  /* align-items: center; */
+ }
+ .home,
+ .login,
+.afp,
+.clientes,
+.ordenes,
+.paquetes,
+.personal,
+.previsiones,
+.procesos,
+.productos,
+.tickets,
+.test{
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+  font-size: 1.3rem;
+}
+.content{
+  margin-left: 250px;
+  color:green;
+  margin-top: -150px;
+}
+.tabla-personal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+}
+.add{
+  color:black;
+}
+.formulario{
+  height: 50vh;
+  background-color: lightgray;
+  width: 65vh;
+  margin-top:5vh;
+  border-radius: 25px;
+}
+.datos-personales{
+  padding-left:20px ;
+}
+.nombre-seccion{
+  color:black;
+  font-size: 40px;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+.boton{
+  /* border-style: solid; */
+  display: flex;
+  justify-content: right;
+  padding-right: 11vw;
+}
+.background-agregar{
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+  /* margin-left: -18vw; */
+  height: 100vh;
+  margin-top: -30vh;
+  /* background-color: rgba(218, 216, 216, 0.495); */
+  backdrop-filter: blur(8px);
+  /* filter: blur(8px); */
+  /* -webkit-filter: blur(8px); */
+}
+
+.agregar{
+  width: 100%;
+  margin-top: 10rem;
+  position:absolute;
+  z-index: 1;
+  padding-left: 2rem;
+  /* padding: 4rem 4rem; */
+  display: flex;
+  justify-content: center;
+  /* border-style: solid; */
+}
+.agregar .borde{
+  background-color: #f55d3e;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 3rem;
+
+}
+.agregar .formulario-producto{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 2rem 3rem;
+  
+  color: black;
+  background-color: rgb(252, 252, 252);
+  border-style: solid;
+  border-width: 1px;
+}
+
+.agregar .producto-title{
+  width: 20rem;
+}
+.divisor{
+  border: 1px solid #f55d3e;
+  border-radius: 1px;
+  margin-bottom: 0.5rem !important;
+}
+.editar:hover{
+  cursor: pointer;
+}
+.boton-agregar-producto-modal{
+  margin-top: 3rem !important;
+  margin-left: 11rem !important;
+  
+}
+.close{
+  margin-top: 1.5rem;
+  margin-left: 0.75rem;
+}
+.close:hover{
+  cursor: pointer;
+}
+
+/* .pop-up{
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  
+  z-index: 0;
+  width: 100%;
+  padding-right: 1rem;
+  height: 4rem;
+} */
+
+
+.card{
+  /* width: 30%; */
+  margin-top: 10rem;
+  /* position:absolute; */
+  padding-left: 2rem;
+  /* padding: 4rem 4rem; */
+  display: flex;
+  justify-content: center;
+  /* border-style: solid; */
+}
+.card .borde{
+  background-color: #f55d3e;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 3rem;
+
+}
+.card .formulario-producto{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 1rem 2rem;
+  
+  color: black;
+  background-color: rgb(252, 252, 252);
+  border-style: solid;
+  border-width: 1px;
+}
+
+.card .producto-title{
+  width: 20rem;
+}
+.divisor-popup{
+  border: 1px solid #f55d3e;
+  border-radius: 1px;
+  margin-bottom: 0.25rem !important;
+}
+
+.pop-up{
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.id_producto_edit{
+  margin-top: 1rem;
+  margin-bottom: 1rem !important;
+}
+.accion{
+  display: inline !important ;
+}
+.boton-editar-producto-modal{
+  margin-top: 2rem !important;
+  margin-left: 2rem !important;
+}
+.boton-eliminar-producto-modal{
+  margin-top: 2rem !important;
+  margin-left: 2rem !important;
+}
+.boton-eliminar-producto-modal:hover{
+  background-color: red !important;
+}
+/* .select-agregar-proceso{
+  padding-right: 0rem !important;
+  background-color: #f55d3e !important;
+} */
+
+.orange-bar{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 30%;
+  background-color: #f55d3e ;
+}
+.title-header{
+  margin-top: 20vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+.login-hr{
+width: 30%;
+border: 1px solid rgb(102, 35, 22);
+border-radius: 1px;
+}
+.login-title{
+  color: white;
+}
+.inicio-sesion{
+  color: white;
+  font-weight: 200;
+  font-size: medium;
+  padding-top: 1rem;
+}
