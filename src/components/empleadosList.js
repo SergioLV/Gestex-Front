@@ -42,7 +42,7 @@ export default function EmpleadosList() {
   const [empleadosList, setEmpleadosList] = useState([]);
 
   useEffect(() => {
-    Axios.get("https://gestex-backend.herokuapp.com/get/productos/get/clientes").then((response) => {
+    Axios.get("https://gestex-backend.herokuapp.com/get/clientes").then((response) => {
       setEmpleadosList(response.data);
     });
   }, []);

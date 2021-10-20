@@ -51,7 +51,7 @@ function AgregarProducto({
     e.preventDefault();
     //Se hace la peticion Post a add/producto del productoAdd
     //Ya que axios post
-    Axios.post("https://gestex-backend.herokuapp.com/get/productos/add/producto", { productoAdd }).then(
+    Axios.post("https://gestex-backend.herokuapp.com/add/producto", { productoAdd }).then(
       (response) => {
         if (response.status === 201) {
           getProducto(productoAdd);
@@ -61,7 +61,7 @@ function AgregarProducto({
   };
 
   const getProducto = async (productoAdd) => {
-    const url = "https://gestex-backend.herokuapp.com/get/productos/get/producto/".concat(productoAdd);
+    const url = "https://gestex-backend.herokuapp.com/get/producto/".concat(productoAdd);
     await Axios.get(url).then((response) => {
       //Response.data.rows[0] devuelve un Json con la fila de la consulta de productAdd a la bd
       setProductos([...productos, response.data.rows[0]]);
