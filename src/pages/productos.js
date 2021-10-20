@@ -73,7 +73,7 @@ export default function Productos() {
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
   const getProductos = async () => {
-    await Axios.get("http://localhost:3001/get/productos").then((response) => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
       setProductos(response.data);
     });
   };
