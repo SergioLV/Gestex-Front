@@ -83,7 +83,6 @@ export default function Personal() {
     const getPersonal = async () => {
       await Axios.get("http://localhost:3001/get/personal").then((response) => {
         setPersonal(response.data);
-        console.log(response.data)
       });
     };
     getPersonal();
@@ -91,19 +90,19 @@ export default function Personal() {
 
   return (
     <div className="productos">
-      {/*openEdit && (
+      {openEdit && (
         <EditPersonal
           setOpenModal={setOpenModal}
-          productos={productos}
-          setProductos={setProductos}
+          personal={personal}
+          setPersonal={setPersonal}
           setOpenEdit={setOpenEdit}
-          productoEdit={productoEdit}
+          personalEdit={personalEdit}
           setOpenPopUpEdit={setOpenPopUpEdit}
           setOpenPopUpEditError={setOpenPopUpEditError}
           openPopUpEdit={openPopUpEdit}
           // setBeforeEdit={setBeforeEdit}
         />
-      )*/}
+      )}
       {openPopUp && <PopUp personalAdd={personalAdd} />}
       {openPopUpEdit && (
         <PopUpEdit personalEdit={personalEdit}  />

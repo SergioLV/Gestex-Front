@@ -41,11 +41,60 @@ function AgregarPersonal({
 }) {
   const classesForm = useStylesForm();
   const [nombre,setNombre] = useState("");
-  //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
+  const [rut,setRut] = useState("");
+  const [mail,setMail] = useState("");
+  const [direccion,setDireccion] = useState("");
+  const [comuna,setComuna] = useState("");
+  const [ciudad,setCiudad] = useState("");
+  const [telefono,setTelefono] = useState("");
+  const [fecha,setFecha] = useState("");
+  const [afp,setAFP] = useState(0);
+  const [isapre,setIsapre] = useState(0);
+  const [banco, setBanco] = useState(0);
+  const [cuenta, setCuenta] = useState(0);
+  const [sueldo,setSueldo] = useState(0);
+
+  //Handlers para modificar los valores correspondientes a los datos del Personal
   const handleChangeNombre = (e) => {
     setNombre(e.target.value);
-    console.log(nombre)
   };
+  const handleChangeRut = (e) => {
+    setRut(e.target.value);
+  };
+  const handleChangeMail = (e) => {
+    setMail(e.target.value);
+  };
+  const handleChangeDireccion = (e) => {
+    setDireccion(e.target.value);
+  };
+  const handleChangeComuna = (e) => {
+    setComuna(e.target.value);
+  };
+  const handleChangeCiudad = (e) => {
+    setCiudad(e.target.value);
+  };
+  const handleChangeTelefono = (e) => {
+    setTelefono(e.target.value);
+  };
+  const handleChangeFecha = (e) => {
+    setFecha(e.target.value);
+  };
+  const handleChangeAFP = (e) => {
+    setAFP(e.target.value);
+  };
+  const handleChangeIsapre = (e) => {
+    setIsapre(e.target.value);
+  };
+  const handleChangeBanco = (e) => {
+    setBanco(e.target.value);
+  };
+  const handleChangeCuenta = (e) => {
+    setCuenta(e.target.value);
+  };
+  const handleChangeSueldo = (e) => {
+    setSueldo(e.target.value);
+  };
+  
   //Handler para el boton de agregar producto
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
