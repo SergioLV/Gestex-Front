@@ -94,7 +94,7 @@ function AgregarPersonal({
   const handleChangeSueldo = (e) => {
     setSueldo(e.target.value);
   };
-  
+
   //Handler para el boton de agregar producto
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
@@ -108,14 +108,14 @@ function AgregarPersonal({
       0
     );
     //Ya que axios post
-    Axios.post("http://localhost:3001/add/producto", { personalAdd }).then(
+    Axios.post("http://localhost:3001/add/personal", { personalAdd }).then(
       (response) => {
         if (response.status === 201) {
           // getProducto(productoAdd);
-          /*setPersonal([
-            ...productos,
-            { id_producto: max_id + 1, nombre_producto: productoAdd },
-          ]);*/
+          setPersonal([
+            ...personal,
+            { id_personal: max_id + 1, nombre_personal: personalAdd },
+          ]);
           //Se cierra el modal de agregar
           setOpenModal(false);
           //Se abre el popup de satisfaccion
