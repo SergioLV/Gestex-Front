@@ -57,7 +57,7 @@ export default function Procesos() {
   const [procesoEdit, setProcesoEdit] = useState([]);
 
   //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
-  const [procesoAdd, setProcesoAdd] = useState("");
+  const [procesoAdd, setProcesoAdd] = useState([]);
   //State del
   const [openEdit, setOpenEdit] = useState(false);
   //Estado del modal para agregar y editar producto
@@ -72,12 +72,12 @@ export default function Procesos() {
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
   const getProcesos = async () => {
-    await Axios.get("http://localhost:3001/get/procesos").then((response) => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/procesos").then((response) => {
       setProcesos(response.data);
     });
   };
   const getProductos = async () => {
-    await Axios.get("http://localhost:3001/get/productos").then((response) => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
       setProductos(response.data);
     });
   };

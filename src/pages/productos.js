@@ -72,18 +72,19 @@ export default function Productos() {
   const [beforeEdit, setBeforeEdit] = useState([]);
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
-  const getProductos = async () => {
-    await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
-      setProductos(response.data);
-    });
-  };
-
+  
   const editarProducto = (producto) => {
     // setBeforeEdit(producto);
     setProductoEdit(producto);
     setOpenEdit(true);
   };
+  
   useEffect(() => {
+    const getProductos = async () => {
+      await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
+        setProductos(response.data);
+      });
+    };
     getProductos();
   }, []);
 
@@ -115,6 +116,7 @@ export default function Productos() {
           productos={productos}
           setProductos={setProductos}
           setOpenPopUp={setOpenPopUp}
+         
         />
       )}
       <div className="content">

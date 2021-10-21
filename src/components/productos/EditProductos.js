@@ -52,14 +52,12 @@ function EditProductos({
       id_producto: productoEdit.id_producto,
       nombre_producto: e.target.value,
     });
-   
-    // setOpenPopUpEdit(true);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(openPopUpEdit)
     
-    Axios.put("https://gestex-backend.herokuapp.com/get/productos/update/producto/", updatedProducto).then(
+    Axios.put("http://localhost:3001/update/producto/", updatedProducto).then(
       (response) => {
         setOpenEdit(false);
         const aux = [...productos]
@@ -82,20 +80,22 @@ function EditProductos({
   };
 
   const handleDelete = () => {
-    Axios.delete("https://gestex-backend.herokuapp.com/get/productos/delete/producto", {updatedProducto}).then(
+    console.log(productoEdit)
+    Axios.delete("http://localhost:3001/delete/producto", {params: productoEdit}).then(
       (response) => {
         setOpenEdit(false);
-        console.log(response.data)
-        // const aux = [...productos]
-        // const objIndex = aux.findIndex(
-        //   (obj) => obj.id_producto === updatedProducto.id_producto
-        // );
-        // aux.splice(objIndex,1);
-        //  setProductos(aux)
-        // setOpenPopUpEdit(true)
-        // console.log(updatedProducto)
-        // console.log(productos)
-        // setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
+
+        console.log(response)
+        const aux = [...productos]
+        const objIndex = aux.findIndex(
+          (obj) => obj.id_producto === productoEdit.id_producto
+        );
+        aux.splice(objIndex,1);
+         setProductos(aux)
+        setOpenPopUpEdit(true)
+        console.log(updatedProducto)
+        console.log(productos)
+        setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
       }
     );
 

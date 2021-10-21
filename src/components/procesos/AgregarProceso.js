@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
@@ -55,11 +55,10 @@ function AgregarProducto({
   setOpenPopUp,
   productos,
 }) {
-  
   const [idProductoAsociado, setIdProductoAsociado] = useState(0);
   const [nombreProceso, setNombreProceso] = useState("");
   const [precio, setPrecio] = useState(0);
-  console.log(idProductoAsociado,nombreProceso,precio)
+  // console.log("Producto Asociado: ", idProductoAsociado,nombreProceso,precio)
   // console.log(productos);
   const classesForm = useStylesForm();
   // console.log(precio, nombreProceso, idProductoAsociado);
@@ -68,45 +67,38 @@ function AgregarProducto({
   //En el input se muestra el nombre, pero se trabaja con el id del producto
   const handleChangeIdProductoAsociado = (e) => {
     setIdProductoAsociado(e.target.value);
-    console.log(e.target.value);
   };
   const handleChangeNombreProceso = (e) => {
     setNombreProceso(e.target.value);
   };
   const handleChangePrecio = (e) => {
     setPrecio(e.target.value);
+    setProcesoAdd([nombreProceso, precio, idProductoAsociado]);
+    // console.log("procesoAdd: ", procesoAdd);
   };
-  //En este caso hay 2 submit porque se envia el estado vacio por algun motivo
-  const handleSubmit1 = (e) => {
-    
-    //Se previene el refresh automatico del form
-    e.preventDefault();
-    setProcesoAdd([nombreProceso,precio,idProductoAsociado])
-    handleSubmit2(procesoAdd)
-  }
-  const handleSubmit2 = (proceso) => {
 
+ 
+  const handleSubmit = (e) => {
+    e.preventDefault();
     //Se hace la peticion Post a add/producto del productoAdd
-   
-    Axios.post("https://gestex-backend.herokuapp.com/add/proceso", { proceso }).then(
+    Axios.post("http://localhost:3001/add/proceso", { procesoAdd }).then(
       (response) => {
-        console.log(response)
-        console.log(procesoAdd)
+        // console.log(response)
+        // console.log("procesoAdd: ",procesoAdd)
         if (response.status === 201) {
-          console.log(response)
-          setOpenModal(false)
-          // getProceso(procesoAdd);
+          // console.log(response)
+          // getProceso()
+          
         }
       }
     );
   };
 
   const getProceso = async (procesoAdd) => {
-    const url = "https://gestex-backend.herokuapp.com/get/proceso/".concat(procesoAdd[0]);
+    const url = "http://localhost:3001/get/proceso/".concat(procesoAdd);
     await Axios.get(url).then((response) => {
-      console.log(response.data)
       //Response.data.rows[0] devuelve un Json con la fila de la consulta de productAdd a la bd
-      // setProcesos([...procesos, response.data.rows[0]]);
+      // setProductos([...productos, response.data.rows[0]]);
       //Se cierra el modal de agregar
       setOpenModal(false);
       //Se abre el popup de satisfaccion
@@ -117,7 +109,6 @@ function AgregarProducto({
       }, 2000);
     });
   };
- 
   return (
     <div>
       <div className="background-agregar">
@@ -125,7 +116,7 @@ function AgregarProducto({
           <div className="formulario-producto">
             <form
               className={classesForm.root}
-              onSubmit={handleSubmit1}
+              onSubmit={handleSubmit}
               noValidate
               autoComplete="off"
             >
@@ -158,12 +149,12 @@ function AgregarProducto({
                 onChange={handleChangeNombreProceso}
               />
               <TextField
-              // type="number"
+                // type="number"
                 // startAdornment={<InputAdornment position="start">$</InputAdornment>}
                 label="Precio $"
                 onChange={handleChangePrecio}
               />
-              
+
               <ColorButton
                 className="boton-agregar-producto-modal"
                 variant="contained"

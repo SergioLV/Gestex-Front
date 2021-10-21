@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
+
 const useStylesForm = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -43,38 +44,42 @@ function AgregarProducto({
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
   const handleChange = (e) => {
     setProductoAdd(e.target.value);
-    // console.log(productoAdd)
   };
   //Handler para el boton de agregar producto
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
     e.preventDefault();
     //Se hace la peticion Post a add/producto del productoAdd
+    console.log(productos);
+    //Max id para asignarselo al nuevo
+    const max_id = productos.reduce(
+      (acc, producto) =>
+        (acc = acc > producto.id_producto ? acc : producto.id_producto),
+      0
+    );
     //Ya que axios post
-    Axios.post("https://gestex-backend.herokuapp.com/add/producto", { productoAdd }).then(
+    Axios.post("http://localhost:3001/add/producto", { productoAdd }).then(
       (response) => {
         if (response.status === 201) {
-          getProducto(productoAdd);
+          // getProducto(productoAdd);
+          setProductos([
+            ...productos,
+            { id_producto: max_id + 1, nombre_producto: productoAdd },
+          ]);
+          //Se cierra el modal de agregar
+          setOpenModal(false);
+          //Se abre el popup de satisfaccion
+          setOpenPopUp(true);
+          //Se cierra el popup despues de 2 seg
+          setTimeout(() => {
+            setOpenPopUp(false);
+          }, 2000);
         }
       }
     );
   };
 
-  const getProducto = async (productoAdd) => {
-    const url = "https://gestex-backend.herokuapp.com/get/producto/".concat(productoAdd);
-    await Axios.get(url).then((response) => {
-      //Response.data.rows[0] devuelve un Json con la fila de la consulta de productAdd a la bd
-      setProductos([...productos, response.data.rows[0]]);
-      //Se cierra el modal de agregar
-      setOpenModal(false);
-      //Se abre el popup de satisfaccion
-      setOpenPopUp(true);
-      //Se cierra el popup despues de 2 seg
-      setTimeout(() => {
-        setOpenPopUp(false);
-      }, 2000);
-    });
-  };
+ 
   return (
     <div>
       <div className="background-agregar">
