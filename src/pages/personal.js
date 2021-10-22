@@ -81,7 +81,7 @@ export default function Personal() {
   
   useEffect(() => {
     const getPersonal = async () => {
-      await Axios.get("http://localhost:3001/get/personal").then((response) => {
+      await Axios.get("https://gestex-backend.herokuapp.com/get/personal").then((response) => {
         setPersonal(response.data);
       });
     };

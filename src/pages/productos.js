@@ -81,7 +81,7 @@ export default function Productos() {
   
   useEffect(() => {
     const getProductos = async () => {
-      await Axios.get("http://localhost:3001/get/productos").then((response) => {
+      await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
         setProductos(response.data);
         console.log(productos)
       });
