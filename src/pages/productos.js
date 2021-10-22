@@ -54,9 +54,9 @@ export default function Productos() {
   const [productos, setProductos] = useState([]);
   //State que almacena el producto al hacer click en el icono de edit
   const [productoEdit, setProductoEdit] = useState([]);
-
   //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
   const [productoAdd, setProductoAdd] = useState("");
+
   //State del
   const [openEdit, setOpenEdit] = useState(false);
   //Estado del modal para agregar y editar producto
@@ -81,8 +81,9 @@ export default function Productos() {
   
   useEffect(() => {
     const getProductos = async () => {
-      await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
+      await Axios.get("http://localhost:3001/get/productos").then((response) => {
         setProductos(response.data);
+        console.log(productos)
       });
     };
     getProductos();

@@ -129,7 +129,13 @@ function EditProductos({
                 onChange={handleChange}
               />
           <div className="accion">
-
+          <ColorButton
+                className="boton-eliminar-producto-modal"
+                variant="contained"
+                onClick={handleDelete}
+              >
+                Eliminar Producto
+              </ColorButton>
               <ColorButton
                 className="boton-editar-producto-modal"
                 variant="contained"
@@ -138,13 +144,7 @@ function EditProductos({
               >
                 Editar Producto
               </ColorButton>
-              <ColorButton
-                className="boton-eliminar-producto-modal"
-                variant="contained"
-                onClick={handleDelete}
-              >
-                Eliminar Producto
-              </ColorButton>
+             
           </div>
             </form>
           </div>

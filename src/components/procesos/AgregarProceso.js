@@ -57,7 +57,7 @@ function AgregarProducto({
 }) {
   const [idProductoAsociado, setIdProductoAsociado] = useState(0);
   const [nombreProceso, setNombreProceso] = useState("");
-  const [precio, setPrecio] = useState(0);
+  const [precio, setPrecio] = useState("");
   // console.log("Producto Asociado: ", idProductoAsociado,nombreProceso,precio)
   // console.log(productos);
   const classesForm = useStylesForm();
@@ -74,41 +74,41 @@ function AgregarProducto({
   const handleChangePrecio = (e) => {
     setPrecio(e.target.value);
     setProcesoAdd([nombreProceso, precio, idProductoAsociado]);
-    // console.log("procesoAdd: ", procesoAdd);
   };
 
- 
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const max_id = procesos.reduce(
+      (acc, proceso) =>
+        (acc = acc > proceso.id_proceso ? acc : proceso.id_proceso),
+      0
+    );
     //Se hace la peticion Post a add/producto del productoAdd
     Axios.post("http://localhost:3001/add/proceso", { procesoAdd }).then(
       (response) => {
         // console.log(response)
         // console.log("procesoAdd: ",procesoAdd)
         if (response.status === 201) {
-          // console.log(response)
+          setProcesos([
+            ...procesos,
+            {
+              id_proceso: max_id + 1,
+              nombre_proceso: procesoAdd[0],
+              precio: procesoAdd[1],
+              id_producto: procesoAdd[2],
+            },
+          ]);
           // getProceso()
-          
+          console.log(procesos);
+          console.log(max_id);
+          console.log(procesoAdd);
+          setOpenModal(false);
         }
       }
     );
   };
 
-  const getProceso = async (procesoAdd) => {
-    const url = "http://localhost:3001/get/proceso/".concat(procesoAdd);
-    await Axios.get(url).then((response) => {
-      //Response.data.rows[0] devuelve un Json con la fila de la consulta de productAdd a la bd
-      // setProductos([...productos, response.data.rows[0]]);
-      //Se cierra el modal de agregar
-      setOpenModal(false);
-      //Se abre el popup de satisfaccion
-      setOpenPopUp(true);
-      //Se cierra el popup despues de 2 seg
-      setTimeout(() => {
-        setOpenPopUp(false);
-      }, 2000);
-    });
-  };
   return (
     <div>
       <div className="background-agregar">
@@ -149,9 +149,8 @@ function AgregarProducto({
                 onChange={handleChangeNombreProceso}
               />
               <TextField
-                // type="number"
-                // startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                label="Precio $"
+                type="text"
+                label="Precio"
                 onChange={handleChangePrecio}
               />
 

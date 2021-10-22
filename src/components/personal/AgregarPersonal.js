@@ -99,34 +99,35 @@ function AgregarPersonal({
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
     e.preventDefault();
+    alert("Feature en desarrollo")
     //Se hace la peticion Post a add/producto del productoAdd
-    console.log(personal);
-    //Max id para asignarselo al nuevo
-    const max_id = personal.reduce(
-      (acc, producto) =>
-        (acc = acc > producto.id_producto ? acc : producto.id_producto),
-      0
-    );
-    //Ya que axios post
-    Axios.post("http://localhost:3001/add/personal", { personalAdd }).then(
-      (response) => {
-        if (response.status === 201) {
-          // getProducto(productoAdd);
-          setPersonal([
-            ...personal,
-            { id_personal: max_id + 1, nombre_personal: personalAdd },
-          ]);
-          //Se cierra el modal de agregar
-          setOpenModal(false);
-          //Se abre el popup de satisfaccion
-          setOpenPopUp(true);
-          //Se cierra el popup despues de 2 seg
-          setTimeout(() => {
-            setOpenPopUp(false);
-          }, 2000);
-        }
-      }
-    );
+    // console.log(personal);
+    // //Max id para asignarselo al nuevo
+    // const max_id = personal.reduce(
+    //   (acc, producto) =>
+    //     (acc = acc > producto.id_producto ? acc : producto.id_producto),
+    //   0
+    // );
+    // //Ya que axios post
+    // Axios.post("http://localhost:3001/add/personal", { personalAdd }).then(
+    //   (response) => {
+    //     if (response.status === 201) {
+    //       // getProducto(productoAdd);
+    //       setPersonal([
+    //         ...personal,
+    //         { id_personal: max_id + 1, nombre_personal: personalAdd },
+    //       ]);
+    //       //Se cierra el modal de agregar
+    //       setOpenModal(false);
+    //       //Se abre el popup de satisfaccion
+    //       setOpenPopUp(true);
+    //       //Se cierra el popup despues de 2 seg
+    //       setTimeout(() => {
+    //         setOpenPopUp(false);
+    //       }, 2000);
+    //     }
+    //   }
+    // );
   };
 
  

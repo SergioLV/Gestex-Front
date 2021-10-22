@@ -19,7 +19,7 @@ import Button from "@material-ui/core/Button";
 import PopUp from "../components/modals/PopUp";
 import PopUpEdit from "../components/modals/PopUpEdit";
 import AgregarProceso from "../components/procesos/AgregarProceso";
-// import EditProceso from "../components/procesos/EditProceso";
+import EditProceso from "../components/procesos/EditProceso";
 
 const useStyles = makeStyles({
   table: {
@@ -57,7 +57,7 @@ export default function Procesos() {
   const [procesoEdit, setProcesoEdit] = useState([]);
 
   //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
-  const [procesoAdd, setProcesoAdd] = useState([]);
+  const [procesoAdd, setProcesoAdd] = useState({});
   //State del
   const [openEdit, setOpenEdit] = useState(false);
   //Estado del modal para agregar y editar producto
@@ -66,18 +66,19 @@ export default function Procesos() {
   const [openPopUp, setOpenPopUp] = useState(false);
   //State del popup para el feedback de producto editado satisfactoriamente
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
+  const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
   //State para mostrar el producto que se edito
   const [beforeEdit, setBeforeEdit] = useState([]);
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
   const getProcesos = async () => {
-    await Axios.get("https://gestex-backend.herokuapp.com/get/procesos").then((response) => {
+    await Axios.get("http://localhost:3001/get/procesos").then((response) => {
       setProcesos(response.data);
     });
   };
   const getProductos = async () => {
-    await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
+    await Axios.get("http://localhost:3001/get/productos").then((response) => {
       setProductos(response.data);
     });
   };
@@ -95,30 +96,35 @@ export default function Procesos() {
   }, []);
   return (
     <div className="procesos">
-      {/* {openEdit && (
-        <EditProductos
-          setOpenModal={setOpenModal}
-          productos={productos}
-          setProductos={setProductos}
-          setOpenEdit={setOpenEdit}
-          productoEdit={productoEdit}
-          setOpenPopUpEdit={setOpenPopUpEdit}
-          openPopUpEdit={openPopUpEdit}
+      {openEdit && (
+        <EditProceso
+        setOpenModal={setOpenModal}
+        procesoAdd={procesoAdd}
+        setProcesoAdd={setProcesoAdd}
+        procesos={procesos}
+        setProcesos={setProcesos}
+        setOpenPopUp={setOpenPopUp}
+        productos={productos}
+        setOpenEdit={setOpenEdit}
+        setOpenPopUpEdit={setOpenPopUpEdit}
+        setOpenPopUpEditError={setOpenPopUpEditError}
+        procesoEdit={procesoEdit}
+        setProcesoEdit={setProcesoEdit}
         />
-      )} */}
-      {/* {openPopUp && <PopUp productoAdd={productoAdd} />} */}
-      {/* {openPopUpEdit && (
-        <PopUpEdit productoEdit={productoEdit}  />
-      )} */}
+      )}
+      {openPopUp && <PopUp procesoAdd={procesoAdd} />}
+      {openPopUpEdit && (
+        <PopUpEdit procesoEdit={procesoEdit}  />
+      )}
       {openModal && (
         <AgregarProceso
-          setOpenModal={setOpenModal}
-          procesoAdd={procesoAdd}
-          setProcesoAdd={setProcesoAdd}
-          procesos={procesos}
-          setProcesos={setProcesos}
-          setOpenPopUp={setOpenPopUp}
-          productos={productos}
+        setOpenModal={setOpenModal}
+        procesoAdd={procesoAdd}
+        setProcesoAdd={setProcesoAdd}
+        procesos={procesos}
+        setProcesos={setProcesos}
+        setOpenPopUp={setOpenPopUp}
+        productos={productos}
         />
       )}
       <div className="content">

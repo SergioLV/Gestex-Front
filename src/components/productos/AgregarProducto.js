@@ -43,14 +43,13 @@ function AgregarProducto({
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
   const handleChange = (e) => {
-    setProductoAdd(e.target.value);
+    setProductoAdd(e.target.value)
   };
   //Handler para el boton de agregar producto
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
     e.preventDefault();
     //Se hace la peticion Post a add/producto del productoAdd
-    console.log(productos);
     //Max id para asignarselo al nuevo
     const max_id = productos.reduce(
       (acc, producto) =>
