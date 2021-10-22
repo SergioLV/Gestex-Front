@@ -57,7 +57,7 @@ function EditProductos({
     e.preventDefault();
     // console.log(openPopUpEdit)
     
-    Axios.put("http://localhost:3001/update/producto/", updatedProducto).then(
+    Axios.put("https://gestex-backend.herokuapp.com/update/producto/", updatedProducto).then(
       (response) => {
         setOpenEdit(false);
         const aux = [...productos]
@@ -81,7 +81,7 @@ function EditProductos({
 
   const handleDelete = () => {
     console.log(productoEdit)
-    Axios.delete("http://localhost:3001/delete/producto", {params: productoEdit}).then(
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/producto", {params: productoEdit}).then(
       (response) => {
         setOpenEdit(false);
 

@@ -162,7 +162,7 @@ function EditPersonal({
 
   const handleDelete = () => {
     console.log(personalEdit)
-    Axios.delete("http://localhost:3001/delete/personal", {params: personalEdit}).then(
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/personal", {params: personalEdit}).then(
       (response) => {
         setOpenEdit(false);
 

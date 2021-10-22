@@ -57,7 +57,7 @@ function AgregarProducto({
       0
     );
     //Ya que axios post
-    Axios.post("http://localhost:3001/add/producto", { productoAdd }).then(
+    Axios.post("https://gestex-backend.herokuapp.com/add/producto", { productoAdd }).then(
       (response) => {
         if (response.status === 201) {
           // getProducto(productoAdd);

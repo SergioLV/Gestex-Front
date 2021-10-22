@@ -59,7 +59,7 @@ function EditProceso({
     // console.log(openPopUpEdit)
     console.log(procesoEdit)
 
-    Axios.put("http://localhost:3001/update/proceso/", procesoEdit).then(
+    Axios.put("https://gestex-backend.herokuapp.com/update/proceso/", procesoEdit).then(
       (response) => {
         setOpenEdit(false);
         const aux = [...procesos];
@@ -88,7 +88,7 @@ function EditProceso({
 
     const handleDelete = () => {
       console.log(procesoEdit)
-      Axios.delete("http://localhost:3001/delete/proceso", {params: procesoEdit}).then(
+      Axios.delete("https://gestex-backend.herokuapp.com/delete/proceso", {params: procesoEdit}).then(
         (response) => {
             console.log(response)
           setOpenEdit(false);

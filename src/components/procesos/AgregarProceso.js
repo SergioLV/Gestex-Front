@@ -85,7 +85,7 @@ function AgregarProducto({
       0
     );
     //Se hace la peticion Post a add/producto del productoAdd
-    Axios.post("http://localhost:3001/add/proceso", { procesoAdd }).then(
+    Axios.post("https://gestex-backend.herokuapp.com/add/proceso", { procesoAdd }).then(
       (response) => {
         // console.log(response)
         // console.log("procesoAdd: ",procesoAdd)
