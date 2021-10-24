@@ -99,35 +99,50 @@ function AgregarPersonal({
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
     e.preventDefault();
-    alert("Feature en desarrollo")
+    //alert("Feature en desarrollo")
     //Se hace la peticion Post a add/producto del productoAdd
-    // console.log(personal);
+    //console.log(personal);
     // //Max id para asignarselo al nuevo
-    // const max_id = personal.reduce(
-    //   (acc, producto) =>
-    //     (acc = acc > producto.id_producto ? acc : producto.id_producto),
-    //   0
-    // );
+    const max_id = personal.reduce(
+      (acc, personal) =>
+        (acc = acc > personal.id_personal ? acc : personal.id_personal),
+       0
+    );
     // //Ya que axios post
-    // Axios.post("http://localhost:3001/add/personal", { personalAdd }).then(
-    //   (response) => {
-    //     if (response.status === 201) {
-    //       // getProducto(productoAdd);
-    //       setPersonal([
-    //         ...personal,
-    //         { id_personal: max_id + 1, nombre_personal: personalAdd },
-    //       ]);
-    //       //Se cierra el modal de agregar
-    //       setOpenModal(false);
-    //       //Se abre el popup de satisfaccion
-    //       setOpenPopUp(true);
-    //       //Se cierra el popup despues de 2 seg
-    //       setTimeout(() => {
-    //         setOpenPopUp(false);
-    //       }, 2000);
-    //     }
-    //   }
-    // );
+    Axios.post("http://localhost:3001/add/personal", { personalAdd }).then(
+      (response) => {
+        console.log(response);
+        if (response.status === 201) {
+           // getProducto(productoAdd);
+          setPersonal([
+            ...personal,
+            { id_personal: max_id + 1, 
+              nombre_personal: personalAdd[0],
+              rut_personal: personalAdd[1],
+              correo_electronico_personal: personalAdd[2],
+              direccion_personal: personalAdd[3],
+              comuna_personal: personalAdd[4],
+              ciudad_personal: personalAdd[5],
+              telefono_personal: personalAdd[6],
+              fecha_ingreso: personalAdd[7],
+              id_afp: personalAdd[8],
+              id_isapre: personalAdd[9],
+              id_banco: personalAdd[10],
+              numero_cuenta: personalAdd[11],
+              sueldo_base: personalAdd[12]
+             },
+          ]);
+           //Se cierra el modal de agregar
+          setOpenModal(false);
+           //Se abre el popup de satisfaccion
+          setOpenPopUp(true);
+           //Se cierra el popup despues de 2 seg
+          setTimeout(() => {
+            setOpenPopUp(false);
+          }, 2000);
+        }
+      }
+    );
   };
 
  
