@@ -9,7 +9,7 @@ export default function Clientes() {
     <div className="clientes">
       <div className="content">
         <div className = "tabla-personal">
-        {/* <ClientesList /> */}
+        {<ClientesList />}
         </div>
       </div>
     </div>
