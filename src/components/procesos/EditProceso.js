@@ -44,65 +44,64 @@ function EditProceso({
 }) {
   const classesForm = useStylesForm();
   //State para lo que se va a enviar con la request. Al modificar el estado de productoEdit, tira error de que no es una funcion
-  const [updatedProceso, setUpdatedProceso] = useState();
- 
 
   //Handler para almacenar la edicion del producto
   const handleChangeNombre = (e) => {
-      setProcesoEdit({...procesoEdit,nombre_proceso:e.target.value})
-    };
-    const handleChangePrecio = (e) => {
-      setProcesoEdit({...procesoEdit,precio:e.target.value})
+    setProcesoEdit({ ...procesoEdit, nombre_proceso: e.target.value });
+  };
+  const handleChangePrecio = (e) => {
+    setProcesoEdit({ ...procesoEdit, precio: e.target.value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(openPopUpEdit)
-    console.log(procesoEdit)
 
-    Axios.put("https://gestex-backend.herokuapp.com/update/proceso/", procesoEdit).then(
-      (response) => {
-        setOpenEdit(false);
-        const aux = [...procesos];
-        if (!procesoEdit) {
-          setOpenPopUpEditError(true);
-          setTimeout(() => {
-            setOpenPopUpEditError(false);
-          }, 1999);
-        } else {
-          const objIndex = aux.findIndex(
-            (obj) => obj.id_proceso === procesoEdit.id_proceso
-          );
-          aux[objIndex].nombre_proceso = procesoEdit.nombre_proceso;
-          aux[objIndex].precio = procesoEdit.precio;
-          setProcesos(aux);
-          setOpenPopUpEdit(true);
-          // console.log(updatedProducto)
-          // console.log(productos)
-          setTimeout(() => {
-            setOpenPopUpEdit(false);
-          }, 1999);
-        }
+    Axios.put(
+      "https://gestex-backend.herokuapp.com/update/proceso/",
+      procesoEdit
+    ).then((response) => {
+      setOpenEdit(false);
+      const aux = [...procesos];
+      if (!procesoEdit) {
+        setOpenPopUpEditError(true);
+        setTimeout(() => {
+          setOpenPopUpEditError(false);
+        }, 1999);
+      } else {
+        const objIndex = aux.findIndex(
+          (obj) => obj.id_proceso === procesoEdit.id_proceso
+        );
+        aux[objIndex].nombre_proceso = procesoEdit.nombre_proceso;
+        aux[objIndex].precio = procesoEdit.precio;
+        setProcesos(aux);
+        setOpenPopUpEdit(true);
+        // console.log(updatedProducto)
+        // console.log(productos)
+        setTimeout(() => {
+          setOpenPopUpEdit(false);
+        }, 1999);
       }
-    );
+    });
   };
 
-    const handleDelete = () => {
-      console.log(procesoEdit)
-      Axios.delete("https://gestex-backend.herokuapp.com/delete/proceso", {params: procesoEdit}).then(
-        (response) => {
-            console.log(response)
-          setOpenEdit(false);
-          const aux = [...procesos]
-          const objIndex = aux.findIndex(
-            (obj) => obj.id_proceso === procesoEdit.id_proceso
-          );
-          aux.splice(objIndex,1);
-           setProcesos(aux)
-          setOpenPopUpEdit(true)
-          setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
-        }
+  const handleDelete = () => {
+    console.log(procesoEdit);
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/proceso", {
+      params: procesoEdit,
+    }).then((response) => {
+      setOpenEdit(false);
+      const aux = [...procesos];
+      const objIndex = aux.findIndex(
+        (obj) => obj.id_proceso === procesoEdit.id_proceso
       );
-    }
+      aux.splice(objIndex, 1);
+      setProcesos(aux);
+      setOpenPopUpEdit(true);
+      setTimeout(() => {
+        setOpenPopUpEdit(false);
+      }, 1999);
+    });
+  };
 
   return (
     <div>

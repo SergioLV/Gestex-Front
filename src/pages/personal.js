@@ -81,12 +81,14 @@ export default function Personal() {
   
   useEffect(() => {
     const getPersonal = async () => {
-      await Axios.get("https://gestex-backend.herokuapp.com/get/personal").then((response) => {
-        setPersonal(response.data);
-      });
-    };
-    getPersonal();
-  }, []);
+      await Axios.get("http://localhost:3001/get/personal").then(
+        (response) => {
+          setPersonal(response.data);
+        }
+        );
+      };
+      getPersonal();
+    }, []);
 
   return (
     <div className="productos">
@@ -96,6 +98,7 @@ export default function Personal() {
           personal={personal}
           setPersonal={setPersonal}
           setOpenEdit={setOpenEdit}
+          setPersonalEdit={setPersonalEdit}
           personalEdit={personalEdit}
           setOpenPopUpEdit={setOpenPopUpEdit}
           setOpenPopUpEditError={setOpenPopUpEditError}
@@ -104,10 +107,8 @@ export default function Personal() {
         />
       )}
       {openPopUp && <PopUp personalAdd={personalAdd} />}
-      {openPopUpEdit && (
-        <PopUpEdit personalEdit={personalEdit}  />
-      )}
-      {openPopUpEditError && (<PopUpEditError personalEdit={personalEdit}/>)}
+      {openPopUpEdit && <PopUpEdit personalEdit={personalEdit} />}
+      {openPopUpEditError && <PopUpEditError personalEdit={personalEdit} />}
       {openModal && (
         <AgregarPersonal
           setOpenModal={setOpenModal}
@@ -116,7 +117,6 @@ export default function Personal() {
           personal={personal}
           setPersonal={setPersonal}
           setOpenPopUp={setOpenPopUp}
-         
         />
       )}
       <div className="content">
@@ -143,45 +143,14 @@ export default function Personal() {
                 <TableHead>
                   <TableRow>
                     <TableCell className={classes.head}>Id</TableCell>
-                    <TableCell className={classes.head}>
-                      Nombre
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Rut
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Mail
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Direccion
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Comuna
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Ciudad
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Telefono
-                    </TableCell>
+                    <TableCell className={classes.head}>Nombre</TableCell>
+                    <TableCell className={classes.head}>Rut</TableCell>
+
                     <TableCell className={classes.head}>
                       Fecha de ingreso
                     </TableCell>
-                    <TableCell className={classes.head}>
-                      Id AFP
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Id Isapre
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Id Banco
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Numero de cuenta
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Sueldo Base
-                    </TableCell>
+
+                    <TableCell className={classes.head}>Sueldo Base</TableCell>
                     <TableCell className={classes.head}> Modificar </TableCell>
                   </TableRow>
                 </TableHead>
@@ -198,35 +167,9 @@ export default function Personal() {
                         {persona.rut_personal}
                       </TableCell>
                       <TableCell component="th" scope="row">
-                        {persona.correo_electronico_personal}
+                        {persona.fecha_ingreso}
                       </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.direccion_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.comuna_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.ciudad_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.telefono_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.fecha_ingreso_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.id_afp}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.id_isapre}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.id_banco}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.numero_cuenta}
-                      </TableCell>
+
                       <TableCell component="th" scope="row">
                         {persona.sueldo_base}
                       </TableCell>
@@ -235,7 +178,7 @@ export default function Personal() {
                         <EditSharpIcon
                           className="editar"
                           onClick={() => {
-                            editarPersonal(personal);
+                            editarPersonal(persona);
                           }}
                         />
                       </TableCell>

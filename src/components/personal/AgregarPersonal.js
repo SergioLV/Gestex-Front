@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
@@ -40,19 +40,19 @@ function AgregarPersonal({
   setOpenPopUp,
 }) {
   const classesForm = useStylesForm();
-  const [nombre,setNombre] = useState("");
-  const [rut,setRut] = useState("");
-  const [mail,setMail] = useState("");
-  const [direccion,setDireccion] = useState("");
-  const [comuna,setComuna] = useState("");
-  const [ciudad,setCiudad] = useState("");
-  const [telefono,setTelefono] = useState("");
-  const [fecha,setFecha] = useState("");
-  const [afp,setAFP] = useState(0);
-  const [isapre,setIsapre] = useState(0);
-  const [banco, setBanco] = useState(0);
-  const [cuenta, setCuenta] = useState(0);
-  const [sueldo,setSueldo] = useState(0);
+  const [nombre, setNombre] = useState("");
+  const [rut, setRut] = useState("");
+  const [mail, setMail] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [comuna, setComuna] = useState("");
+  const [ciudad, setCiudad] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [afp, setAFP] = useState("");
+  const [isapre, setIsapre] = useState("");
+  const [banco, setBanco] = useState("");
+  const [cuenta, setCuenta] = useState("");
+  const [sueldo, setSueldo] = useState("");
 
   //Handlers para modificar los valores correspondientes a los datos del Personal
   const handleChangeNombre = (e) => {
@@ -93,10 +93,43 @@ function AgregarPersonal({
   };
   const handleChangeSueldo = (e) => {
     setSueldo(e.target.value);
+    setPersonalAdd({
+      nombre,
+      rut,
+      mail,
+      direccion,
+      comuna,
+      ciudad,
+      telefono,
+      fecha,
+      afp,
+      isapre,
+      banco,
+      cuenta,
+      sueldo,
+    });
+    // setPersonalAdd(
+    //   {
+    //     nombre_personal: nombre,
+    //     rut_personal: rut,
+    //     correo_electronico_personal: mail,
+    //     direccion_personal: direccion,
+    //     comuna_personal: comuna,
+    //     ciudad_personal: ciudad,
+    //     telefono_personal: telefono,
+    //     fecha_ingreso: fecha,
+    //     id_afp: afp,
+    //     id_isapre: isapre,
+    //     id_banco: banco,
+    //     numero_cuenta: cuenta,
+    //     sueldo_base: sueldo
+    //    },
+    // );
   };
 
   //Handler para el boton de agregar producto
   const handleSubmit = (e) => {
+
     //Se previene el refresh automatico del form
     e.preventDefault();
     //alert("Feature en desarrollo")
@@ -106,37 +139,40 @@ function AgregarPersonal({
     const max_id = personal.reduce(
       (acc, personal) =>
         (acc = acc > personal.id_personal ? acc : personal.id_personal),
-       0
+      0
     );
     // //Ya que axios post
-    Axios.post("http://localhost:3001/add/personal", { personalAdd }).then(
+    Axios.post("http://localhost:3001/add/personal", personalAdd).then(
       (response) => {
-        console.log(response);
-        if (response.status === 201) {
-           // getProducto(productoAdd);
+        console.log(response.status)
+        if (response.status === 200) {
+          
+          // getProducto(productoAdd);
           setPersonal([
             ...personal,
-            { id_personal: max_id + 1, 
-              nombre_personal: personalAdd[0],
-              rut_personal: personalAdd[1],
-              correo_electronico_personal: personalAdd[2],
-              direccion_personal: personalAdd[3],
-              comuna_personal: personalAdd[4],
-              ciudad_personal: personalAdd[5],
-              telefono_personal: personalAdd[6],
-              fecha_ingreso: personalAdd[7],
-              id_afp: personalAdd[8],
-              id_isapre: personalAdd[9],
-              id_banco: personalAdd[10],
-              numero_cuenta: personalAdd[11],
-              sueldo_base: personalAdd[12]
+            { id_personal: max_id + 1,
+              nombre_personal: personalAdd.nombre,
+              rut_personal: personalAdd.rut,
+              correo_electronico_personal: personalAdd.mail,
+              direccion_personal: personalAdd.direccion,
+              comuna_personal: personalAdd.comuna,
+              ciudad_personal: personalAdd.ciudad,
+              telefono_personal: personalAdd.telefono,
+              fecha_ingreso: personalAdd.fecha,
+              id_afp: personalAdd.afp,
+              id_isapre: personalAdd.isapre,
+              id_banco: personalAdd.banco,
+              numero_cuenta: personalAdd.cuenta,
+              sueldo_base: personalAdd.sueldo
              },
           ]);
-           //Se cierra el modal de agregar
+          console.log("jeje")
+          console.log(personal)
+          //Se cierra el modal de agregar
           setOpenModal(false);
-           //Se abre el popup de satisfaccion
+          //Se abre el popup de satisfaccion
           setOpenPopUp(true);
-           //Se cierra el popup despues de 2 seg
+          //Se cierra el popup despues de 2 seg
           setTimeout(() => {
             setOpenPopUp(false);
           }, 2000);
@@ -145,7 +181,6 @@ function AgregarPersonal({
     );
   };
 
- 
   return (
     <div>
       <div className="background-agregar">
@@ -159,18 +194,28 @@ function AgregarPersonal({
             >
               <h1 className="producto-title">Agregar Personal</h1>
               <hr className="divisor" id="agregar-producto" />
-              <TextField label="Nombre Personal" onChange={handleChangeNombre} />
+              <TextField
+                label="Nombre Personal"
+                onChange={handleChangeNombre}
+              />
               <TextField label="Rut" onChange={handleChangeRut} />
               <TextField label="Mail" onChange={handleChangeMail} />
               <TextField label="Direccion" onChange={handleChangeDireccion} />
               <TextField label="Comuna" onChange={handleChangeComuna} />
               <TextField label="Ciudad" onChange={handleChangeCiudad} />
               <TextField label="Telefono" onChange={handleChangeTelefono} />
-              <TextField label="Fecha de ingreso" onChange={handleChangeFecha} />
+              <TextField
+                type="date"
+                label="Fecha de ingreso"
+                onChange={handleChangeFecha}
+              />
               <TextField label="Id AFP" onChange={handleChangeAFP} />
               <TextField label="Id Isapre" onChange={handleChangeIsapre} />
               <TextField label="Id Banco" onChange={handleChangeBanco} />
-              <TextField label="Numero de cuenta" onChange={handleChangeCuenta} />
+              <TextField
+                label="Numero de cuenta"
+                onChange={handleChangeCuenta}
+              />
               <TextField label="Sueldo base" onChange={handleChangeSueldo} />
               <ColorButton
                 className="boton-agregar-producto-modal"

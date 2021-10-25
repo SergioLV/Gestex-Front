@@ -40,147 +40,136 @@ function EditPersonal({
   setPersonalEdit,
   setOpenPopUpEdit,
   setOpenPopUpEditError,
-  openPopUpEdit,
 }) {
   const classesForm = useStylesForm();
   //State para lo que se va a enviar con la request. Al modificar el estado de personalEdit, tira error de que no es una funcion
-  const [updatedPersonal, setUpdatedPersonal] = useState();
-
   //Handler para almacenar la edicion del personal
   const handleChangeNombre = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       nombre_personal: e.target.value,
     });
-    
   };
   const handleChangeRut = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       rut_personal: e.target.value,
     });
-    
   };
   const handleChangeMail = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       correo_electronico_personal: e.target.value,
     });
-
   };
   const handleChangeDireccion = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       direccion_personal: e.target.value,
     });
-    
   };
   const handleChangeComuna = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       comuna_personal: e.target.value,
     });
-    
   };
   const handleChangeCiudad = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       ciudad_personal: e.target.value,
     });
-    
   };
   const handleChangeTelefono = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       telefono_personal: e.target.value,
     });
-    
   };
   const handleChangeFecha = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       fecha_ingreso: e.target.value,
     });
-    
   };
   const handleChangeAFP = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       id_afp: e.target.value,
     });
-    
   };
   const handleChangeIsapre = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       id_isapre: e.target.value,
     });
-    
   };
   const handleChangeBanco = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       id_banco: e.target.value,
     });
-  
   };
   const handleChangeCuenta = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       numero_cuenta: e.target.value,
     });
   };
   const handleChangeSueldo = (e) => {
-    setUpdatedPersonal({
-      id_personal: personalEdit.id_personal,
+    setPersonalEdit({
+      ...personalEdit,
       sueldo_base: e.target.value,
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(openPopUpEdit)
-    
-    Axios.put("http://localhost:3001/update/personal", updatedPersonal).then(
+
+    Axios.put("http://localhost:3001/update/personal", personalEdit).then(
       (response) => {
         setOpenEdit(false);
-        const aux = [...personal]
-        if(!updatedPersonal){
+        const aux = [...personal];
+        console.log("aux",aux)
+        if (!personalEdit) {
           setOpenPopUpEditError(true);
-          setTimeout(() => {setOpenPopUpEditError(false); }, 1999);
-        }else{
+          setTimeout(() => {
+            setOpenPopUpEditError(false);
+          }, 1999);
+        } else {
           const objIndex = aux.findIndex(
-            (obj) => obj.id_personal === updatedPersonal.id_personal
+            (obj) => obj.id_personal === personalEdit.id_personal
           );
-          aux[objIndex].nombre_personal = updatedPersonal.nombre_personal;
-          setPersonal(aux)
-          setOpenPopUpEdit(true)
-          setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
+          aux[objIndex].nombre_personal = personalEdit.nombre_personal;
+          setPersonal(aux);
+          setOpenPopUpEdit(true);
+          setTimeout(() => {
+            setOpenPopUpEdit(false);
+          }, 1999);
         }
       }
     );
   };
 
   const handleDelete = () => {
-    console.log(personalEdit)
-    Axios.delete("https://gestex-backend.herokuapp.com/delete/personal", {params: personalEdit}).then(
-      (response) => {
-        setOpenEdit(false);
+    console.log(personalEdit);
+    Axios.delete("http://localhost:3001/delete/personal", {
+      params: personalEdit,
+    }).then((response) => {
+      setOpenEdit(false);
 
-        console.log(response)
-        const aux = [...personal]
-        const objIndex = aux.findIndex(
-          (obj) => obj.id_personal === personalEdit.id_personal
-        );
-        aux.splice(objIndex,1);
-         setPersonal(aux)
-        setOpenPopUpEdit(true)
-        console.log(updatedPersonal)
-        console.log(personal)
-        setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
-      }
-    );
-
-  }
+      const aux = [...personal];
+      const objIndex = aux.findIndex(
+        (obj) => obj.id_personal === personalEdit.id_personal
+      );
+      aux.splice(objIndex, 1);
+      setPersonal(aux);
+      setOpenPopUpEdit(true);
+      setTimeout(() => {
+        setOpenPopUpEdit(false);
+      }, 1999);
+    });
+  };
 
   return (
     <div>
@@ -197,88 +186,94 @@ function EditPersonal({
               <hr className="divisor" id="agregar-producto" />
               <TextField
                 label="Nombre"
+                defaultValue={personalEdit.id_personal}
+                onChange={handleChangeNombre}
+                disabled
+              />
+              <TextField
+                label="Nombre"
                 defaultValue={personalEdit.nombre_personal}
                 onChange={handleChangeNombre}
               />
-               <TextField
+              <TextField
                 label="Rut"
                 defaultValue={personalEdit.rut_personal}
                 onChange={handleChangeRut}
               />
-               <TextField
+              <TextField
                 label="Mail"
                 defaultValue={personalEdit.correo_electronico_personal}
                 onChange={handleChangeMail}
               />
-               <TextField
+              <TextField
                 label="Direccion"
                 defaultValue={personalEdit.direccion_personal}
                 onChange={handleChangeDireccion}
               />
-               <TextField
+              <TextField
                 label="Comuna"
                 defaultValue={personalEdit.comuna_personal}
                 onChange={handleChangeComuna}
               />
-               <TextField
+              <TextField
                 label="Ciudad"
                 defaultValue={personalEdit.ciudad_personal}
                 onChange={handleChangeCiudad}
               />
-               <TextField
+              <TextField
                 label="Telefono"
                 defaultValue={personalEdit.telefono_personal}
                 onChange={handleChangeTelefono}
               />
-               <TextField
+              <TextField
                 label="Fecha de ingreso"
                 defaultValue={personalEdit.fecha_ingreso}
                 onChange={handleChangeFecha}
               />
-               <TextField
+              <TextField
                 label="Id AFP"
                 defaultValue={personalEdit.id_afp}
                 onChange={handleChangeAFP}
               />
-               <TextField
+              <TextField
                 label="Id Isapre"
                 defaultValue={personalEdit.id_isapre}
                 onChange={handleChangeIsapre}
               />
-               <TextField
+              <TextField
                 label="Id Banco"
                 defaultValue={personalEdit.id_banco}
                 onChange={handleChangeBanco}
               />
-               <TextField
+              <TextField
                 label="Numero de cuenta"
                 defaultValue={personalEdit.numero_cuenta}
                 onChange={handleChangeCuenta}
               />
-               <TextField
+              <TextField
                 label="Sueldo Base"
                 defaultValue={personalEdit.sueldo_base}
                 onChange={handleChangeSueldo}
               />
-              
-          <div className="accion">
 
-              <ColorButton
-                className="boton-editar-producto-modal"
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Editar Personal
-              </ColorButton>
-              <ColorButton
-                className="boton-eliminar-producto-modal"
-                variant="contained"
-                onClick={handleDelete}
-              >
-                Eliminar Personal
-              </ColorButton>
-          </div>
+              <div className="accion">
+                <ColorButton
+                  className="boton-eliminar-producto-modal"
+                  variant="contained"
+                  onClick={handleDelete}
+                >
+                  Eliminar Personal
+                </ColorButton>
+
+                <ColorButton
+                  className="boton-editar-producto-modal"
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Editar Personal
+                </ColorButton>
+              </div>
             </form>
           </div>
           <div className="borde">

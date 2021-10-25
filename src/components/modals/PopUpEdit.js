@@ -1,13 +1,16 @@
 import React from "react";
 
-function PopUpEdit({ productoEdit, procesoEdit }) {
-  console.log(productoEdit);
+function PopUpEdit({ productoEdit, procesoEdit, personalEdit }) {
+  console.log(personalEdit);
   let display = "";
   if (productoEdit !== undefined) {
     display = productoEdit.nombre_producto;
   }
   if (procesoEdit !== undefined) {
     display = procesoEdit.nombre_proceso;
+  }
+  if (personalEdit !== undefined) {
+    display = personalEdit.nombre_personal;
   }
   return (
     <div>
