@@ -204,10 +204,16 @@ function AgregarPersonal({
               <TextField label="Comuna" onChange={handleChangeComuna} />
               <TextField label="Ciudad" onChange={handleChangeCiudad} />
               <TextField label="Telefono" onChange={handleChangeTelefono} />
+              
               <TextField
+                id="date"
+                label="Fecha Ingreso"
                 type="date"
-                label="Fecha de ingreso"
+                defaultValue="2021-05-24"
                 onChange={handleChangeFecha}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField label="Id AFP" onChange={handleChangeAFP} />
               <TextField label="Id Isapre" onChange={handleChangeIsapre} />

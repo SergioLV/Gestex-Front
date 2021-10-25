@@ -1,15 +1,18 @@
 import React from "react";
 
-function PopUp({ productoAdd,procesoAdd,personalAdd }) {
+function PopUp({ productoAdd,procesoAdd,personalAdd,ordenAdd}) {
   let display = "";
   if (productoAdd !== undefined) {
-    display = productoAdd.nombre_producto;
+    display = productoAdd;
   }
   if (procesoAdd !== undefined) {
-    display = procesoAdd.nombre_proceso;
+    display = procesoAdd[0];
   }
   if (personalAdd !== undefined) {
     display = personalAdd.nombre;
+  }
+  if (ordenAdd !== undefined) {
+    display = ordenAdd.id_cliente;
   }
   return (
     <div>

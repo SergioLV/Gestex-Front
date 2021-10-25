@@ -5,14 +5,19 @@ export const SidebarData = [
     path: "/",
     cName: "nav-text",
   },
-  {
-    title: "Afp",
-    path: "/afp",
-    cName: "nav-text",
-  },
+  // {
+  //   title: "Afp",
+  //   path: "/afp",
+  //   cName: "nav-text",
+  // },
   {
     title: 'Clientes',
     path: '/clientes',
+    cName: 'nav-text'
+  },
+  {
+    title: 'Productos por Cliente',
+    path: '/xcliente',
     cName: 'nav-text'
   },
   {
@@ -25,16 +30,16 @@ export const SidebarData = [
     path: "/personal",
     cName: "nav-text",
   },
-  {
-    title: "Paquetes",
-    path: "/paquetes",
-    cName: "nav-text",
-  },
-  {
-    title: "Previsiones",
-    path: "/previsiones",
-    cName: "nav-text",
-  },
+  // {
+  //   title: "Paquetes",
+  //   path: "/paquetes",
+  //   cName: "nav-text",
+  // },
+  // {
+  //   title: "Previsiones",
+  //   path: "/previsiones",
+  //   cName: "nav-text",
+  // },
   {
     title: "Procesos",
     path: "/procesos",
@@ -45,11 +50,11 @@ export const SidebarData = [
     path: "/productos",
     cName: "nav-text",
   },
-  {
-    title: "Tickets",
-    path: "/tickets",
-    cName: "nav-text",
-  },
+  // {
+  //   title: "Tickets",
+  //   path: "/tickets",
+  //   cName: "nav-text",
+  // },
   
  /*  {
     title: "Test",

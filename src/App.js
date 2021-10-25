@@ -15,6 +15,7 @@ import Paquetes from "./pages/paquetes";
 import Previsiones from "./pages/previsiones";
 import Procesos from "./pages/procesos";
 import Productos from "./pages/productos";
+import Xcliente from "./pages/xcliente";
 
 function App() {
   const [ventanaActiva, setVentanaActiva] = useState("");
@@ -92,6 +93,12 @@ function App() {
             component={Tickets}
             setVentanaActiva={setVentanaActiva}
             route={"Tickets"}
+          />
+          <PrivateRoute
+            path="/xcliente"
+            component={Xcliente}
+            setVentanaActiva={setVentanaActiva}
+            route={"Productos por Cliente"}
           />
         </Switch>
       </Router>

@@ -19,8 +19,7 @@ import Button from "@material-ui/core/Button";
 import PopUp from "../components/modals/PopUp";
 import PopUpEdit from "../components/modals/PopUpEdit";
 import PopUpEditError from "../components/modals/PopUpEditError";
-import AgregarProducto from "../components/productos/AgregarProducto";
-import EditProductos from "../components/productos/EditProductos";
+import FiltrarProducto from "../components/xcliente/FiltrarProducto";
 
 const useStyles = makeStyles({
   table: {
@@ -49,14 +48,11 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Productos() {
   const classes = useStyles();
-
+const [clienteAdd, setClienteAdd] = useState([]);
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los productos
-  const [productos, setProductos] = useState([]);
+  const [xCliente, setXcliente] = useState([]);
   //State que almacena el producto al hacer click en el icono de edit
-  const [productoEdit, setProductoEdit] = useState([]);
-  //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
-  const [productoAdd, setProductoAdd] = useState("");
-
+  
   //State del
   const [openEdit, setOpenEdit] = useState(false);
   //Estado del modal para agregar y editar producto
@@ -68,54 +64,49 @@ export default function Productos() {
   //State del popup para el feedback de producto editado ha producido un error
   const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
+  const [clientes, setClientes] = useState([]);
+ 
+
   //State para mostrar el producto que se edito
   const [beforeEdit, setBeforeEdit] = useState([]);
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
-  
-  const editarProducto = (producto) => {
-    // setBeforeEdit(producto);
-    setProductoEdit(producto);
-    setOpenEdit(true);
-  };
+
   
   useEffect(() => {
-    const getProductos = async () => {
-      await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
-        setProductos(response.data);
+    const getClientes = async () => {
+      await Axios.get("http://localhost:3001/get/clientes").then((response) => {
+        setClientes(response.data);
       });
     };
-    getProductos();
+    getClientes()
   }, []);
+//   useEffect(() => {
+//     const getXClientes = async () => {
+//       await Axios.get("http://localhost:3001/get/xcliente",{params:{cliente:cliente}}).then((response) => {
+//         setClientes(response.data);
+//       });
+//     };
+//     getXClientes();
+//   }, []);
 
+console.log("xcliente xcliente", xCliente)
   return (
     <div className="productos">
-      {openEdit && (
-        <EditProductos
-          setOpenModal={setOpenModal}
-          productos={productos}
-          setProductos={setProductos}
-          setOpenEdit={setOpenEdit}
-          productoEdit={productoEdit}
-          setOpenPopUpEdit={setOpenPopUpEdit}
-          setOpenPopUpEditError={setOpenPopUpEditError}
-          openPopUpEdit={openPopUpEdit}
-          // setBeforeEdit={setBeforeEdit}
-        />
-      )}
-      {openPopUp && <PopUp productoAdd={productoAdd} />}
-      {openPopUpEdit && (
-        <PopUpEdit productoEdit={productoEdit}  />
-      )}
-      {openPopUpEditError && (<PopUpEditError productoEdit={productoEdit}/>)}
+      
+      {openPopUp && <PopUp setXcliente={setXcliente} />}
+     
+      {openPopUpEditError && (<PopUpEditError setXcliente={setXcliente}/>)}
       {openModal && (
-        <AgregarProducto
-          setOpenModal={setOpenModal}
-          productoAdd={productoAdd}
-          setProductoAdd={setProductoAdd}
-          productos={productos}
-          setProductos={setProductos}
-          setOpenPopUp={setOpenPopUp}
+        <FiltrarProducto
+        setOpenModal={setOpenModal}
+        setXcliente={setXcliente}
+        setClienteAdd={setClienteAdd}
+        clienteAdd={clienteAdd}
+        
+        setOpenPopUp={setOpenPopUp}
+    
+        clientes={clientes}
          
         />
       )}
@@ -128,7 +119,7 @@ export default function Productos() {
               setOpenModal(true);
             }}
           >
-            Añadir Producto
+            Filtrar
           </ColorButton>
         </div>
 
@@ -142,31 +133,22 @@ export default function Productos() {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell className={classes.head}>Id Producto</TableCell>
+                    <TableCell className={classes.head}>Nombre Cliente</TableCell>
                     <TableCell className={classes.head}>
-                      Nombre Producto
+                     Producto
                     </TableCell>
-                    <TableCell className={classes.head}> Modificar </TableCell>
+                    
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {productos.map((producto) => (
-                    <TableRow hover="true" key={producto.id_producto}>
+                  {xCliente.map((producto) => (
+                    <TableRow hover="true" key={producto.nombre_cliente}>
                       <TableCell component="th" scope="row">
-                        {producto.id_producto}
+                        {producto.nombre_cliente}
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {producto.nombre_producto}
-                      </TableCell>
-
-                      <TableCell component="th" scope="row" align="center">
-                        <EditSharpIcon
-                          className="editar"
-                          onClick={() => {
-                            editarProducto(producto);
-                          }}
-                        />
-                      </TableCell>
+                      </TableCell>                    
                     </TableRow>
                   ))}
                 </TableBody>

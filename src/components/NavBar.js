@@ -10,6 +10,7 @@ import { LogoutButton } from "./Logout";
 export default function Navbar({ ventanaActiva }) {
   const { user, isAuthenticated, isLoading } = useAuth0();
   if (isLoading || isAuthenticated) {
+    console.log(ventanaActiva)
     return (
       <>
         <IconContext.Provider value={{ color: "#fff" }}>

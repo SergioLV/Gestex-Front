@@ -90,6 +90,7 @@ function AgregarProducto({
         // console.log(response)
         // console.log("procesoAdd: ",procesoAdd)
         if (response.status === 201) {
+          console.log(procesoAdd)
           setProcesos([
             ...procesos,
             {
@@ -100,10 +101,12 @@ function AgregarProducto({
             },
           ]);
           // getProceso()
-          console.log(procesos);
-          console.log(max_id);
-          console.log(procesoAdd);
           setOpenModal(false);
+          setOpenPopUp(true);
+          //Se cierra el popup despues de 2 seg
+          setTimeout(() => {
+            setOpenPopUp(false);
+          }, 2000);
         }
       }
     );

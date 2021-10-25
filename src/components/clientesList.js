@@ -9,14 +9,15 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import EditSharpIcon from "@material-ui/icons/EditSharp";
 
 import Paper from "@material-ui/core/Paper";
 
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 1200,
-    width: 1200,
+    minWidth: "20rem",
+    width: "20rem",
     "& .MuiTableCell-root": {
       borderBottom: "1px solid rgba(244, 77, 62, 1)",
     },
@@ -55,18 +56,7 @@ export default function ClientesList() {
               <TableCell className={classes.head} align="center">
                 Rut
               </TableCell>
-              <TableCell className={classes.head} align="center">
-                Email
-              </TableCell>
-              <TableCell className={classes.head} align="center">
-                Direccion
-              </TableCell>
-              <TableCell className={classes.head} align="center">
-                Comuna
-              </TableCell>
-              <TableCell className={classes.head} align="center">
-                Ciudad
-              </TableCell>
+             
               <TableCell className={classes.head} align="center">
                 Telefono
               </TableCell>
@@ -88,20 +78,17 @@ export default function ClientesList() {
                 <TableCell component="th" scope="row">
                   {row.rut_cliente}
                 </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.correo_electronico_cliente}
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.direccion_cliente}
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.comuna_cliente}
-                </TableCell>
-                <TableCell component="th" scope="row">
-                  {row.ciudad_cliente}
-                </TableCell>
+              
                 <TableCell component="th" scope="row">
                   {row.telefono_cliente}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                <EditSharpIcon
+                          className="editar"
+                          onClick={() => {
+                            alert("En mantenimiento");
+                          }}
+                        />
                 </TableCell>
               </TableRow>
             ))}
