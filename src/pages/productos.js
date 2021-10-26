@@ -69,7 +69,6 @@ export default function Productos() {
   const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
   //State para mostrar el producto que se edito
-  const [beforeEdit, setBeforeEdit] = useState([]);
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
   

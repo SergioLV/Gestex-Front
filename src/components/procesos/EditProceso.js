@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
-import { Auth0Context } from "@auth0/auth0-react";
 const useStylesForm = makeStyles((theme) => ({
   root: {
     "& > *": {

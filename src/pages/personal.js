@@ -69,7 +69,6 @@ export default function Personal() {
   const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
   //State para mostrar el producto que se edito
-  const [beforeEdit, setBeforeEdit] = useState([]);
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
   
@@ -81,7 +80,7 @@ export default function Personal() {
   
   useEffect(() => {
     const getPersonal = async () => {
-      await Axios.get("http://localhost:3001/get/personal").then(
+      await Axios.get("https://gestex-backend.herokuapp.com/get/personal").then(
         (response) => {
           setPersonal(response.data);
         }

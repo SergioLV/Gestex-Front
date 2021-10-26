@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
-import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
@@ -56,11 +55,6 @@ function FiltrarProducto({
      
 }) {
   const classesForm = useStylesForm();
-  const [cliente, setCliente] = useState("");
-  const [producto, setProducto] = useState("");
-  const [cantidad, setCantidad] = useState(0);
-  const [fecha, setFecha] = useState("");
-  const [comentario, setComentario] = useState("");
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
   const handleChangeCliente = (e) => {
@@ -75,10 +69,10 @@ function FiltrarProducto({
     //Se hace la peticion Post a add/producto del productoAdd
     //Max id para asignarselo al nuevo
  
-    Axios.get("http://localhost:3001/get/xcliente",{params:{clienteAdd}}).then((response) => {
+    Axios.get("https://gestex-backend.herokuapp.com/get/xcliente",{params:{clienteAdd}}).then((response) => {
         // console.log(response.data)
         if (response.status === 200) {
-            console.log("xcliente modal", response.data)
+          setXcliente([])
         setXcliente(response.data)
         // setOrdenes([
         //   ...ordenes,

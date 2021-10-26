@@ -104,7 +104,7 @@ function AgregarProducto({
       0
     );
 
-    Axios.post("http://localhost:3001/add/orden", ordenAdd).then((response) => {
+    Axios.post("https://gestex-backend.herokuapp.com/add/orden", ordenAdd).then((response) => {
       if (response.status === 201) {
         // getProducto(productoAdd);
         setOrdenes([

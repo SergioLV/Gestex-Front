@@ -72,28 +72,32 @@ export default function Productos() {
   const [productos, setProductos] = useState([]);
 
   //State para mostrar el producto que se edito
-  const [beforeEdit, setBeforeEdit] = useState([]);
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
-  
+
   const editarOrden = (orden) => {
     // setBeforeEdit(producto);
-    setOrdenEdit(orden);
-    setOpenEdit(true);
+    alert("En desarrollo");
+    // setOrdenEdit(orden);
+    // setOpenEdit(true);
   };
-  
+
   useEffect(() => {
     const getClientes = async () => {
-      await Axios.get("http://localhost:3001/get/clientes").then((response) => {
-        setClientes(response.data);
-        console.log(ordenes)
-      });
+      await Axios.get("https://gestex-backend.herokuapp.com/get/clientes").then(
+        (response) => {
+          setClientes(response.data);
+          console.log(ordenes);
+        }
+      );
     };
     getClientes();
   }, []);
   useEffect(() => {
     const getProductos = async () => {
-      await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
+      await Axios.get(
+        "https://gestex-backend.herokuapp.com/get/productos"
+      ).then((response) => {
         setProductos(response.data);
       });
     };
@@ -101,19 +105,23 @@ export default function Productos() {
   }, []);
   useEffect(() => {
     const getOrdenes = async () => {
-      await Axios.get("http://localhost:3001/get/ordenes").then((response) => {
-        setOrdenes(response.data);
-        console.log(ordenes)
-      });
+      await Axios.get("https://gestex-backend.herokuapp.com/get/ordenes").then(
+        (response) => {
+          setOrdenes(response.data);
+          console.log(ordenes);
+        }
+      );
     };
     getOrdenes();
   }, []);
   useEffect(() => {
     const getOrdenes = async () => {
-      await Axios.get("http://localhost:3001/get/ordenes").then((response) => {
-        setOrdenes(response.data);
-        console.log(ordenes)
-      });
+      await Axios.get("https://gestex-backend.herokuapp.com/get/ordenes").then(
+        (response) => {
+          setOrdenes(response.data);
+          console.log(ordenes);
+        }
+      );
     };
     getOrdenes();
   }, []);
@@ -134,21 +142,18 @@ export default function Productos() {
         />
       )}
       {openPopUp && <PopUp ordenAdd={ordenAdd} />}
-      {openPopUpEdit && (
-        <PopUpEdit ordenEdit={ordenEdit}  />
-      )}
-      {openPopUpEditError && (<PopUpEditError ordenEdit={ordenEdit}/>)}
+      {openPopUpEdit && <PopUpEdit ordenEdit={ordenEdit} />}
+      {openPopUpEditError && <PopUpEditError ordenEdit={ordenEdit} />}
       {openModal && (
         <AgregarOrden
-        setOpenModal={setOpenModal}
-        ordenAdd={ordenAdd}
-        setOrdenAdd={setOrdenAdd}
-        ordenes={ordenes}
-        setOrdenes={setOrdenes}
-        setOpenPopUp={setOpenPopUp}
-        productos={productos}
-        clientes={clientes}
-         
+          setOpenModal={setOpenModal}
+          ordenAdd={ordenAdd}
+          setOrdenAdd={setOrdenAdd}
+          ordenes={ordenes}
+          setOrdenes={setOrdenes}
+          setOpenPopUp={setOpenPopUp}
+          productos={productos}
+          clientes={clientes}
         />
       )}
       <div className="content">
@@ -175,21 +180,13 @@ export default function Productos() {
                 <TableHead>
                   <TableRow>
                     <TableCell className={classes.head}>Id Orden</TableCell>
+                    <TableCell className={classes.head}>Id Cliente</TableCell>
+                    <TableCell className={classes.head}>Id Producto</TableCell>
+                    <TableCell className={classes.head}>Comentario</TableCell>
                     <TableCell className={classes.head}>
-                     Id Cliente
+                      Fecha Entrega
                     </TableCell>
-                    <TableCell className={classes.head}>
-                     Id Producto
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                     Comentario
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                     Fecha Entrega
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                     Cantidad
-                    </TableCell>
+                    <TableCell className={classes.head}>Cantidad</TableCell>
                     <TableCell className={classes.head}> Modificar </TableCell>
                   </TableRow>
                 </TableHead>
@@ -216,7 +213,7 @@ export default function Productos() {
                       </TableCell>
 
                       <TableCell component="th" scope="row" align="center">
-                      <EditSharpIcon
+                        <EditSharpIcon
                           className="editar"
                           onClick={() => {
                             editarOrden(orden);

@@ -142,7 +142,7 @@ function AgregarPersonal({
       0
     );
     // //Ya que axios post
-    Axios.post("http://localhost:3001/add/personal", personalAdd).then(
+    Axios.post("https://gestex-backend.herokuapp.com/add/personal", personalAdd).then(
       (response) => {
         console.log(response.status)
         if (response.status === 200) {

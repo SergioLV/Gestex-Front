@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
-import { Auth0Context } from "@auth0/auth0-react";
 const useStylesForm = makeStyles((theme) => ({
   root: {
     "& > *": {
@@ -56,52 +55,58 @@ function EditProductos({
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(openPopUpEdit)
-    
-    Axios.put("https://gestex-backend.herokuapp.com/update/producto/", updatedProducto).then(
-      (response) => {
-        setOpenEdit(false);
-        const aux = [...productos]
-        if(!updatedProducto){
-          setOpenPopUpEditError(true);
-          setTimeout(() => {setOpenPopUpEditError(false); }, 1999);
-        }else{
-          const objIndex = aux.findIndex(
-            (obj) => obj.id_producto === updatedProducto.id_producto
-          );
-          aux[objIndex].nombre_producto = updatedProducto.nombre_producto;
-          setProductos(aux)
-          setOpenPopUpEdit(true)
-          // console.log(updatedProducto)
-          // console.log(productos)
-          setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
-        }
+
+    Axios.put(
+      "https://gestex-backend.herokuapp.com/update/producto/",
+      updatedProducto
+    ).then((response) => {
+      setOpenEdit(false);
+      const aux = [...productos];
+      if (!updatedProducto) {
+        setOpenPopUpEditError(true);
+        setTimeout(() => {
+          setOpenPopUpEditError(false);
+        }, 1999);
+      } else {
+        const objIndex = aux.findIndex(
+          (obj) => obj.id_producto === updatedProducto.id_producto
+        );
+        aux[objIndex].nombre_producto = updatedProducto.nombre_producto;
+        setProductos(aux);
+        setOpenPopUpEdit(true);
+        // console.log(updatedProducto)
+        // console.log(productos)
+        setTimeout(() => {
+          setOpenPopUpEdit(false);
+        }, 1999);
       }
-    );
+    });
   };
 
   const handleDelete = () => {
-    console.log(productoEdit)
-    Axios.delete("https://gestex-backend.herokuapp.com/delete/producto", {params: productoEdit}).then(
-      (response) => {
-        setOpenEdit(false);
+    console.log(productoEdit);
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/producto", {
+      params: productoEdit,
+    }).then((response) => {
+      setOpenEdit(false);
 
-        console.log(response)
-        const aux = [...productos]
-        const objIndex = aux.findIndex(
-          (obj) => obj.id_producto === productoEdit.id_producto
-        );
-        aux.splice(objIndex,1);
-         setProductos(aux)
-        setOpenPopUpEdit(true)
-        console.log(updatedProducto)
-        console.log(productos)
-        setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
-      }
-    );
+      console.log(response);
+      const aux = [...productos];
+      const objIndex = aux.findIndex(
+        (obj) => obj.id_producto === productoEdit.id_producto
+      );
+      aux.splice(objIndex, 1);
+      setProductos(aux);
+      setOpenPopUpEdit(true);
+      console.log(updatedProducto);
+      console.log(productos);
+      setTimeout(() => {
+        setOpenPopUpEdit(false);
+      }, 1999);
+    });
 
     // console.log(productoEdit)
-
-  }
+  };
 
   return (
     <div>
@@ -128,24 +133,23 @@ function EditProductos({
                 defaultValue={productoEdit.nombre_producto}
                 onChange={handleChange}
               />
-          <div className="accion">
-          <ColorButton
-                className="boton-eliminar-producto-modal"
-                variant="contained"
-                onClick={handleDelete}
-              >
-                Eliminar Producto
-              </ColorButton>
-              <ColorButton
-                className="boton-editar-producto-modal"
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Editar Producto
-              </ColorButton>
-             
-          </div>
+              <div className="accion">
+                <ColorButton
+                  className="boton-eliminar-producto-modal"
+                  variant="contained"
+                  onClick={handleDelete}
+                >
+                  Eliminar Producto
+                </ColorButton>
+                <ColorButton
+                  className="boton-editar-producto-modal"
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Editar Producto
+                </ColorButton>
+              </div>
             </form>
           </div>
           <div className="borde">

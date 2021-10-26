@@ -94,7 +94,7 @@ function AgregarCliente({
     );
     console.log(clienteAdd)
     //Ya que axios post
-    Axios.post("http://localhost:3001/add/cliente", clienteAdd).then(
+    Axios.post("https://gestex-backend.herokuapp.com/add/cliente", clienteAdd).then(
       (response) => {
         setOpenModal(false);
         if (response.status === 201) {

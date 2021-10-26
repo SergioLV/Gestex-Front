@@ -12,12 +12,10 @@ import {
   Paper,
 } from "@material-ui/core";
 
-import EditSharpIcon from "@material-ui/icons/EditSharp";
 
 import Button from "@material-ui/core/Button";
 
 import PopUp from "../components/modals/PopUp";
-import PopUpEdit from "../components/modals/PopUpEdit";
 import PopUpEditError from "../components/modals/PopUpEditError";
 import FiltrarProducto from "../components/xcliente/FiltrarProducto";
 
@@ -54,13 +52,11 @@ const [clienteAdd, setClienteAdd] = useState([]);
   //State que almacena el producto al hacer click en el icono de edit
   
   //State del
-  const [openEdit, setOpenEdit] = useState(false);
   //Estado del modal para agregar y editar producto
   const [openModal, setOpenModal] = useState(false);
   //State del popup para el feedback de producto agregado satisfactoriamente
   const [openPopUp, setOpenPopUp] = useState(false);
   //State del popup para el feedback de producto editado satisfactoriamente
-  const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
   //State del popup para el feedback de producto editado ha producido un error
   const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
@@ -68,14 +64,13 @@ const [clienteAdd, setClienteAdd] = useState([]);
  
 
   //State para mostrar el producto que se edito
-  const [beforeEdit, setBeforeEdit] = useState([]);
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
 
   
   useEffect(() => {
     const getClientes = async () => {
-      await Axios.get("http://localhost:3001/get/clientes").then((response) => {
+      await Axios.get("https://gestex-backend.herokuapp.com/get/clientes").then((response) => {
         setClientes(response.data);
       });
     };
@@ -90,7 +85,6 @@ const [clienteAdd, setClienteAdd] = useState([]);
 //     getXClientes();
 //   }, []);
 
-console.log("xcliente xcliente", xCliente)
   return (
     <div className="productos">
       
