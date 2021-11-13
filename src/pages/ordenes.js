@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 
 import EditSharpIcon from "@material-ui/icons/EditSharp";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Button from "@material-ui/core/Button";
 
@@ -49,6 +50,7 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Productos() {
   const classes = useStyles();
+  const [loadingOrdenes, setLoadingOrdenes] = useState(false);
 
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los productos
   const [ordenes, setOrdenes] = useState([]);
@@ -107,19 +109,8 @@ export default function Productos() {
     const getOrdenes = async () => {
       await Axios.get("https://gestex-backend.herokuapp.com/get/ordenes").then(
         (response) => {
+          setLoadingOrdenes(true);
           setOrdenes(response.data);
-          console.log(ordenes);
-        }
-      );
-    };
-    getOrdenes();
-  }, []);
-  useEffect(() => {
-    const getOrdenes = async () => {
-      await Axios.get("https://gestex-backend.herokuapp.com/get/ordenes").then(
-        (response) => {
-          setOrdenes(response.data);
-          console.log(ordenes);
         }
       );
     };
@@ -175,7 +166,6 @@ export default function Productos() {
               <Table
                 // className={classes.table}
                 aria-label="simple table"
-                size="small"
               >
                 <TableHead>
                   <TableRow>
@@ -191,37 +181,49 @@ export default function Productos() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {ordenes.map((orden) => (
-                    <TableRow hover="true" key={orden.id_orden}>
-                      <TableCell component="th" scope="row">
-                        {orden.id_ordenes_de_corte}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {orden.id_cliente}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {orden.id_producto}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {orden.comentario}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {orden.fecha_entrega}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {orden.cantidad}
-                      </TableCell>
+                  {loadingOrdenes ? (
+                    ordenes.map((orden) => (
+                      <TableRow hover="true" key={orden.id_orden}>
+                        <TableCell component="th" scope="row">
+                          {orden.id_ordenes_de_corte}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {orden.id_cliente}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {orden.id_producto}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {orden.comentario}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {orden.fecha_entrega}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {orden.cantidad}
+                        </TableCell>
 
-                      <TableCell component="th" scope="row" align="center">
-                        <EditSharpIcon
-                          className="editar"
-                          onClick={() => {
-                            editarOrden(orden);
-                          }}
-                        />
+                        <TableCell component="th" scope="row" align="center">
+                          <EditSharpIcon
+                            className="editar"
+                            onClick={() => {
+                              editarOrden(orden);
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell>
+                        {" "}
+                        <div className="loading">
+                          <CircularProgress />
+                          {/* {"  "} <p>Cargando productos</p>{" "} */}
+                        </div>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

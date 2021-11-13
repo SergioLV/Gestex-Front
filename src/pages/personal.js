@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 
 import EditSharpIcon from "@material-ui/icons/EditSharp";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Button from "@material-ui/core/Button";
 
@@ -49,6 +50,7 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Personal() {
   const classes = useStyles();
+  const [loadingPersonal, setLoadingPersonal] = useState(false);
 
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los personal
   const [personal, setPersonal] = useState([]);
@@ -71,23 +73,24 @@ export default function Personal() {
   //State para mostrar el producto que se edito
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
-  
+
   const editarPersonal = (personal) => {
     // setBeforeEdit(producto);
     setPersonalEdit(personal);
     setOpenEdit(true);
   };
-  
+
   useEffect(() => {
     const getPersonal = async () => {
       await Axios.get("https://gestex-backend.herokuapp.com/get/personal").then(
         (response) => {
+          setLoadingPersonal(true);
           setPersonal(response.data);
         }
-        );
-      };
-      getPersonal();
-    }, []);
+      );
+    };
+    getPersonal();
+  }, []);
 
   return (
     <div className="productos">
@@ -137,7 +140,6 @@ export default function Personal() {
               <Table
                 // className={classes.table}
                 aria-label="simple table"
-                size="small"
               >
                 <TableHead>
                   <TableRow>
@@ -154,35 +156,47 @@ export default function Personal() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {personal.map((persona) => (
-                    <TableRow hover="true" key={persona.id_personal}>
-                      <TableCell component="th" scope="row">
-                        {persona.id_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.nombre_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.rut_personal}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {persona.fecha_ingreso}
-                      </TableCell>
+                  {loadingPersonal ? (
+                    personal.map((persona) => (
+                      <TableRow hover="true" key={persona.id_personal}>
+                        <TableCell component="th" scope="row">
+                          {persona.id_personal}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {persona.nombre_personal}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {persona.rut_personal}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {persona.fecha_ingreso}
+                        </TableCell>
 
-                      <TableCell component="th" scope="row">
-                        {persona.sueldo_base}
-                      </TableCell>
+                        <TableCell component="th" scope="row">
+                          {persona.sueldo_base}
+                        </TableCell>
 
-                      <TableCell component="th" scope="row" align="center">
-                        <EditSharpIcon
-                          className="editar"
-                          onClick={() => {
-                            editarPersonal(persona);
-                          }}
-                        />
+                        <TableCell component="th" scope="row" align="center">
+                          <EditSharpIcon
+                            className="editar"
+                            onClick={() => {
+                              editarPersonal(persona);
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell>
+                        {" "}
+                        <div className="loading">
+                          <CircularProgress />
+                          {/* {"  "} <p>Cargando productos</p>{" "} */}
+                        </div>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>

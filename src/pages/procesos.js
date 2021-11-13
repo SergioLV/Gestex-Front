@@ -13,6 +13,8 @@ import {
 } from "@material-ui/core";
 
 import EditSharpIcon from "@material-ui/icons/EditSharp";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 import Button from "@material-ui/core/Button";
 
@@ -48,7 +50,7 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Procesos() {
   const classes = useStyles();
-
+  const [loadingProcesos, setLoadingProcesos] = useState(false);
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los procesos
   const [procesos, setProcesos] = useState([]);
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los productos
@@ -72,14 +74,19 @@ export default function Procesos() {
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
   const getProcesos = async () => {
-    await Axios.get("https://gestex-backend.herokuapp.com/get/procesos").then((response) => {
-      setProcesos(response.data);
-    });
+    await Axios.get("https://gestex-backend.herokuapp.com/get/procesos").then(
+      (response) => {
+        setLoadingProcesos(true);
+        setProcesos(response.data);
+      }
+    );
   };
   const getProductos = async () => {
-    await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then((response) => {
-      setProductos(response.data);
-    });
+    await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then(
+      (response) => {
+        setProductos(response.data);
+      }
+    );
   };
 
   const editarProceso = (proceso) => {
@@ -97,33 +104,31 @@ export default function Procesos() {
     <div className="procesos">
       {openEdit && (
         <EditProceso
-        setOpenModal={setOpenModal}
-        procesoAdd={procesoAdd}
-        setProcesoAdd={setProcesoAdd}
-        procesos={procesos}
-        setProcesos={setProcesos}
-        setOpenPopUp={setOpenPopUp}
-        productos={productos}
-        setOpenEdit={setOpenEdit}
-        setOpenPopUpEdit={setOpenPopUpEdit}
-        setOpenPopUpEditError={setOpenPopUpEditError}
-        procesoEdit={procesoEdit}
-        setProcesoEdit={setProcesoEdit}
+          setOpenModal={setOpenModal}
+          procesoAdd={procesoAdd}
+          setProcesoAdd={setProcesoAdd}
+          procesos={procesos}
+          setProcesos={setProcesos}
+          setOpenPopUp={setOpenPopUp}
+          productos={productos}
+          setOpenEdit={setOpenEdit}
+          setOpenPopUpEdit={setOpenPopUpEdit}
+          setOpenPopUpEditError={setOpenPopUpEditError}
+          procesoEdit={procesoEdit}
+          setProcesoEdit={setProcesoEdit}
         />
       )}
       {openPopUp && <PopUp procesoAdd={procesoAdd} />}
-      {openPopUpEdit && (
-        <PopUpEdit procesoEdit={procesoEdit}  />
-      )}
+      {openPopUpEdit && <PopUpEdit procesoEdit={procesoEdit} />}
       {openModal && (
         <AgregarProceso
-        setOpenModal={setOpenModal}
-        procesoAdd={procesoAdd}
-        setProcesoAdd={setProcesoAdd}
-        procesos={procesos}
-        setProcesos={setProcesos}
-        setOpenPopUp={setOpenPopUp}
-        productos={productos}
+          setOpenModal={setOpenModal}
+          procesoAdd={procesoAdd}
+          setProcesoAdd={setProcesoAdd}
+          procesos={procesos}
+          setProcesos={setProcesos}
+          setOpenPopUp={setOpenPopUp}
+          productos={productos}
         />
       )}
       <div className="content">
@@ -145,7 +150,6 @@ export default function Procesos() {
               <Table
                 // className={classes.table}
                 aria-label="simple table"
-                size="small"
               >
                 <TableHead>
                   <TableRow>
@@ -153,45 +157,55 @@ export default function Procesos() {
                     <TableCell className={classes.head}>
                       Nombre Proceso
                     </TableCell>
-                    <TableCell className={classes.head}>
-                      Precio
-                    </TableCell>
-                    <TableCell className={classes.head}>
-                      Id Producto
-                    </TableCell>
+                    <TableCell className={classes.head}>Precio</TableCell>
+                    <TableCell className={classes.head}>Id Producto</TableCell>
                     <TableCell className={classes.head}> Modificar </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {procesos.map((proceso) => (
-                    <TableRow hover="true" key={proceso.id_proceso}>
-                      <TableCell component="th" scope="row">
-                        {proceso.id_proceso}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {proceso.nombre_proceso}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {proceso.precio}
-                      </TableCell>
-                      <TableCell component="th" scope="row">
-                        {proceso.id_producto}
-                      </TableCell>
+                  {loadingProcesos ? (
+                    procesos.map((proceso) => (
+                      <TableRow hover="true" key={proceso.id_proceso}>
+                        <TableCell component="th" scope="row">
+                          {proceso.id_proceso}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {proceso.nombre_proceso}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {proceso.precio}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {proceso.id_producto}
+                        </TableCell>
 
+                        <TableCell component="th" scope="row" align="center">
+                          <EditSharpIcon
+                            className="editar"
+                            onClick={() => {
+                              editarProceso(proceso);
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
                       <TableCell component="th" scope="row" align="center">
-                        <EditSharpIcon
-                          className="editar"
-                          onClick={() => {
-                            editarProceso(proceso);
-                          }}
-                        />
+                        {" "}
+                        <div className="loading">
+                          <CircularProgress />
+                          {/* <LinearProgress /> */}
+                          {/* {"  "} <p>Cargando productos</p>{" "} */}
+                        </div>
                       </TableCell>
                     </TableRow>
-                  ))}
+                  )}
                 </TableBody>
               </Table>
             </TableContainer>
           </div>
+          {/* <LinearProgress /> */}
         </div>
       </div>
     </div>
