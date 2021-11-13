@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -22,6 +22,110 @@ import PopUp from "../components/modals/PopUp";
 import PopUpEdit from "../components/modals/PopUpEdit";
 import AgregarProceso from "../components/procesos/AgregarProceso";
 import EditProceso from "../components/procesos/EditProceso";
+
+import Skeleton from "@material-ui/lab/Skeleton";
+import PropTypes from "prop-types";
+import TableFooter from "@material-ui/core/TableFooter";
+import TablePagination from "@material-ui/core/TablePagination";
+import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
+
+const useStyles1 = makeStyles((theme) => ({
+  root: {
+    flexShrink: 0,
+    marginLeft: theme.spacing(2.5),
+  },
+}));
+
+function TablePaginationActions(props) {
+  const classes = useStyles1();
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
+
+  return (
+    <div className={classes.root}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="inicio"
+      >
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="atras"
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="siguiente"
+      >
+        {theme.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="final"
+      >
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </div>
+  );
+}
+
+TablePaginationActions.propTypes = {
+  count: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+};
+const useStylesSkeleton = makeStyles({
+  id: {
+    width: "3rem",
+  },
+  nombre: {
+    width: "7rem",
+  },
+  edit: {
+    width: "3rem",
+  },
+});
+
+const useStyles2 = makeStyles({
+  table: {
+    minWidth: 500,
+  },
+});
 
 const useStyles = makeStyles({
   table: {
@@ -49,11 +153,32 @@ const ColorButton = withStyles((theme) => ({
 }))(Button);
 
 export default function Procesos() {
+  const min_prod = [1, 2, 3, 4, 5];
+  const classesT = useStyles2();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const classes = useStyles();
+  const classesSkeleton = useStylesSkeleton();
   const [loadingProcesos, setLoadingProcesos] = useState(false);
+  const [loadingProductos, setLoadingProductos] = useState(false);
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los procesos
   const [procesos, setProcesos] = useState([]);
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los productos
+  const emptyRows =
+    [...procesos].length === 0
+      ? rowsPerPage - Math.min(rowsPerPage, 5 - page * rowsPerPage)
+      : rowsPerPage -
+        Math.min(rowsPerPage, [...procesos].length - page * rowsPerPage);
   const [productos, setProductos] = useState([]);
   //State que almacena el producto al hacer click en el icono de edit
   const [procesoEdit, setProcesoEdit] = useState([]);
@@ -84,13 +209,40 @@ export default function Procesos() {
   const getProductos = async () => {
     await Axios.get("https://gestex-backend.herokuapp.com/get/productos").then(
       (response) => {
+        setLoadingProductos(true);
         setProductos(response.data);
       }
     );
   };
 
+  const getProductNameByProcess = (id_prod) => {
+    // const getProductos = async () => {
+    //   await Axios.get(
+    //     "https://gestex-backend.herokuapp.com/get/productos"
+    //   ).then((response) => {
+    //     setLoadingProductos(true);
+    //     setProductos(response.data);
+    //   });
+    // };
+    // getProductos();
+    var producto = productos.find(
+      (producto) => producto.id_producto === id_prod
+    );
+    // console.log(producto);
+    return id_prod;
+  };
+
+  // console.log();
+
+  // const getProductNameByProcess = (id_producto) => {
+  //   procesos.filter((obj) => {
+  //     returnobj.id_producto === id_producto);
+  //   });
+  // };
+
+  // getProductNameByProcess(1);
+
   const editarProceso = (proceso) => {
-    // setBeforeEdit(producto);
     setProcesoEdit(proceso);
     setOpenEdit(true);
   };
@@ -163,45 +315,108 @@ export default function Procesos() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {loadingProcesos ? (
-                    procesos.map((proceso) => (
-                      <TableRow hover="true" key={proceso.id_proceso}>
-                        <TableCell component="th" scope="row">
-                          {proceso.id_proceso}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {proceso.nombre_proceso}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {proceso.precio}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {proceso.id_producto}
-                        </TableCell>
+                  {loadingProcesos
+                    ? (rowsPerPage > 0
+                        ? procesos.slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
+                        : procesos
+                      ).map((proceso) => (
+                        <TableRow hover="true" key={proceso.id_proceso}>
+                          <TableCell
+                            align="right"
+                            style={{ width: 130 }}
+                            component="th"
+                            scope="row"
+                          >
+                            {proceso.id_proceso}
+                          </TableCell>
+                          <TableCell style={{ width: 230 }} align="left">
+                            {proceso.nombre_proceso}
+                          </TableCell>
+                          <TableCell style={{ width: 100 }} align="left">
+                            {proceso.precio}
+                          </TableCell>
+                          <TableCell style={{ width: 100 }} align="right">
+                            {proceso.id_producto}
+                          </TableCell>
+                          <TableCell component="th" scope="row" align="center">
+                            <EditSharpIcon
+                              className="editar"
+                              onClick={() => {
+                                editarProceso(proceso);
+                              }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    : min_prod.map((num) => (
+                        <TableRow>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
 
-                        <TableCell component="th" scope="row" align="center">
-                          <EditSharpIcon
-                            className="editar"
-                            onClick={() => {
-                              editarProceso(proceso);
-                            }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell component="th" scope="row" align="center">
-                        {" "}
-                        <div className="loading">
-                          <CircularProgress />
-                          {/* <LinearProgress /> */}
-                          {/* {"  "} <p>Cargando productos</p>{" "} */}
-                        </div>
-                      </TableCell>
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: 59 * emptyRows }}>
+                      <TableCell colSpan={6} />
                     </TableRow>
                   )}
                 </TableBody>
+                <TableFooter>
+                  <TableRow>
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        5,
+                        10,
+                        25,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={3}
+                      count={[...productos].length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      labelRowsPerPage={"Filas por paginas"}
+                      SelectProps={{
+                        inputProps: { "aria-label": "Rows per page" },
+
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      ActionsComponent={TablePaginationActions}
+                    />
+                  </TableRow>
+                </TableFooter>
               </Table>
             </TableContainer>
           </div>
