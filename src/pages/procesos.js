@@ -225,14 +225,13 @@ export default function Procesos() {
     //   });
     // };
     // getProductos();
-    var producto = productos.find(
-      (producto) => producto.id_producto === id_prod
-    );
+    var buenas = productos.find((producto) => producto.id_producto === id_prod);
     // console.log(producto);
     return id_prod;
   };
-
-  // console.log();
+  if ([...productos].length > 0) {
+    console.log(productos);
+  }
 
   // const getProductNameByProcess = (id_producto) => {
   //   procesos.filter((obj) => {
@@ -310,7 +309,9 @@ export default function Procesos() {
                       Nombre Proceso
                     </TableCell>
                     <TableCell className={classes.head}>Precio</TableCell>
-                    <TableCell className={classes.head}>Id Producto</TableCell>
+                    <TableCell className={classes.head}>
+                      Producto Asociado
+                    </TableCell>
                     <TableCell className={classes.head}> Modificar </TableCell>
                   </TableRow>
                 </TableHead>
@@ -338,8 +339,13 @@ export default function Procesos() {
                           <TableCell style={{ width: 100 }} align="left">
                             {proceso.precio}
                           </TableCell>
-                          <TableCell style={{ width: 100 }} align="right">
-                            {proceso.id_producto}
+                          <TableCell style={{ width: 200 }} align="left">
+                            {[...productos].length > 0
+                              ? productos.find(
+                                  (producto) =>
+                                    producto.id_producto === proceso.id_producto
+                                ).nombre_producto
+                              : proceso.id_producto}
                           </TableCell>
                           <TableCell component="th" scope="row" align="center">
                             <EditSharpIcon
