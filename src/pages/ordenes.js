@@ -170,8 +170,12 @@ export default function Productos() {
                 <TableHead>
                   <TableRow>
                     <TableCell className={classes.head}>Id Orden</TableCell>
-                    <TableCell className={classes.head}>Id Cliente</TableCell>
-                    <TableCell className={classes.head}>Id Producto</TableCell>
+                    <TableCell className={classes.head}>
+                      Nombre Cliente
+                    </TableCell>
+                    <TableCell className={classes.head}>
+                      Producto Asociado
+                    </TableCell>
                     <TableCell className={classes.head}>Comentario</TableCell>
                     <TableCell className={classes.head}>
                       Fecha Entrega
@@ -188,10 +192,20 @@ export default function Productos() {
                           {orden.id_ordenes_de_corte}
                         </TableCell>
                         <TableCell component="th" scope="row">
-                          {orden.id_cliente}
+                          {[...clientes].length > 0
+                            ? clientes.find(
+                                (cliente) =>
+                                  cliente.id_cliente === orden.id_cliente
+                              ).nombre_cliente
+                            : orden.id_cliente}
                         </TableCell>
                         <TableCell component="th" scope="row">
-                          {orden.id_producto}
+                          {[...productos].length > 0
+                            ? productos.find(
+                                (producto) =>
+                                  producto.id_producto === orden.id_producto
+                              ).nombre_producto
+                            : orden.id_producto}
                         </TableCell>
                         <TableCell component="th" scope="row">
                           {orden.comentario}
