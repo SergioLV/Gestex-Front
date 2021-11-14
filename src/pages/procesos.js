@@ -215,32 +215,6 @@ export default function Procesos() {
     );
   };
 
-  const getProductNameByProcess = (id_prod) => {
-    // const getProductos = async () => {
-    //   await Axios.get(
-    //     "https://gestex-backend.herokuapp.com/get/productos"
-    //   ).then((response) => {
-    //     setLoadingProductos(true);
-    //     setProductos(response.data);
-    //   });
-    // };
-    // getProductos();
-    var buenas = productos.find((producto) => producto.id_producto === id_prod);
-    // console.log(producto);
-    return id_prod;
-  };
-  if ([...productos].length > 0) {
-    console.log(productos);
-  }
-
-  // const getProductNameByProcess = (id_producto) => {
-  //   procesos.filter((obj) => {
-  //     returnobj.id_producto === id_producto);
-  //   });
-  // };
-
-  // getProductNameByProcess(1);
-
   const editarProceso = (proceso) => {
     setProcesoEdit(proceso);
     setOpenEdit(true);
