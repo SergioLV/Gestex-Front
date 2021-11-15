@@ -111,13 +111,13 @@
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   padding: 2rem 3rem;
-  
   color: black;
   background-color: rgb(252, 252, 252);
   border-style: solid;
   border-width: 1px;
 }
 .agregar .formulario-ordenes{
+  
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   padding: 2rem 3rem;
@@ -126,6 +126,11 @@
   background-color: rgb(252, 252, 252);
   border-style: solid;
   border-width: 1px;
+}
+
+.metadata-orden{
+  display: flex;
+  flex-direction: row;
 }
 
 .agregar .producto-title{
@@ -264,4 +269,87 @@ border-radius: 1px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.orden-header{
+  display: flex !important;
+  flex-direction: row;
+  margin-top: 2rem;
+  /* align-items: center;
+  justify-content: center; */
+}
+.orden-header .numero{
+  width: 4.5rem;
+}
+.orden-header .cantidad{
+  width: 14rem;
+}
+.orden-header .talla{
+  width: 12.5rem;
+}
+.orden-header .color{
+  width: 4rem;
+}
+.background-agregar{
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+  /* margin-left: -18vw; */
+  height: 100vh;
+  margin-top: -30vh;
+  /* background-color: rgba(218, 216, 216, 0.495); */
+  backdrop-filter: blur(8px);
+  /* filter: blur(8px); */
+  /* -webkit-filter: blur(8px); */
+}
+
+.agregar-orden{
+  width: 100%;
+  margin-top: 1rem;
+  position:absolute;
+  z-index: 1;
+  padding-left: 2rem;
+  /* padding: 4rem 4rem; */
+  display: flex;
+  justify-content: center;
+  /* border-style: solid; */
+}
+.agregar-orden .borde{
+  background-color: #f55d3e;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 3rem;
+
+}
+.agregar-orden .formulario-producto{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 2rem 3rem;
+  color: black;
+  background-color: rgb(252, 252, 252);
+  border-style: solid;
+  border-width: 1px;
+}
+.agregar-orden .formulario-ordenes{
+  
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 2rem 3rem;
+  
+  color: black;
+  background-color: rgb(252, 252, 252);
+  border-style: solid;
+  border-width: 1px;
+}
+
+.metadata-orden{
+  display: flex;
+  flex-direction: row;
+}
+
+.agregar-orden .producto-title{
+  width: 20rem;
+}
+.addPaquete{
+  cursor: pointer;
 }
