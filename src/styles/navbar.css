@@ -2,6 +2,7 @@
     background-color: #788e8e;
     height: 30vh;
     display: flex;
+    flex-direction: column;
     /* justify-content: start; */
     align-items: center;
     position: relative;
@@ -19,7 +20,7 @@
     color:rgb(186, 186, 186);
    position: absolute;
    left: 20rem;
-   top: 1rem;
+   top: 2.5rem;
 
   }
  .company {
