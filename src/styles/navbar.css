@@ -2,7 +2,6 @@
     background-color: #788e8e;
     height: 30vh;
     display: flex;
-    /* justify-content: start; */
     align-items: center;
     position: relative;
     padding-top: 0.7rem;
@@ -19,8 +18,7 @@
     color:rgb(186, 186, 186);
    position: absolute;
    left: 20rem;
-   top: 1rem;
-
+   top: 2.4rem;
   }
  .company {
   color:white;
@@ -72,11 +70,6 @@
     padding: 0 16px;
     border-radius: 4px;
   }
-  
-  /* .nav-text a:hover {
-    color: white;
-    background-color: #f5a03eb2;
-  } */
   
   .nav-menu-items {
     width: 100%;
