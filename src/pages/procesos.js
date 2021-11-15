@@ -307,7 +307,7 @@ export default function Procesos() {
                           >
                             {proceso.id_proceso}
                           </TableCell>
-                          <TableCell style={{ width: 230 }} align="left">
+                          <TableCell style={{ width: 280 }} align="left">
                             {proceso.nombre_proceso}
                           </TableCell>
                           <TableCell style={{ width: 100 }} align="left">
