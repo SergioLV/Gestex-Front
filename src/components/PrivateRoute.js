@@ -7,9 +7,8 @@ const PrivateRoute = ({
   setVentanaActiva: setVentanaActiva,
   ...rest
 }) => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const {isAuthenticated, isLoading } = useAuth0();
   setVentanaActiva(rest.route);
-
   return (
     <Route
       {...rest}
