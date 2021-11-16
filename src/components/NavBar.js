@@ -8,8 +8,8 @@ import { LoginButton } from "./Login";
 import { LogoutButton } from "./Logout";
 
 export default function Navbar({ ventanaActiva }) {
-  const { user, isAuthenticated, isLoading } = useAuth0();
-  if (isLoading || isAuthenticated) {
+  const {isAuthenticated, isLoading } = useAuth0();
+  if (isAuthenticated || isLoading) {
     return (
       <>
         <IconContext.Provider value={{ color: "#fff" }}>
