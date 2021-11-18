@@ -19,21 +19,10 @@ const useStylesGrid = makeStyles((theme) => ({
     paddingBottom: "1rem",
   },
 }));
-const useStylesGridHeader = makeStyles((theme) => ({
-  root: {
-    // alignItems: "space-between",
-    flexGrow: 1,
-    paddingTop: "3rem",
-    paddingLeft: "1rem",
-    paddingBottom: "1rem",
-  },
-}));
 
 const useStylesForm = makeStyles((theme) => ({
   root: {
     "& > *": {
-      //   margin: theme.spacing(1),
-      // width: "40rem",
       display: "block",
     },
     "& label.Mui-focused": {
@@ -59,6 +48,8 @@ const ColorButton = withStyles((theme) => ({
 const StyledSelect = withStyles((theme) => ({
   root: {
     paddingRight: "0px",
+    // width: "100%",
+    // display: "in-line",
   },
   select: {
     // paddingTop: "1rem",
@@ -80,7 +71,7 @@ function AgregarProducto({
 }) {
   const classesForm = useStylesForm();
   const classesGrid = useStylesGrid();
-  const classesGridHeader = useStylesGridHeader();
+
   const [cliente, setCliente] = useState("");
   const [producto, setProducto] = useState("");
   const [cantidad, setCantidad] = useState(0);
@@ -181,8 +172,7 @@ function AgregarProducto({
   const handleColorPaquete = (e) => {
     setColorPaquete(e.target.value);
   };
-  // console.log(cantidadPaquete);
-  console.log(paquetes);
+
   return (
     <div>
       <div className="background-agregar">
@@ -197,18 +187,18 @@ function AgregarProducto({
               <h1 className="producto-title">Agregar Orden</h1>
               <hr className="divisor" id="agregar-producto" />
               <div className={classesGrid.root}>
-                <Grid container spacing={4} style={{ gap: 15 }}>
-                  <Grid>
+                <Grid container spacing={2}>
+                  <Grid item>
                     <InputLabel htmlFor="cliente">Cliente</InputLabel>
                     <StyledSelect
                       className="select-agregar-proceso"
                       native
-                      //   value={state.age}
                       onChange={handleChangeCliente}
                       inputProps={{
                         name: "cliente",
                         id: "cliente",
                       }}
+                      style={{ width: 120 }}
                     >
                       <option value=""></option>
                       {clientes.map((cliente) => (
@@ -218,7 +208,7 @@ function AgregarProducto({
                       ))}
                     </StyledSelect>
                   </Grid>
-                  <Grid>
+                  <Grid item>
                     <InputLabel htmlFor="producto">Producto</InputLabel>
 
                     <StyledSelect
@@ -227,9 +217,10 @@ function AgregarProducto({
                       //   value={state.age}
                       onChange={handleChangeProducto}
                       inputProps={{
-                        name: "age",
+                        name: "producto",
                         id: "producto",
                       }}
+                      // style={{ width: 150 }}
                     >
                       <option value=""></option>
                       {productos.map((producto) => (
@@ -239,14 +230,15 @@ function AgregarProducto({
                       ))}
                     </StyledSelect>
                   </Grid>
-                  <Grid>
+                  <Grid item>
                     {" "}
                     <TextField
                       label="Cantidad"
+                      type="number"
                       onChange={handleChangeCantidad}
                     />
                   </Grid>
-                  <Grid>
+                  <Grid item>
                     <TextField
                       id="date"
                       label="Fecha Entrega"
@@ -256,10 +248,22 @@ function AgregarProducto({
                       InputLabelProps={{
                         shrink: true,
                       }}
+                      style={{ width: 140 }}
+                    />
+                  </Grid>
+
+                  <Grid item>
+                    <TextField
+                      label="Comentario"
+                      onChange={handleChangeComentario}
                     />
                   </Grid>
                 </Grid>
               </div>
+
+              <h1 className="producto-title ">Paquetes</h1>
+              <hr className="divisor" id="agregar-producto" />
+
               <div className="orden-header">
                 <div className="numero">
                   <h3>Nº</h3>
@@ -274,7 +278,7 @@ function AgregarProducto({
                   <h3>Color</h3>
                 </div>
               </div>
-              <hr className="divisor" id="agregar-producto" />
+              {/* <hr className="divisor" id="agregar-producto" /> */}
               {paquetes.map((paquete, index) => (
                 <div className={classesGrid.root}>
                   <Grid container spacing={5} style={{ gap: 10 }}>
@@ -310,18 +314,16 @@ function AgregarProducto({
                       />
                     </Grid>
                   </Grid>
-                  {/* </Grid> */}
                 </div>
               ))}
 
-              <TextField label="Comentario" onChange={handleChangeComentario} />
               <ColorButton
                 className="boton-agregar-producto-modal"
                 variant="contained"
                 color="primary"
                 type="submit"
               >
-                Agregar Orden
+                Generar Tickets
               </ColorButton>
             </form>
           </div>
