@@ -339,6 +339,24 @@ export default function Personal() {
                             <Skeleton animation="wave" />
                           </div>
                         </TableCell>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
                       </TableRow>
                     ))}
                   {emptyRows > 0 && (
