@@ -31,7 +31,6 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
-import {CSVLink} from 'react-csv';
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -281,20 +280,6 @@ export default function Productos() {
           >
             Añadir Orden
           </ColorButton>
-        </div>
-        <div className="boton">
-          <CSVLink
-            filename={"Ordenes.csv"}
-            data={ordenes}
-            className="btn btn-primary"
-            >
-          <ColorButton
-            variant="contained"
-            color="primary"
-          >
-            Exportar a CSV
-          </ColorButton>
-          </CSVLink>
         </div>
         <div className="tabla-personal">
           <div className="productos-list">
