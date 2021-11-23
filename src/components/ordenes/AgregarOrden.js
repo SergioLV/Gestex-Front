@@ -172,12 +172,12 @@ function AgregarProducto({
   };
 
   const handleGenerar = () => {
-    Axios.get("http://localhost:3001/get/proceso/?id=".concat(producto)).then(
-      (response) => {
-        console.log(response.data.rows);
-        setProcesos(response.data.rows);
-      }
-    );
+    Axios.get(
+      "https://gestex-backend.herokuapp.com/get/proceso/?id=".concat(producto)
+    ).then((response) => {
+      console.log(response.data.rows);
+      setProcesos(response.data.rows);
+    });
     // setPaquetes([...paquetes, paquete]);
     // setOpenModal(false);
     console.log(producto);
