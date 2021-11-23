@@ -155,7 +155,6 @@ function AgregarProducto({
 
   const handleNewPaquete = (e) => {
     setPaquetes([...paquetes, paquete]);
-    console.log(paquetes);
   };
 
   const handleCantidadPaquete = (paq, e) => {
@@ -163,24 +162,17 @@ function AgregarProducto({
   };
   const handleTallaPaquete = (e) => {
     setPaquete({ ...paquete, talla: e.target.value });
-    // console.log(paquete);
-    // setTallaPaquete(e.target.value);
   };
   const handleColorPaquete = (e) => {
     setPaquete({ ...paquete, color: e.target.value });
-    // setColorPaquete(e.target.value);
   };
 
   const handleGenerar = () => {
     Axios.get(
       "https://gestex-backend.herokuapp.com/get/proceso/?id=".concat(producto)
     ).then((response) => {
-      console.log(response.data.rows);
       setProcesos(response.data.rows);
     });
-    // setPaquetes([...paquetes, paquete]);
-    // setOpenModal(false);
-    console.log(producto);
   };
 
   return (
