@@ -29,11 +29,11 @@ export const SidebarData = [
     path: "/personal",
     cName: "nav-text",
   },
-  // {
-  //   title: "Paquetes",
-  //   path: "/paquetes",
-  //   cName: "nav-text",
-  // },
+  {
+    title: "Colores",
+    path: "/colores",
+    cName: "nav-text",
+  },
   // {
   //   title: "Previsiones",
   //   path: "/previsiones",

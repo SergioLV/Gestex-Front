@@ -15,6 +15,7 @@ import Paquetes from "./pages/paquetes";
 import Previsiones from "./pages/previsiones";
 import Procesos from "./pages/procesos";
 import Productos from "./pages/productos";
+import Colores from "./pages/colores";
 import Xcliente from "./pages/xcliente";
 
 function App() {
@@ -31,7 +32,6 @@ function App() {
             component={Login}
             setVentanaActiva={setVentanaActiva}
             route={"Login"}
-            
           />
           <PrivateRoute
             path="/"
@@ -99,6 +99,12 @@ function App() {
             component={Xcliente}
             setVentanaActiva={setVentanaActiva}
             route={"Productos por Cliente"}
+          />
+          <PrivateRoute
+            path="/colores"
+            component={Colores}
+            setVentanaActiva={setVentanaActiva}
+            route={"Colores"}
           />
         </Switch>
       </Router>

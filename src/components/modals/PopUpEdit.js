@@ -1,7 +1,7 @@
 import React from "react";
 
-function PopUpEdit({ productoEdit, procesoEdit, personalEdit }) {
-  console.log(personalEdit);
+function PopUpEdit({ productoEdit, procesoEdit, personalEdit, colorEdit }) {
+  console.log(colorEdit);
   let display = "";
   if (productoEdit !== undefined) {
     display = productoEdit.nombre_producto;
