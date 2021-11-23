@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
@@ -77,12 +77,10 @@ function AgregarProducto({
   const [cantidad, setCantidad] = useState(0);
   const [fecha, setFecha] = useState("");
   const [comentario, setComentario] = useState("");
+  const [procesos, setProcesos] = useState([]);
 
-  const [paquetes, setPaquetes] = useState([" "]);
-  const [cantidadPaquete, setCantidadPaquete] = useState(0);
-  const [tallaPaquete, setTallaPaquete] = useState("");
-  const [colorPaquete, setColorPaquete] = useState("");
-  const [numeroPaquete, setNumeroPaquete] = useState(1);
+  const [paquetes, setPaquetes] = useState([]);
+  const [paquete, setPaquete] = useState([]);
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
   const handleChangeCliente = (e) => {
@@ -155,22 +153,34 @@ function AgregarProducto({
     );
   };
 
-  const handleAddPaquete = () => {
-    setNumeroPaquete(numeroPaquete + 1);
-    setPaquetes([
-      ...paquetes,
-      { cantidad: cantidadPaquete, talla: tallaPaquete, color: colorPaquete },
-    ]);
+  const handleNewPaquete = (e) => {
+    setPaquetes([...paquetes, paquete]);
+    console.log(paquetes);
   };
 
-  const handleCantidadPaquete = (e) => {
-    setCantidadPaquete(e.target.value);
+  const handleCantidadPaquete = (paq, e) => {
+    setPaquete({ numeroPaquete: paq, cantidad: e.target.value });
   };
   const handleTallaPaquete = (e) => {
-    setTallaPaquete(e.target.value);
+    setPaquete({ ...paquete, talla: e.target.value });
+    // console.log(paquete);
+    // setTallaPaquete(e.target.value);
   };
   const handleColorPaquete = (e) => {
-    setColorPaquete(e.target.value);
+    setPaquete({ ...paquete, color: e.target.value });
+    // setColorPaquete(e.target.value);
+  };
+
+  const handleGenerar = () => {
+    Axios.get("http://localhost:3001/get/proceso/?id=".concat(producto)).then(
+      (response) => {
+        console.log(response.data.rows);
+        setProcesos(response.data.rows);
+      }
+    );
+    // setPaquetes([...paquetes, paquete]);
+    // setOpenModal(false);
+    console.log(producto);
   };
 
   return (
@@ -185,7 +195,7 @@ function AgregarProducto({
               autoComplete="off"
             >
               <h1 className="producto-title">Agregar Orden</h1>
-              <hr className="divisor" id="agregar-producto" />
+              <hr className="divisor" id="agregar-orden-line" />
               <div className={classesGrid.root}>
                 <Grid container spacing={2}>
                   <Grid item>
@@ -254,7 +264,7 @@ function AgregarProducto({
 
                   <Grid item>
                     <TextField
-                      label="Comentario"
+                      label="Detalle"
                       onChange={handleChangeComentario}
                     />
                   </Grid>
@@ -262,7 +272,7 @@ function AgregarProducto({
               </div>
 
               <h1 className="producto-title ">Paquetes</h1>
-              <hr className="divisor" id="agregar-producto" />
+              <hr className="divisor" id="paquetes-line" />
 
               <div className="orden-header">
                 <div className="numero">
@@ -278,17 +288,51 @@ function AgregarProducto({
                   <h3>Color</h3>
                 </div>
               </div>
-              {/* <hr className="divisor" id="agregar-producto" /> */}
+              <div className={classesGrid.root}>
+                <Grid container spacing={5} style={{ gap: 10 }}>
+                  <Grid>1</Grid>
+                  <Grid>
+                    <TextField
+                      id="outlined-basic"
+                      label="Cantidad"
+                      variant="outlined"
+                      onChange={(e) => handleCantidadPaquete(1, e)}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      id="outlined-basic"
+                      label="Talla"
+                      variant="outlined"
+                      onChange={handleTallaPaquete}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      id="outlined-basic"
+                      label="Color"
+                      variant="outlined"
+                      onChange={handleColorPaquete}
+                    />
+                  </Grid>
+                  <Grid>
+                    <AddIcon
+                      className="addPaquete"
+                      onClick={(e) => handleNewPaquete(e)}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
               {paquetes.map((paquete, index) => (
                 <div className={classesGrid.root}>
                   <Grid container spacing={5} style={{ gap: 10 }}>
-                    <Grid>{index + 1}</Grid>
+                    <Grid>{index + 2}</Grid>
                     <Grid>
                       <TextField
                         id="outlined-basic"
                         label="Cantidad"
                         variant="outlined"
-                        onChange={handleCantidadPaquete}
+                        onChange={(e) => handleCantidadPaquete(index + 1, e)}
                       />
                     </Grid>
                     <Grid>
@@ -310,7 +354,7 @@ function AgregarProducto({
                     <Grid>
                       <AddIcon
                         className="addPaquete"
-                        onClick={handleAddPaquete}
+                        onClick={(e) => handleNewPaquete(index + 1, e)}
                       />
                     </Grid>
                   </Grid>
@@ -321,7 +365,8 @@ function AgregarProducto({
                 className="boton-agregar-producto-modal"
                 variant="contained"
                 color="primary"
-                type="submit"
+                // type="submit"
+                onClick={handleGenerar}
               >
                 Generar Tickets
               </ColorButton>

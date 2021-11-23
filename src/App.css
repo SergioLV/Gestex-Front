@@ -100,6 +100,14 @@
   justify-content: center;
   /* border-style: solid; */
 }
+
+#agregar-personal{
+  margin-top: 2rem;
+
+}
+
+
+
 .agregar .borde{
   background-color: #f55d3e;
   border-top-right-radius: 10px;
@@ -136,10 +144,20 @@
 .agregar .producto-title{
   width: 20rem;
 }
+
 .divisor{
   border: 1px solid #f55d3e;
   border-radius: 1px;
   margin-bottom: 0.5rem !important;
+}
+
+#agregar-orden-line{
+  width: 19rem !important;
+  margin-top: 0.5rem;
+}
+#paquetes-line{
+  width: 12rem !important;
+  margin-top: 0.5rem;
 }
 .editar:hover{
   cursor: pointer;

@@ -283,113 +283,113 @@ export default function Personal() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {loadingPersonal 
-                  ? (rowsPerPage > 0
+                  {loadingPersonal
+                    ? (rowsPerPage > 0
                         ? personal.slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           )
                         : personal
                       ).map((persona) => (
-                      <TableRow hover="true" key={persona.id_personal}>
-                        <TableCell component="th" scope="row">
-                          {persona.id_personal}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {persona.nombre_personal}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {persona.rut_personal}
-                        </TableCell>
-                        <TableCell component="th" scope="row">
-                          {persona.fecha_ingreso}
-                        </TableCell>
+                        <TableRow hover="true" key={persona.id_personal}>
+                          <TableCell component="th" scope="row">
+                            {persona.id_personal}
+                          </TableCell>
+                          <TableCell component="th" scope="row">
+                            {persona.nombre_personal}
+                          </TableCell>
+                          <TableCell component="th" scope="row">
+                            {persona.rut_personal}
+                          </TableCell>
+                          <TableCell component="th" scope="row">
+                            {persona.fecha_ingreso}
+                          </TableCell>
 
-                        <TableCell component="th" scope="row">
-                          {persona.sueldo_base}
-                        </TableCell>
+                          <TableCell component="th" scope="row">
+                            {persona.sueldo_base}
+                          </TableCell>
 
-                        <TableCell component="th" scope="row" align="center">
-                          <EditSharpIcon
-                            className="editar"
-                            onClick={() => {
-                              editarPersonal(persona);
-                            }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    ))
+                          <TableCell component="th" scope="row" align="center">
+                            <EditSharpIcon
+                              className="editar"
+                              onClick={() => {
+                                editarPersonal(persona);
+                              }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))
                     : min_prod.map((num) => (
-                      <TableRow>
-                        <TableCell>
-                          {" "}
-                          <div className={classesSkeleton.root}>
-                            <Skeleton animation="wave" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {" "}
-                          <div className={classesSkeleton.root}>
-                            <Skeleton animation="wave" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {" "}
-                          <div className={classesSkeleton.root}>
-                            <Skeleton animation="wave" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {" "}
-                          <div className={classesSkeleton.root}>
-                            <Skeleton animation="wave" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {" "}
-                          <div className={classesSkeleton.root}>
-                            <Skeleton animation="wave" />
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {" "}
-                          <div className={classesSkeleton.root}>
-                            <Skeleton animation="wave" />
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                        <TableRow>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave" />
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {" "}
+                            <div className={classesSkeleton.root}>
+                              <Skeleton animation="wave " />
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 59 * emptyRows }}>
                       <TableCell colSpan={6} />
                     </TableRow>
                   )}
                 </TableBody>
-                  <TableFooter>
+                <TableFooter>
                   <TableRow>
-                      <TablePagination
-                        rowsPerPageOptions={[
-                          5,
-                          10,
-                          25,
-                          { label: "All", value: -1 },
-                        ]}
-                        colSpan={3}
-                        count={[...personal].length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        labelRowsPerPage={"Filas por paginas"}
-                        SelectProps={{
-                          inputProps: { "aria-label": "Rows per page" },
-  
-                          native: true,
-                        }}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                        ActionsComponent={TablePaginationActions}
-                      />
+                    <TablePagination
+                      rowsPerPageOptions={[
+                        5,
+                        10,
+                        25,
+                        { label: "All", value: -1 },
+                      ]}
+                      colSpan={3}
+                      count={[...personal].length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      labelRowsPerPage={"Filas por paginas"}
+                      SelectProps={{
+                        inputProps: { "aria-label": "Rows per page" },
+
+                        native: true,
+                      }}
+                      onPageChange={handleChangePage}
+                      onRowsPerPageChange={handleChangeRowsPerPage}
+                      ActionsComponent={TablePaginationActions}
+                    />
                   </TableRow>
-                  </TableFooter>
+                </TableFooter>
               </Table>
             </TableContainer>
           </div>
