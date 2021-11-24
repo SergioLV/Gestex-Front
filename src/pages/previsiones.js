@@ -213,7 +213,7 @@ export default function Productos() {
 
   useEffect(() => {
     const getPrevisiones = async () => {
-      await Axios.get("https://gestex-backend.herokuapp.com/get/afp").then(
+      await Axios.get("https://gestex-backend.herokuapp.com/get/isapre").then(
         (response) => {
           setLoadingPrevisiones(true);
           setPrevisiones(response.data);
@@ -260,17 +260,14 @@ export default function Productos() {
               setOpenModal(true);
             }}
           >
-            Añadir Afp
+            Añadir Previsión
           </ColorButton>
         </div>
 
         <div className="tabla-personal">
           <div className="productos-list">
             <TableContainer component={Paper}>
-              <Table
-                // className={classes.table}
-                aria-label="simple table"
-              >
+              <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
                     <TableCell align="right" className={classes.head}>
@@ -294,20 +291,20 @@ export default function Productos() {
                           )
                         : previsiones
                       ).map((prevision) => (
-                        <TableRow hover="true" key={prevision.id_afp}>
+                        <TableRow hover="true" key={prevision.id_isapre}>
                           <TableCell
                             align="right"
                             style={{ width: 130 }}
                             component="th"
                             scope="row"
                           >
-                            {prevision.id_afp}
+                            {prevision.id_isapre}
                           </TableCell>
                           <TableCell style={{ width: 200 }} align="left">
-                            {prevision.nombre_afp}
+                            {prevision.nombre_isapre}
                           </TableCell>
                           <TableCell style={{ width: 160 }} align="left">
-                            {prevision.porcentaje_afp}
+                            {prevision.porcentaje_isapre}
                           </TableCell>
                           <TableCell component="th" scope="row" align="center">
                             <EditSharpIcon

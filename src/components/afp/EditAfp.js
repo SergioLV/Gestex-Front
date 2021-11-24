@@ -30,7 +30,7 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-function EditProceso({
+function EditAfp({
   setOpenModal,
   previsiones,
   setPrevisiones,
@@ -48,7 +48,7 @@ function EditProceso({
     // console.log(openPopUpEdit)
 
     Axios.put(
-      "https://gestex-backend.herokuapp.com/update/isapre",
+      "https://gestex-backend.herokuapp.com/update/afp/",
       previsionEdit
     ).then((response) => {
       setOpenEdit(false);
@@ -60,10 +60,10 @@ function EditProceso({
         }, 1999);
       } else {
         const objIndex = aux.findIndex(
-          (obj) => obj.id_isapre === previsionEdit.id_isapre
+          (obj) => obj.id_afp === previsionEdit.id_afp
         );
-        aux[objIndex].nombre_isapre = previsionEdit.nombre_isapre;
-        aux[objIndex].porcentaje_isapre = previsionEdit.porcentaje_isapre;
+        aux[objIndex].nombre_afp = previsionEdit.nombre_afp;
+        aux[objIndex].porcentaje_afp = previsionEdit.porcentaje_afp;
         setPrevisiones(aux);
         setOpenPopUpEdit(true);
         setTimeout(() => {
@@ -74,13 +74,13 @@ function EditProceso({
   };
 
   const handleDelete = () => {
-    Axios.delete("https://gestex-backend.herokuapp.com/delete/isapre", {
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/afp", {
       params: previsionEdit,
     }).then((response) => {
       setOpenEdit(false);
       const aux = [...previsiones];
       const objIndex = aux.findIndex(
-        (obj) => obj.id_isapre === previsionEdit.id_isapre
+        (obj) => obj.id_afp === previsionEdit.id_afp
       );
       aux.splice(objIndex, 1);
       setPrevisiones(aux);
@@ -107,27 +107,24 @@ function EditProceso({
               <TextField
                 className="id_producto_edit"
                 label="Id Prevision"
-                defaultValue={previsionEdit.id_isapre}
+                defaultValue={previsionEdit.id_afp}
                 disabled
               />
 
               <TextField
                 label="Nombre Producto"
-                defaultValue={previsionEdit.nombre_isapre}
+                defaultValue={previsionEdit.nombre_afp}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setPrevisionEdit({ ...previsionEdit, nombre_isapre: value });
+                  setPrevisionEdit({ ...previsionEdit, nombre_afp: value });
                 }}
               />
               <TextField
                 label="Comision"
-                defaultValue={previsionEdit.porcentaje_isapre}
+                defaultValue={previsionEdit.porcentaje_afp}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setPrevisionEdit({
-                    ...previsionEdit,
-                    porcentaje_isapre: value,
-                  });
+                  setPrevisionEdit({ ...previsionEdit, porcentaje_afp: value });
                 }}
               />
               <div className="accion">
@@ -136,7 +133,7 @@ function EditProceso({
                   variant="contained"
                   onClick={handleDelete}
                 >
-                  Eliminar Previsión
+                  Eliminar Afp
                 </ColorButton>
                 <ColorButton
                   className="boton-editar-producto-modal"
@@ -144,7 +141,7 @@ function EditProceso({
                   color="primary"
                   type="submit"
                 >
-                  Editar Previsión
+                  Editar Afp
                 </ColorButton>
               </div>
             </form>
@@ -163,4 +160,4 @@ function EditProceso({
   );
 }
 
-export default EditProceso;
+export default EditAfp;

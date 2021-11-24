@@ -4,11 +4,11 @@ export const SidebarData = [
     path: "/",
     cName: "nav-text",
   },
-  // {
-  //   title: "Afp",
-  //   path: "/afp",
-  //   cName: "nav-text",
-  // },
+  {
+    title: "Afp",
+    path: "/afp",
+    cName: "nav-text",
+  },
   {
     title: "Clientes",
     path: "/clientes",

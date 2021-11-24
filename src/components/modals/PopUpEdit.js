@@ -8,7 +8,6 @@ function PopUpEdit({
   previsionEdit,
 }) {
   let display = "";
-  console.log(colorEdit);
   if (productoEdit !== undefined) {
     display = productoEdit.nombre_producto;
   }
@@ -23,6 +22,12 @@ function PopUpEdit({
   }
   if (previsionEdit !== undefined) {
     display = previsionEdit.nombre_afp;
+  }
+  if (previsionEdit.nombre_afp !== undefined) {
+    display = previsionEdit.nombre_afp;
+  }
+  if (previsionEdit.nombre_isapre !== undefined) {
+    display = previsionEdit.nombre_isapre;
   }
   return (
     <div>

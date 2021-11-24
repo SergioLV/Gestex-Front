@@ -8,6 +8,7 @@ function PopUp({
   colorAdd,
   previsionAdd,
 }) {
+  console.log(previsionAdd);
   let display = "";
   if (productoAdd !== undefined) {
     display = productoAdd;
@@ -24,8 +25,11 @@ function PopUp({
   if (colorAdd !== undefined) {
     display = colorAdd;
   }
-  if (previsionAdd !== undefined) {
+  if (previsionAdd.nombre_afp !== undefined) {
     display = previsionAdd.nombre_afp;
+  }
+  if (previsionAdd.nombre_isapre !== undefined) {
+    display = previsionAdd.nombre_isapre;
   }
   return (
     <div>

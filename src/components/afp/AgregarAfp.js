@@ -31,7 +31,7 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-function AgregarPrevision({
+function AgregarAfp({
   previsionAdd,
   setPrevisionAdd,
   previsiones,
@@ -54,11 +54,11 @@ function AgregarPrevision({
     //Max id para asignarselo al nuevo
     const max_id = previsiones.reduce(
       (acc, prevision) =>
-        (acc = acc > previsiones.id_isapre ? acc : prevision.id_isapre),
+        (acc = acc > previsiones.id_afp ? acc : prevision.id_afp),
       0
     );
     //Ya que axios post
-    Axios.post("https://gestex-backend.herokuapp.com/add/isapre", {
+    Axios.post("https://gestex-backend.herokuapp.com/add/afp", {
       nombre: nombre,
       comision: comision,
     }).then((response) => {
@@ -66,16 +66,12 @@ function AgregarPrevision({
         // getProducto(productoAdd);
         setPrevisiones([
           ...previsiones,
-          {
-            id_isapre: max_id + 1,
-            nombre_isapre: nombre,
-            porcentaje_isapre: comision,
-          },
+          { id_afp: max_id + 1, nombre_afp: nombre, porcentaje_afp: comision },
         ]);
         setPrevisionAdd({
-          id_isapre: max_id + 1,
-          nombre_isapre: nombre,
-          porcentaje_isapre: comision,
+          id_afp: max_id + 1,
+          nombre_afp: nombre,
+          porcentaje_afp: comision,
         });
         //Se cierra el modal de agregar
         setOpenModal(false);
@@ -100,10 +96,10 @@ function AgregarPrevision({
               noValidate
               autoComplete="off"
             >
-              <h1 className="producto-title">Agregar Previsión</h1>
+              <h1 className="producto-title">Agregar Afp</h1>
               <hr className="divisor" id="agregar-producto" />
               <TextField
-                label="Nombre Previsión"
+                label="Nombre Afp"
                 onChange={(event) => {
                   const { value } = event.target;
                   setNombre(value);
@@ -122,7 +118,7 @@ function AgregarPrevision({
                 color="primary"
                 type="submit"
               >
-                Añadir Previsión
+                Añadir Afp
               </ColorButton>
             </form>
           </div>
@@ -140,4 +136,4 @@ function AgregarPrevision({
   );
 }
 
-export default AgregarPrevision;
+export default AgregarAfp;
