@@ -1,7 +1,13 @@
 import React from "react";
 
-function PopUp({ productoAdd, procesoAdd, personalAdd, ordenAdd, colorAdd }) {
-  console.log(colorAdd);
+function PopUp({
+  productoAdd,
+  procesoAdd,
+  personalAdd,
+  ordenAdd,
+  colorAdd,
+  previsionAdd,
+}) {
   let display = "";
   if (productoAdd !== undefined) {
     display = productoAdd;
@@ -17,6 +23,9 @@ function PopUp({ productoAdd, procesoAdd, personalAdd, ordenAdd, colorAdd }) {
   }
   if (colorAdd !== undefined) {
     display = colorAdd;
+  }
+  if (previsionAdd !== undefined) {
+    display = previsionAdd.nombre_afp;
   }
   return (
     <div>
