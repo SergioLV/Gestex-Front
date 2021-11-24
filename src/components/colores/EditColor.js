@@ -43,35 +43,30 @@ function EditProductos({
 }) {
   const classesForm = useStylesForm();
   //State para lo que se va a enviar con la request. Al modificar el estado de productoEdit, tira error de que no es una funcion
-  const [updatedColor, setUpdatedColor] = useState();
 
   //Handler para almacenar la edicion del producto
-  const handleChange = (e) => {
-    setUpdatedColor({
-      id_color: colorEdit.id_color,
-      nombre_color: e.target.value,
-    });
-  };
+
   const handleSubmit = (e) => {
+    console.log(colorEdit);
     e.preventDefault();
     // console.log(openPopUpEdit)
 
     Axios.put(
       "https://gestex-backend.herokuapp.com/update/color/",
-      updatedColor
+      colorEdit
     ).then((response) => {
       setOpenEdit(false);
       const aux = [...colores];
-      if (!updatedColor) {
+      if (!colorEdit) {
         setOpenPopUpEditError(true);
         setTimeout(() => {
           setOpenPopUpEditError(false);
         }, 1999);
       } else {
         const objIndex = aux.findIndex(
-          (obj) => obj.id_color === updatedColor.id_color
+          (obj) => obj.id_color === colorEdit.id_color
         );
-        aux[objIndex].nombre_color = updatedColor.nombre_color;
+        aux[objIndex].nombre_color = colorEdit.nombre_color;
         setColores(aux);
         setOpenPopUpEdit(true);
         // console.log(updatedProducto)
@@ -83,29 +78,24 @@ function EditProductos({
     });
   };
 
-  //   const handleDelete = () => {
-  //     Axios.delete("https://gestex-backend.herokuapp.com/delete/producto", {
-  //       params: productoEdit,
-  //     }).then((response) => {
-  //       setOpenEdit(false);
+  const handleDelete = () => {
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/color", {
+      params: colorEdit,
+    }).then((response) => {
+      setOpenEdit(false);
 
-  //       console.log(response);
-  //       const aux = [...productos];
-  //       const objIndex = aux.findIndex(
-  //         (obj) => obj.id_producto === productoEdit.id_producto
-  //       );
-  //       aux.splice(objIndex, 1);
-  //       setProductos(aux);
-  //       setOpenPopUpEdit(true);
-  //       console.log(updatedProducto);
-  //       console.log(productos);
-  //       setTimeout(() => {
-  //         setOpenPopUpEdit(false);
-  //       }, 1999);
-  //     });
-
-  //     // console.log(productoEdit)
-  //   };
+      const aux = [...colores];
+      const objIndex = aux.findIndex(
+        (obj) => obj.id_color === colorEdit.id_color
+      );
+      aux.splice(objIndex, 1);
+      setColores(aux);
+      setOpenPopUpEdit(true);
+      setTimeout(() => {
+        setOpenPopUpEdit(false);
+      }, 1999);
+    });
+  };
 
   return (
     <div>
@@ -122,21 +112,23 @@ function EditProductos({
               <hr className="divisor" id="agregar-producto" />
               <TextField
                 className="id_producto_edit"
-                label="Id Producto"
+                label="Id Color"
                 defaultValue={colorEdit.id_color}
-                onChange={handleChange}
                 disabled
               />
               <TextField
-                label="Nombre Producto"
+                label="Color"
                 defaultValue={colorEdit.nombre_color}
-                onChange={handleChange}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setColorEdit({ ...colorEdit, nombre_color: value });
+                }}
               />
               <div className="accion">
                 <ColorButton
                   className="boton-eliminar-producto-modal"
                   variant="contained"
-                  //   onClick={handleDelete}
+                  onClick={handleDelete}
                 >
                   Eliminar Color
                 </ColorButton>

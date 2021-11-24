@@ -74,7 +74,7 @@ function EditProceso({
   };
 
   const handleDelete = () => {
-    Axios.delete("https://gestex-backend.herokuapp.com//delete/afp", {
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/afp", {
       params: previsionEdit,
     }).then((response) => {
       setOpenEdit(false);

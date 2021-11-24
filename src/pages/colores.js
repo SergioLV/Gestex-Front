@@ -233,6 +233,7 @@ export default function Productos() {
           setColores={setColores}
           setOpenEdit={setOpenEdit}
           colorEdit={colorEdit}
+          setColorEdit={setColorEdit}
           setOpenPopUpEdit={setOpenPopUpEdit}
           setOpenPopUpEditError={setOpenPopUpEditError}
           openPopUpEdit={openPopUpEdit}
@@ -240,7 +241,7 @@ export default function Productos() {
         />
       )}
       {openPopUp && <PopUp colorAdd={colorAdd} />}
-      {openPopUpEdit && <PopUpEdit productoEdit={colorEdit} />}
+      {openPopUpEdit && <PopUpEdit colorEdit={colorEdit} />}
       {openPopUpEditError && <PopUpEditError productoEdit={colorEdit} />}
       {openModal && (
         <AgregarColor
