@@ -16,6 +16,7 @@ import Previsiones from "./pages/previsiones";
 import Procesos from "./pages/procesos";
 import Productos from "./pages/productos";
 import Colores from "./pages/colores";
+import Bancos from "./pages/bancos";
 import Xcliente from "./pages/xcliente";
 
 function App() {
@@ -105,6 +106,12 @@ function App() {
             component={Colores}
             setVentanaActiva={setVentanaActiva}
             route={"Colores"}
+          />
+          <PrivateRoute
+            path="/bancos"
+            component={Bancos}
+            setVentanaActiva={setVentanaActiva}
+            route={"Bancos"}
           />
         </Switch>
       </Router>

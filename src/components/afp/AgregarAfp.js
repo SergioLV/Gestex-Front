@@ -72,6 +72,7 @@ function AgregarAfp({
           id_afp: max_id + 1,
           nombre_afp: nombre,
           porcentaje_afp: comision,
+          nombre_isapre: "null",
         });
         //Se cierra el modal de agregar
         setOpenModal(false);

@@ -30,16 +30,16 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-function EditProceso({
+function EditBanco({
   setOpenModal,
-  previsiones,
-  setPrevisiones,
-  setOpenPopUp,
+  bancos,
+  setBancos,
   setOpenEdit,
+  bancoEdit,
+  setBancoEdit,
   setOpenPopUpEdit,
   setOpenPopUpEditError,
-  previsionEdit,
-  setPrevisionEdit,
+  openPopUpEdit,
 }) {
   const classesForm = useStylesForm();
 
@@ -48,23 +48,23 @@ function EditProceso({
     // console.log(openPopUpEdit)
 
     Axios.put(
-      "https://gestex-backend.herokuapp.com/update/isapre",
-      previsionEdit
+      "https://gestex-backend.herokuapp.com/update/banco/",
+      bancoEdit
     ).then((response) => {
       setOpenEdit(false);
-      const aux = [...previsiones];
-      if (!previsionEdit) {
+      const aux = [...bancos];
+      if (!bancoEdit) {
         setOpenPopUpEditError(true);
         setTimeout(() => {
           setOpenPopUpEditError(false);
         }, 1999);
       } else {
         const objIndex = aux.findIndex(
-          (obj) => obj.id_isapre === previsionEdit.id_isapre
+          (obj) => obj.id_banco === bancoEdit.id_banco
         );
-        aux[objIndex].nombre_isapre = previsionEdit.nombre_isapre;
-        aux[objIndex].porcentaje_isapre = previsionEdit.porcentaje_isapre;
-        setPrevisiones(aux);
+        aux[objIndex].nombre_banco = bancoEdit.nombre_banco;
+
+        setBancos(aux);
         setOpenPopUpEdit(true);
         setTimeout(() => {
           setOpenPopUpEdit(false);
@@ -74,16 +74,16 @@ function EditProceso({
   };
 
   const handleDelete = () => {
-    Axios.delete("https://gestex-backend.herokuapp.com/delete/isapre", {
-      params: previsionEdit,
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/banco", {
+      params: bancoEdit,
     }).then((response) => {
       setOpenEdit(false);
-      const aux = [...previsiones];
+      const aux = [...bancos];
       const objIndex = aux.findIndex(
-        (obj) => obj.id_isapre === previsionEdit.id_isapre
+        (obj) => obj.id_banco === bancoEdit.id_banco
       );
       aux.splice(objIndex, 1);
-      setPrevisiones(aux);
+      setBancos(aux);
       setOpenPopUpEdit(true);
       setTimeout(() => {
         setOpenPopUpEdit(false);
@@ -107,41 +107,29 @@ function EditProceso({
               <TextField
                 className="id_producto_edit"
                 label="Id Prevision"
-                defaultValue={previsionEdit.id_isapre}
+                defaultValue={bancoEdit.id_banco}
                 disabled
               />
 
               <TextField
-                label="Nombre Producto"
-                defaultValue={previsionEdit.nombre_isapre}
+                label="Nombre Banco"
+                defaultValue={bancoEdit.nombre_banco}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setPrevisionEdit({
-                    ...previsionEdit,
-                    nombre_isapre: value,
-                    nombre_afp: "null",
+                  setBancoEdit({
+                    ...bancoEdit,
+                    nombre_banco: value,
                   });
                 }}
               />
-              <TextField
-                label="Comision"
-                defaultValue={previsionEdit.porcentaje_isapre}
-                onChange={(event) => {
-                  const { value } = event.target;
-                  setPrevisionEdit({
-                    ...previsionEdit,
-                    porcentaje_isapre: value,
-                    nombre_afp: "null",
-                  });
-                }}
-              />
+
               <div className="accion">
                 <ColorButton
                   className="boton-eliminar-producto-modal"
                   variant="contained"
                   onClick={handleDelete}
                 >
-                  Eliminar Previsión
+                  Eliminar Banco
                 </ColorButton>
                 <ColorButton
                   className="boton-editar-producto-modal"
@@ -149,7 +137,7 @@ function EditProceso({
                   color="primary"
                   type="submit"
                 >
-                  Editar Previsión
+                  Editar Banco
                 </ColorButton>
               </div>
             </form>
@@ -168,4 +156,4 @@ function EditProceso({
   );
 }
 
-export default EditProceso;
+export default EditBanco;

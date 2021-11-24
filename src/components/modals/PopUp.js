@@ -7,6 +7,7 @@ function PopUp({
   ordenAdd,
   colorAdd,
   previsionAdd,
+  bancoAdd,
 }) {
   console.log(previsionAdd);
   let display = "";
@@ -25,11 +26,15 @@ function PopUp({
   if (colorAdd !== undefined) {
     display = colorAdd;
   }
-  if (previsionAdd.nombre_afp !== undefined) {
+  if (previsionAdd !== undefined && previsionAdd.nombre_isapre !== "null") {
+    display = previsionAdd.nombre_isapre;
+  }
+
+  if (previsionAdd !== undefined && previsionAdd.nombre_afp !== "null") {
     display = previsionAdd.nombre_afp;
   }
-  if (previsionAdd.nombre_isapre !== undefined) {
-    display = previsionAdd.nombre_isapre;
+  if (bancoAdd !== undefined) {
+    display = bancoAdd.nombre_banco;
   }
   return (
     <div>

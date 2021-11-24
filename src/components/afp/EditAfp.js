@@ -116,7 +116,11 @@ function EditAfp({
                 defaultValue={previsionEdit.nombre_afp}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setPrevisionEdit({ ...previsionEdit, nombre_afp: value });
+                  setPrevisionEdit({
+                    ...previsionEdit,
+                    nombre_afp: value,
+                    nombre_isapre: "null",
+                  });
                 }}
               />
               <TextField
@@ -124,7 +128,11 @@ function EditAfp({
                 defaultValue={previsionEdit.porcentaje_afp}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setPrevisionEdit({ ...previsionEdit, porcentaje_afp: value });
+                  setPrevisionEdit({
+                    ...previsionEdit,
+                    porcentaje_afp: value,
+                    nombre_isapre: "null",
+                  });
                 }}
               />
               <div className="accion">

@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
-import { nativeTouchData } from "react-dom/test-utils";
 
 const useStylesForm = makeStyles((theme) => ({
   root: {
@@ -32,17 +31,16 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-function AgregarPrevision({
-  previsionAdd,
-  setPrevisionAdd,
-  previsiones,
-  setPrevisiones,
+function AgregarAfp({
+  bancoAdd,
+  setBancoAdd,
+  bancos,
+  setBancos,
   setOpenModal,
   setOpenPopUp,
 }) {
   const classesForm = useStylesForm();
   const [nombre, setNombre] = useState("");
-  const [comision, setComision] = useState("");
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
 
   //Handler para el boton de agregar producto
@@ -53,32 +51,18 @@ function AgregarPrevision({
     // console.log(previsionAdd);
     //Se hace la peticion Post a add/producto del productoAdd
     //Max id para asignarselo al nuevo
-    const max_id = previsiones.reduce(
-      (acc, prevision) =>
-        (acc = acc > previsiones.id_isapre ? acc : prevision.id_isapre),
+    const max_id = bancos.reduce(
+      (acc, banco) => (acc = acc > bancos.id_banco ? acc : banco.id_banco),
       0
     );
     //Ya que axios post
-    Axios.post("https://gestex-backend.herokuapp.com/add/isapre", {
+    Axios.post("https://gestex-backend.herokuapp.com/add/banco", {
       nombre: nombre,
-      comision: comision,
     }).then((response) => {
       if (response.status === 201) {
         // getProducto(productoAdd);
-        setPrevisiones([
-          ...previsiones,
-          {
-            id_isapre: max_id + 1,
-            nombre_isapre: nombre,
-            porcentaje_isapre: comision,
-          },
-        ]);
-        setPrevisionAdd({
-          id_isapre: max_id + 1,
-          nombre_isapre: nombre,
-          porcentaje_isapre: comision,
-          nombre_afp: "null",
-        });
+        setBancos([...bancos, { id_banco: max_id + 1, nombre_banco: nombre }]);
+        setBancoAdd({ id_banco: max_id + 1, nombre_banco: nombre });
         //Se cierra el modal de agregar
         setOpenModal(false);
         //Se abre el popup de satisfaccion
@@ -102,29 +86,23 @@ function AgregarPrevision({
               noValidate
               autoComplete="off"
             >
-              <h1 className="producto-title">Agregar Previsión</h1>
+              <h1 className="producto-title">Agregar Banco</h1>
               <hr className="divisor" id="agregar-producto" />
               <TextField
-                label="Nombre Previsión"
+                label="Nombre Banco"
                 onChange={(event) => {
                   const { value } = event.target;
                   setNombre(value);
                 }}
               />
-              <TextField
-                label="Comisión (%)"
-                onChange={(event) => {
-                  const { value } = event.target;
-                  setComision(value);
-                }}
-              />
+
               <ColorButton
                 className="boton-agregar-producto-modal"
                 variant="contained"
                 color="primary"
                 type="submit"
               >
-                Añadir Previsión
+                Añadir Banco
               </ColorButton>
             </form>
           </div>
@@ -142,4 +120,4 @@ function AgregarPrevision({
   );
 }
 
-export default AgregarPrevision;
+export default AgregarAfp;

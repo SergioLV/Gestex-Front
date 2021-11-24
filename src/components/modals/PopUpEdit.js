@@ -6,6 +6,7 @@ function PopUpEdit({
   personalEdit,
   colorEdit,
   previsionEdit,
+  bancoEdit,
 }) {
   let display = "";
   if (productoEdit !== undefined) {
@@ -20,14 +21,16 @@ function PopUpEdit({
   if (colorEdit !== undefined) {
     display = colorEdit.nombre_color;
   }
-  if (previsionEdit !== undefined) {
-    display = previsionEdit.nombre_afp;
-  }
-  if (previsionEdit.nombre_afp !== undefined) {
-    display = previsionEdit.nombre_afp;
-  }
-  if (previsionEdit.nombre_isapre !== undefined) {
+  if (previsionEdit !== undefined && previsionEdit.nombre_isapre !== "null") {
     display = previsionEdit.nombre_isapre;
+  }
+
+  if (previsionEdit !== undefined && previsionEdit.nombre_afp !== "null") {
+    display = previsionEdit.nombre_afp;
+  }
+
+  if (bancoEdit !== undefined) {
+    display = bancoEdit.nombre_banco;
   }
   return (
     <div>
