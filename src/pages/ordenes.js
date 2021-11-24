@@ -31,7 +31,7 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
-import ReactExport from 'react-data-export';
+import ReactExport from "react-data-export";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -151,7 +151,6 @@ const ColorButton = withStyles((theme) => ({
     borderRadius: "25px",
   },
 }))(Button);
-
 
 export default function Productos() {
   const min_prod = [1, 2, 3, 4, 5];
@@ -288,20 +287,22 @@ export default function Productos() {
           </ColorButton>
         </div>
         <div className="boton">
-          <ExcelFile element={<ColorButton
-            variant="contained"
-            color="primary"
+          <ExcelFile
+            element={
+              <ColorButton variant="contained" color="primary">
+                Descargar Excel
+              </ColorButton>
+            }
+            filename="tickets"
           >
-            Descargar Excel
-          </ColorButton>} filename="Ordenes_corte">
-          <ExcelSheet data={ordenes} name="Ordenes de corte">
-            <ExcelColumn label="ID" value="id_ordenes_de_corte" />
-            <ExcelColumn label="Cliente" value="id_cliente" />
-            <ExcelColumn  label="Comentario" value="comentario" />
-            <ExcelColumn label="Producto" value="id_producto" />
-            <ExcelColumn label="Cantidad" value="cantidad" />
-            <ExcelColumn label="Fecha" value="fecha_entrega" />
-          </ExcelSheet>
+            <ExcelSheet data={ordenes} name="Ordenes de corte">
+              <ExcelColumn label="ID" value="id_ordenes_de_corte" />
+              <ExcelColumn label="Cliente" value="id_cliente" />
+              <ExcelColumn label="Comentario" value="comentario" />
+              <ExcelColumn label="Producto" value="id_producto" />
+              <ExcelColumn label="Cantidad" value="cantidad" />
+              <ExcelColumn label="Fecha" value="fecha_entrega" />
+            </ExcelSheet>
           </ExcelFile>
         </div>
         <div className="tabla-personal">
