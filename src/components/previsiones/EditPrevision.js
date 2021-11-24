@@ -47,33 +47,34 @@ function EditProceso({
     e.preventDefault();
     // console.log(openPopUpEdit)
 
-    Axios.put("http://localhost:3001/update/afp/", previsionEdit).then(
-      (response) => {
-        setOpenEdit(false);
-        const aux = [...previsiones];
-        if (!previsionEdit) {
-          setOpenPopUpEditError(true);
-          setTimeout(() => {
-            setOpenPopUpEditError(false);
-          }, 1999);
-        } else {
-          const objIndex = aux.findIndex(
-            (obj) => obj.id_afp === previsionEdit.id_afp
-          );
-          aux[objIndex].nombre_afp = previsionEdit.nombre_afp;
-          aux[objIndex].porcentaje_afp = previsionEdit.porcentaje_afp;
-          setPrevisiones(aux);
-          setOpenPopUpEdit(true);
-          setTimeout(() => {
-            setOpenPopUpEdit(false);
-          }, 1999);
-        }
+    Axios.put(
+      "https://gestex-backend.herokuapp.com//update/afp/",
+      previsionEdit
+    ).then((response) => {
+      setOpenEdit(false);
+      const aux = [...previsiones];
+      if (!previsionEdit) {
+        setOpenPopUpEditError(true);
+        setTimeout(() => {
+          setOpenPopUpEditError(false);
+        }, 1999);
+      } else {
+        const objIndex = aux.findIndex(
+          (obj) => obj.id_afp === previsionEdit.id_afp
+        );
+        aux[objIndex].nombre_afp = previsionEdit.nombre_afp;
+        aux[objIndex].porcentaje_afp = previsionEdit.porcentaje_afp;
+        setPrevisiones(aux);
+        setOpenPopUpEdit(true);
+        setTimeout(() => {
+          setOpenPopUpEdit(false);
+        }, 1999);
       }
-    );
+    });
   };
 
   const handleDelete = () => {
-    Axios.delete("http://localhost:3001/delete/afp", {
+    Axios.delete("https://gestex-backend.herokuapp.com//delete/afp", {
       params: previsionEdit,
     }).then((response) => {
       setOpenEdit(false);

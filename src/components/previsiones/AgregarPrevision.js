@@ -58,7 +58,7 @@ function AgregarPrevision({
       0
     );
     //Ya que axios post
-    Axios.post("http://localhost:3001/add/afp", {
+    Axios.post("https://gestex-backend.herokuapp.com//add/afp", {
       nombre: nombre,
       comision: comision,
     }).then((response) => {
