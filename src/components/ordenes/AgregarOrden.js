@@ -9,9 +9,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ReactExport from "react-data-export";
+import FormControl from "@material-ui/core/FormControl";
 
 import Grid from "@material-ui/core/Grid";
-
 const useStylesGrid = makeStyles((theme) => ({
   root: {
     // alignItems: "space-between",
@@ -19,6 +19,7 @@ const useStylesGrid = makeStyles((theme) => ({
     paddingTop: "2rem",
     paddingLeft: "1rem",
     paddingBottom: "1rem",
+    maxWidth: "70rem",
   },
 }));
 
@@ -60,6 +61,19 @@ const StyledSelect = withStyles((theme) => ({
     },
   },
 }))(Select);
+const StyledSelectColor = withStyles((theme) => ({
+  root: {
+    paddingRight: "0px",
+    width: "8rem",
+    // display: "in-line",
+  },
+  select: {
+    // paddingTop: "1rem",
+    "&&": {
+      paddingRight: 0, // only way to override
+    },
+  },
+}))(Select);
 
 function AgregarProducto({
   setOpenModal,
@@ -80,6 +94,7 @@ function AgregarProducto({
   const [fecha, setFecha] = useState("");
   const [comentario, setComentario] = useState("");
   const [procesos, setProcesos] = useState([]);
+  const [colores, setColores] = useState([]);
   const [openGenerar, setOpenGenerar] = useState(false);
   let celdasExcel = [];
   const [celdasExcelReact, setCeldasExcelReact] = useState([]);
@@ -96,6 +111,16 @@ function AgregarProducto({
   };
   useEffect(() => {
     getProcesos();
+  }, []);
+  const getColores = async () => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/colores").then(
+      (response) => {
+        setColores(response.data);
+      }
+    );
+  };
+  useEffect(() => {
+    getColores();
   }, []);
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
@@ -261,8 +286,8 @@ function AgregarProducto({
               <h1 className="producto-title">Agregar Orden #{id_orden}</h1>
               <hr className="divisor" id="agregar-orden-line" />
               <div className={classesGrid.root}>
-                <Grid container spacing={2}>
-                  <Grid item>
+                <Grid container spacing={13} style={{ gap: 70 }}>
+                  <Grid item md={2}>
                     <InputLabel htmlFor="cliente">Cliente</InputLabel>
                     <StyledSelect
                       className="select-agregar-proceso"
@@ -272,7 +297,7 @@ function AgregarProducto({
                         name: "cliente",
                         id: "cliente",
                       }}
-                      style={{ width: 120 }}
+                      style={{ width: 145 }}
                     >
                       <option value=""></option>
                       {clientes.map((cliente) => (
@@ -282,7 +307,7 @@ function AgregarProducto({
                       ))}
                     </StyledSelect>
                   </Grid>
-                  <Grid item>
+                  <Grid item md={2}>
                     <InputLabel htmlFor="producto">Producto</InputLabel>
 
                     <StyledSelect
@@ -294,7 +319,7 @@ function AgregarProducto({
                         name: "producto",
                         id: "producto",
                       }}
-                      // style={{ width: 150 }}
+                      style={{ width: 150 }}
                     >
                       <option value=""></option>
                       {productos.map((producto) => (
@@ -304,7 +329,7 @@ function AgregarProducto({
                       ))}
                     </StyledSelect>
                   </Grid>
-                  <Grid item>
+                  <Grid item md={2}>
                     {" "}
                     <TextField
                       label="Cantidad"
@@ -312,6 +337,12 @@ function AgregarProducto({
                       onChange={handleChangeCantidad}
                     />
                   </Grid>
+                </Grid>
+                <Grid
+                  container
+                  spacing={2}
+                  style={{ marginTop: "0.6rem", gap: 15 }}
+                >
                   <Grid item>
                     <TextField
                       id="date"
@@ -355,13 +386,15 @@ function AgregarProducto({
 
               {paquetes.map((paquete, i) => (
                 <div className={classesGrid.root}>
-                  <Grid container spacing={5} style={{ gap: 10 }}>
-                    <Grid>{i + 1}</Grid>
+                  <Grid container spacing={5} style={{ gap: 63 }}>
+                    <Grid style={{ marginTop: "1.4rem" }}>{i + 1}</Grid>
                     <Grid>
                       <TextField
                         id="outlined-basic"
                         label="Cantidad"
-                        variant="outlined"
+                        tyoe="number"
+                        style={{ width: 80 }}
+                        // variant="outlined"
                         name="cantidad"
                         value={paquete.cantidad}
                         onChange={(e) => handlePaquetes(e, i)}
@@ -371,21 +404,41 @@ function AgregarProducto({
                       <TextField
                         id="outlined-basic"
                         label="Talla"
-                        variant="outlined"
+                        // variant="outlined"
                         name="talla"
+                        style={{ width: 100 }}
                         value={paquete.talla}
                         onChange={(e) => handlePaquetes(e, i)}
                       />
                     </Grid>
                     <Grid>
-                      <TextField
-                        id="outlined-basic"
-                        label="Color"
-                        variant="outlined"
-                        name="color"
-                        // value={paquete.color}
+                      <InputLabel htmlFor="color">Color</InputLabel>
+                      <StyledSelectColor
+                        className="select-agregar-proceso"
+                        native
+                        // variant="outlined"
+                        //   value={state.age}
                         onChange={(e) => handlePaquetes(e, i)}
-                      />
+                        inputProps={{
+                          name: "color",
+                          id: "color",
+                        }}
+                      >
+                        <option value=""></option>
+                        {colores.map((color) => (
+                          <option value={color.nombre_color}>
+                            {color.nombre_color}
+                          </option>
+                        ))}
+                      </StyledSelectColor>
+
+                      {/* <TextField
+                          id="outlined-basic"
+                          label="Color"
+                          variant="outlined"
+                          name="color"
+                          onChange={(e) => handlePaquetes(e, i)}
+                        /> */}
                     </Grid>
 
                     <Grid>
@@ -405,32 +458,42 @@ function AgregarProducto({
                   </Grid>
                 </div>
               ))}
-              <ExcelFile
-                element={
-                  <ColorButton
-                    className="boton-agregar-producto-modal"
-                    variant="contained"
-                    color="primary"
-                    // type="submit"
-                    onClick={handleGenerar}
-                  >
-                    Generar Tickets
-                  </ColorButton>
-                }
-              >
-                <ExcelSheet data={celdasExcel} name="Employees">
-                  <ExcelColumn label="CODIGO" value="codigo" />
-                  <ExcelColumn label="ORDCOR" value="orden_de_corte" />
-                  <ExcelColumn label="PAQUETE" value="paquete" />
-                  <ExcelColumn label="PRODUCTO" value="producto" />
-                  <ExcelColumn label="PROCESO" value="proceso" />
-                  <ExcelColumn label="CANTIDAD" value="cantidad" />
-                  <ExcelColumn label="UNITARIO" value="unitario" />
-                  <ExcelColumn label="TOTAL" value="total" />
-                  <ExcelColumn label="TALLA" value="talla" />
-                  <ExcelColumn label="COLOR" value="color" />
-                </ExcelSheet>
-              </ExcelFile>
+              <div className="accion">
+                <ColorButton
+                  className="boton-agregar-producto-modal"
+                  variant="contained"
+                  color="primary"
+                  // type="submit"
+                >
+                  Añadir Orden
+                </ColorButton>
+                <ExcelFile
+                  element={
+                    <ColorButton
+                      className="boton-agregar-producto-modal"
+                      variant="contained"
+                      color="primary"
+                      // type="submit"
+                      onClick={handleGenerar}
+                    >
+                      Generar Tickets
+                    </ColorButton>
+                  }
+                >
+                  <ExcelSheet data={celdasExcel} name="Employees">
+                    <ExcelColumn label="CODIGO" value="codigo" />
+                    <ExcelColumn label="ORDCOR" value="orden_de_corte" />
+                    <ExcelColumn label="PAQUETE" value="paquete" />
+                    <ExcelColumn label="PRODUCTO" value="producto" />
+                    <ExcelColumn label="PROCESO" value="proceso" />
+                    <ExcelColumn label="CANTIDAD" value="cantidad" />
+                    <ExcelColumn label="UNITARIO" value="unitario" />
+                    <ExcelColumn label="TOTAL" value="total" />
+                    <ExcelColumn label="TALLA" value="talla" />
+                    <ExcelColumn label="COLOR" value="color" />
+                  </ExcelSheet>
+                </ExcelFile>
+              </div>
             </form>
           </div>
           <div className="borde">
