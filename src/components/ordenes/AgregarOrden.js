@@ -7,6 +7,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import ReactExport from "react-data-export";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -78,9 +80,23 @@ function AgregarProducto({
   const [fecha, setFecha] = useState("");
   const [comentario, setComentario] = useState("");
   const [procesos, setProcesos] = useState([]);
+  const [openGenerar, setOpenGenerar] = useState(false);
+  let celdasExcel = [];
+  const [celdasExcelReact, setCeldasExcelReact] = useState([]);
 
-  const [paquetes, setPaquetes] = useState([]);
-  const [paquete, setPaquete] = useState([]);
+  const ExcelFile = ReactExport.ExcelFile;
+  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+  const getProcesos = async () => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/procesos").then(
+      (response) => {
+        setProcesos(response.data);
+      }
+    );
+  };
+  useEffect(() => {
+    getProcesos();
+  }, []);
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
   const handleChangeCliente = (e) => {
@@ -112,6 +128,17 @@ function AgregarProducto({
       comentario: comentario,
     });
   };
+  const max_id = () => {
+    const max_id = ordenes.reduce(
+      (acc, orden) =>
+        (acc =
+          acc > orden.id_ordenes_de_corte ? acc : orden.id_ordenes_de_corte),
+      0
+    );
+    return max_id;
+  };
+
+  const id_orden = max_id() + 1;
   //Handler para el boton de agregar producto
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
@@ -153,26 +180,71 @@ function AgregarProducto({
     );
   };
 
-  const handleNewPaquete = (e) => {
-    setPaquetes([...paquetes, paquete]);
+  const [paquetes, setPaquetes] = useState([
+    {
+      orden_de_corte: id_orden,
+      numero_paquete: "",
+      cantidad: "",
+      talla: "",
+      color: "",
+    },
+  ]);
+
+  const handlePaquetes = (e, index) => {
+    const name = e.target.name;
+    const paq = [...paquetes];
+    paq[index][name] = e.target.value;
+    paq[index]["numero_paquete"] = index + 1;
+    setPaquetes(paq);
   };
 
-  const handleCantidadPaquete = (paq, e) => {
-    setPaquete({ numeroPaquete: paq, cantidad: e.target.value });
+  const handleAdd = () => {
+    setPaquetes([
+      ...paquetes,
+      {
+        orden_de_corte: id_orden,
+        numero_paquete: "",
+        cantidad: "",
+        talla: "",
+        color: "",
+      },
+    ]);
   };
-  const handleTallaPaquete = (e) => {
-    setPaquete({ ...paquete, talla: e.target.value });
+  const handleRemove = (index) => {
+    const paq = [...paquetes];
+    paq.splice(index, 1);
+    setPaquetes(paq);
   };
-  const handleColorPaquete = (e) => {
-    setPaquete({ ...paquete, color: e.target.value });
-  };
+  function FormatNumberLength(num, length) {
+    var r = "" + num;
+    while (r.length < length) {
+      r = "0" + r;
+    }
+    return r;
+  }
 
   const handleGenerar = () => {
-    Axios.get(
-      "https://gestex-backend.herokuapp.com/get/proceso/?id=".concat(producto)
-    ).then((response) => {
-      setProcesos(response.data.rows);
-    });
+    const proc_prod = [...procesos].filter((p) => p.id_producto == producto);
+
+    paquetes.map((p) =>
+      proc_prod.map((proc) =>
+        celdasExcel.push({
+          codigo:
+            FormatNumberLength(id_orden, 5) +
+            FormatNumberLength(p.numero_paquete, 3) +
+            FormatNumberLength(proc.id_proceso, 3),
+          orden_de_corte: id_orden,
+          paquete: p.numero_paquete,
+          producto: parseInt(producto),
+          proceso: proc.nombre_proceso,
+          cantidad: parseInt(p.cantidad),
+          unitario: proc.precio,
+          total: parseInt(p.cantidad) * proc.precio,
+          talla: p.talla,
+          color: p.color,
+        })
+      )
+    );
   };
 
   return (
@@ -186,7 +258,7 @@ function AgregarProducto({
               noValidate
               autoComplete="off"
             >
-              <h1 className="producto-title">Agregar Orden</h1>
+              <h1 className="producto-title">Agregar Orden #{id_orden}</h1>
               <hr className="divisor" id="agregar-orden-line" />
               <div className={classesGrid.root}>
                 <Grid container spacing={2}>
@@ -280,51 +352,19 @@ function AgregarProducto({
                   <h3>Color</h3>
                 </div>
               </div>
-              <div className={classesGrid.root}>
-                <Grid container spacing={5} style={{ gap: 10 }}>
-                  <Grid>1</Grid>
-                  <Grid>
-                    <TextField
-                      id="outlined-basic"
-                      label="Cantidad"
-                      variant="outlined"
-                      onChange={(e) => handleCantidadPaquete(1, e)}
-                    />
-                  </Grid>
-                  <Grid>
-                    <TextField
-                      id="outlined-basic"
-                      label="Talla"
-                      variant="outlined"
-                      onChange={handleTallaPaquete}
-                    />
-                  </Grid>
-                  <Grid>
-                    <TextField
-                      id="outlined-basic"
-                      label="Color"
-                      variant="outlined"
-                      onChange={handleColorPaquete}
-                    />
-                  </Grid>
-                  <Grid>
-                    <AddIcon
-                      className="addPaquete"
-                      onClick={(e) => handleNewPaquete(e)}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-              {paquetes.map((paquete, index) => (
+
+              {paquetes.map((paquete, i) => (
                 <div className={classesGrid.root}>
                   <Grid container spacing={5} style={{ gap: 10 }}>
-                    <Grid>{index + 2}</Grid>
+                    <Grid>{i + 1}</Grid>
                     <Grid>
                       <TextField
                         id="outlined-basic"
                         label="Cantidad"
                         variant="outlined"
-                        onChange={(e) => handleCantidadPaquete(index + 1, e)}
+                        name="cantidad"
+                        value={paquete.cantidad}
+                        onChange={(e) => handlePaquetes(e, i)}
                       />
                     </Grid>
                     <Grid>
@@ -332,7 +372,9 @@ function AgregarProducto({
                         id="outlined-basic"
                         label="Talla"
                         variant="outlined"
-                        onChange={handleTallaPaquete}
+                        name="talla"
+                        value={paquete.talla}
+                        onChange={(e) => handlePaquetes(e, i)}
                       />
                     </Grid>
                     <Grid>
@@ -340,28 +382,55 @@ function AgregarProducto({
                         id="outlined-basic"
                         label="Color"
                         variant="outlined"
-                        onChange={handleColorPaquete}
+                        name="color"
+                        // value={paquete.color}
+                        onChange={(e) => handlePaquetes(e, i)}
                       />
                     </Grid>
+
                     <Grid>
-                      <AddIcon
-                        className="addPaquete"
-                        onClick={(e) => handleNewPaquete(index + 1, e)}
-                      />
+                      {paquetes.length !== 1 && (
+                        <RemoveIcon
+                          className="removePaquete"
+                          onClick={(e) => handleRemove(i)}
+                        />
+                      )}
+                      {paquetes.length - 1 === i && (
+                        <AddIcon
+                          className="addPaquete"
+                          onClick={(e) => handleAdd(e, i)}
+                        />
+                      )}
                     </Grid>
                   </Grid>
                 </div>
               ))}
-
-              <ColorButton
-                className="boton-agregar-producto-modal"
-                variant="contained"
-                color="primary"
-                // type="submit"
-                onClick={handleGenerar}
+              <ExcelFile
+                element={
+                  <ColorButton
+                    className="boton-agregar-producto-modal"
+                    variant="contained"
+                    color="primary"
+                    // type="submit"
+                    onClick={handleGenerar}
+                  >
+                    Generar Tickets
+                  </ColorButton>
+                }
               >
-                Generar Tickets
-              </ColorButton>
+                <ExcelSheet data={celdasExcel} name="Employees">
+                  <ExcelColumn label="CODIGO" value="codigo" />
+                  <ExcelColumn label="ORDCOR" value="orden_de_corte" />
+                  <ExcelColumn label="PAQUETE" value="paquete" />
+                  <ExcelColumn label="PRODUCTO" value="producto" />
+                  <ExcelColumn label="PROCESO" value="proceso" />
+                  <ExcelColumn label="CANTIDAD" value="cantidad" />
+                  <ExcelColumn label="UNITARIO" value="unitario" />
+                  <ExcelColumn label="TOTAL" value="total" />
+                  <ExcelColumn label="TALLA" value="talla" />
+                  <ExcelColumn label="COLOR" value="color" />
+                </ExcelSheet>
+              </ExcelFile>
             </form>
           </div>
           <div className="borde">

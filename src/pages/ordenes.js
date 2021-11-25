@@ -237,7 +237,6 @@ export default function Productos() {
         (response) => {
           setLoadingOrdenes(true);
           setOrdenes(response.data);
-          console.log(response.data);
         }
       );
     };

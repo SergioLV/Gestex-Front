@@ -371,3 +371,64 @@ border-radius: 1px;
 .addPaquete{
   cursor: pointer;
 }
+.removePaquete{
+  cursor: pointer;
+}
+
+.background-agregar-excel{
+  position: absolute;
+  width: 100vw;
+  z-index: 1000;
+  height: 100vh;
+  padding-top: 10vh;
+  margin-left: -30vh;
+  backdrop-filter: blur(8px);
+}
+
+.agregar-excel{
+  width: 100%;
+  margin-top: 1rem;
+  position:absolute;
+  z-index: 1;
+  padding-left: 2rem;
+  /* padding: 4rem 4rem; */
+  display: flex;
+  justify-content: center;
+  /* border-style: solid; */
+}
+.agregar-excel .borde{
+  background-color: #f55d3e;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 3rem;
+
+}
+.agregar-excel .formulario-producto{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 2rem 3rem;
+  color: black;
+  background-color: rgb(252, 252, 252);
+  border-style: solid;
+  border-width: 1px;
+}
+.agregar-excel .formulario-ordenes{
+  
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 2rem 3rem;
+  
+  color: black;
+  background-color: rgb(252, 252, 252);
+  border-style: solid;
+  border-width: 1px;
+}
+
+/* .metadata-orden{
+  display: flex;
+  flex-direction: row;
+} */
+
+.agregar-excel .producto-title{
+  width: 20rem;
+}
