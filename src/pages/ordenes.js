@@ -285,25 +285,7 @@ export default function Productos() {
             Añadir Orden
           </ColorButton>
         </div>
-        <div className="boton">
-          <ExcelFile
-            element={
-              <ColorButton variant="contained" color="primary">
-                Descargar Excel
-              </ColorButton>
-            }
-            filename="tickets"
-          >
-            <ExcelSheet data={ordenes} name="Ordenes de corte">
-              <ExcelColumn label="ID" value="id_ordenes_de_corte" />
-              <ExcelColumn label="Cliente" value="id_cliente" />
-              <ExcelColumn label="Comentario" value="comentario" />
-              <ExcelColumn label="Producto" value="id_producto" />
-              <ExcelColumn label="Cantidad" value="cantidad" />
-              <ExcelColumn label="Fecha" value="fecha_entrega" />
-            </ExcelSheet>
-          </ExcelFile>
-        </div>
+
         <div className="tabla-personal">
           <div className="productos-list">
             <TableContainer component={Paper}>

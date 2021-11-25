@@ -164,9 +164,12 @@ function AgregarProducto({
   };
 
   const id_orden = max_id() + 1;
+
   //Handler para el boton de agregar producto
+
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
+    // console.log("front");
     e.preventDefault();
     //Se hace la peticion Post a add/producto del productoAdd
     //Max id para asignarselo al nuevo
@@ -176,6 +179,7 @@ function AgregarProducto({
           acc > orden.id_ordenes_de_corte ? acc : orden.id_ordenes_de_corte),
       0
     );
+    // console.log(paquetes);
 
     Axios.post("https://gestex-backend.herokuapp.com/add/orden", ordenAdd).then(
       (response) => {
@@ -203,6 +207,9 @@ function AgregarProducto({
         }
       }
     );
+    Axios.post("http://localhost:3001/add/paquete", paquetes).then(
+      (response) => {}
+    );
   };
 
   const [paquetes, setPaquetes] = useState([
@@ -216,8 +223,15 @@ function AgregarProducto({
   ]);
 
   const handlePaquetes = (e, index) => {
-    const name = e.target.name;
     const paq = [...paquetes];
+    const name = e.target.name;
+    if (name == "color") {
+      colores.map((c) => {
+        if (c.nombre_color == e.target.value) {
+          paq[index]["id_color"] = c.id_color;
+        }
+      });
+    }
     paq[index][name] = e.target.value;
     paq[index]["numero_paquete"] = index + 1;
     setPaquetes(paq);
@@ -463,7 +477,8 @@ function AgregarProducto({
                   className="boton-agregar-producto-modal"
                   variant="contained"
                   color="primary"
-                  // type="submit"
+                  type="submit"
+                  // onClick={handleGenerar}
                 >
                   Añadir Orden
                 </ColorButton>
