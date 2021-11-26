@@ -19,11 +19,11 @@ export const SidebarData = [
     path: "/clientes",
     cName: "nav-text",
   },
-  {
-    title: "Productos por Cliente",
-    path: "/xcliente",
-    cName: "nav-text",
-  },
+  // {
+  //   title: "Productos por Cliente",
+  //   path: "/xcliente",
+  //   cName: "nav-text",
+  // },
   {
     title: "Órdenes",
     path: "/ordenes",

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
@@ -55,39 +55,21 @@ function AgregarCliente({
   };
   const handleChangeRut = (e) => {
     setRut(e.target.value);
-    
   };
   const handleChangeMail = (e) => {
     setMail(e.target.value);
-    
   };
   const handleChangeDireccion = (e) => {
     setDireccion(e.target.value);
-    
   };
   const handleChangeComuna = (e) => {
     setComuna(e.target.value);
-    
   };
   const handleChangeCiudad = (e) => {
     setCiudad(e.target.value);
-   
   };
   const handleChangeTelefono = (e) => {
     setTelefono(e.target.value);
-    
-
-
-    setClientesAdd({
-      nombre_cliente: nombre,
-      rut_cliente: rut,
-      correo_electronico_cliente: mail,
-      direccion_cliente: direccion,
-      comuna_cliente: comuna,
-      ciudad_cliente: ciudad,
-      telefono_cliente: telefono,
-    });
-    
   };
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
@@ -103,39 +85,51 @@ function AgregarCliente({
       0
     );
 
-    
     //Ya que axios post
-    Axios.post("http://localhost:3001/add/cliente", clientesAdd).then(
-      (response) => {
-        setOpenModal(false);
-        console.log(response)
-        if (response.status === 201) {
-          setClientes([
-            ...clientes,
-            {
-              id_cliente: max_id + 1,
-              nombre_cliente: nombre,
-              rut_cliente: rut,
-              correo_electronico_cliente: mail,
-              direccion_cliente: direccion,
-              comuna_cliente: comuna,
-              ciudad_cliente: ciudad,
-              telefono_cliente: telefono,
-            },
-          ]);
-          //Se cierra el modal de agregar
-          //Se abre el popup de satisfaccion
-          setOpenPopUp(true);
-          //Se cierra el popup despues de 2 seg
-          setTimeout(() => {
-            setOpenPopUp(false);
-          }, 2000);
-        }
+    Axios.post("https://gestex-backend.herokuapp.com/add/cliente", {
+      nombre_cliente: nombre,
+      rut_cliente: rut,
+      correo_electronico_cliente: mail,
+      direccion_cliente: direccion,
+      comuna_cliente: comuna,
+      ciudad_cliente: ciudad,
+      telefono_cliente: telefono,
+    }).then((response) => {
+      setOpenModal(false);
+      if (response.status === 201) {
+        setClientes([
+          ...clientes,
+          {
+            id_cliente: max_id + 1,
+            nombre_cliente: nombre,
+            rut_cliente: rut,
+            correo_electronico_cliente: mail,
+            direccion_cliente: direccion,
+            comuna_cliente: comuna,
+            ciudad_cliente: ciudad,
+            telefono_cliente: telefono,
+          },
+        ]);
+        setClientesAdd({
+          nombre_cliente: nombre,
+          rut_cliente: rut,
+          correo_electronico_cliente: mail,
+          direccion_cliente: direccion,
+          comuna_cliente: comuna,
+          ciudad_cliente: ciudad,
+          telefono_cliente: telefono,
+        });
+        //Se cierra el modal de agregar
+        //Se abre el popup de satisfaccion
+        setOpenPopUp(true);
+        //Se cierra el popup despues de 2 seg
+        setTimeout(() => {
+          setOpenPopUp(false);
+        }, 2000);
       }
-    );
+    });
   };
 
- 
   return (
     <div>
       <div className="background-agregar">
@@ -153,7 +147,7 @@ function AgregarCliente({
               <TextField label="Nombre Cliente" onChange={handleChangeNombre} />
               <TextField label="Rut" onChange={handleChangeRut} />
               <TextField label="Mail" onChange={handleChangeMail} />
-              <TextField label="Direccioon" onChange={handleChangeDireccion} />
+              <TextField label="Direccion" onChange={handleChangeDireccion} />
               <TextField label="Comuna" onChange={handleChangeComuna} />
               <TextField label="Ciudad" onChange={handleChangeCiudad} />
               <TextField label="Telefono" onChange={handleChangeTelefono} />

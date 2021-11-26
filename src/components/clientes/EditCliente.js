@@ -32,15 +32,15 @@ const ColorButton = withStyles((theme) => ({
 }))(Button);
 
 function EditCliente({
-    setOpenModal,
-    clientes,
-    setClientes,
-    setOpenEdit,
-    clienteEdit,
-    setOpenPopUpEdit,
-    setOpenPopUpEditError,
-    openPopUpEdit,
-    setClienteEdit,
+  setOpenModal,
+  clientes,
+  setClientes,
+  setOpenEdit,
+  clienteEdit,
+  setOpenPopUpEdit,
+  setOpenPopUpEditError,
+  openPopUpEdit,
+  setClienteEdit,
 }) {
   const classesForm = useStylesForm();
   //State para lo que se va a enviar con la request. Al modificar el estado de clienteEdit, tira error de que no es una funcion
@@ -96,56 +96,59 @@ function EditCliente({
     });
   };
   const handleSubmit = (e) => {
-    console.log(clienteEdit)
+    console.log(clienteEdit);
     e.preventDefault();
     // console.log(openPopUpEdit)
-    
+
     Axios.put("http://localhost:3001/update/cliente", clienteEdit).then(
       (response) => {
         setOpenEdit(false);
-        const aux = [...clientes]
-        if(!clienteEdit){
+        const aux = [...clientes];
+        if (!clienteEdit) {
           setOpenPopUpEditError(true);
-          setTimeout(() => {setOpenPopUpEditError(false); }, 1999);
-        }else{
+          setTimeout(() => {
+            setOpenPopUpEditError(false);
+          }, 1999);
+        } else {
           const objIndex = aux.findIndex(
             (obj) => obj.id_cliente === clienteEdit.id_cliente
           );
           aux[objIndex].nombre_cliente = clienteEdit.nombre_cliente;
           aux[objIndex].rut_cliente = clienteEdit.rut_cliente;
-          aux[objIndex].correo_electronico_cliente = clienteEdit.correo_electronico_cliente;
+          aux[objIndex].correo_electronico_cliente =
+            clienteEdit.correo_electronico_cliente;
           aux[objIndex].direccion_cliente = clienteEdit.direccion_cliente;
           aux[objIndex].comuna_cliente = clienteEdit.comuna_cliente;
           aux[objIndex].ciudad_cliente = clienteEdit.ciudad_cliente;
           aux[objIndex].telefono_cliente = clienteEdit.telefono_cliente;
-          setClientes(aux)
-          setOpenPopUpEdit(true)
-          setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
+          setClientes(aux);
+          setOpenPopUpEdit(true);
+          setTimeout(() => {
+            setOpenPopUpEdit(false);
+          }, 1999);
         }
       }
     );
   };
 
   const handleDelete = () => {
-    // Axios.delete("https://gestex-backend.herokuapp.com/delete/personal", {params: personalEdit}).then(
-    //   (response) => {
-    //     setOpenEdit(false);
+    Axios.delete("https://gestex-backend.herokuapp.com/delete/cliente", {
+      params: clienteEdit,
+    }).then((response) => {
+      setOpenEdit(false);
+      const aux = [...clientes];
+      const objIndex = aux.findIndex(
+        (obj) => obj.id_cliente === clienteEdit.id_cliente
+      );
+      aux.splice(objIndex, 1);
+      setClientes(aux);
+      setOpenPopUpEdit(true);
 
-    //     console.log(response)
-    //     const aux = [...personal]
-    //     const objIndex = aux.findIndex(
-    //       (obj) => obj.id_personal === personalEdit.id_personal
-    //     );
-    //     aux.splice(objIndex,1);
-    //      setPersonal(aux)
-    //     setOpenPopUpEdit(true)
-    //     console.log(updatedPersonal)
-    //     console.log(personal)
-    //     setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
-    //   }
-    // );
-
-  }
+      setTimeout(() => {
+        setOpenPopUpEdit(false);
+      }, 1999);
+    });
+  };
 
   return (
     <div>
@@ -166,69 +169,60 @@ function EditCliente({
                 defaultValue={clienteEdit.id_cliente}
                 onChange={handleChangeId}
               />
-                <TextField
+              <TextField
                 label="Nombre cliente"
-                
                 defaultValue={clienteEdit.nombre_cliente}
                 onChange={handleChangeNombre}
               />
-                <TextField
+              <TextField
                 label="Rut cliente"
-                
                 defaultValue={clienteEdit.rut_cliente}
                 onChange={handleChangeRut}
               />
-              
+
               <TextField
                 label="Correo cliente"
-                
                 defaultValue={clienteEdit.correo_electronico_cliente}
                 onChange={handleChangeCorreo}
               />
               <TextField
                 label="Direccion cliente"
-                
                 defaultValue={clienteEdit.direccion_cliente}
                 onChange={handleChangeDireccion}
               />
               <TextField
                 label="Comuna cliente"
-                
                 defaultValue={clienteEdit.comuna_cliente}
                 onChange={handleChangeComuna}
               />
-                <TextField
+              <TextField
                 label="Ciudad cliente"
-                
                 defaultValue={clienteEdit.ciudad_cliente}
                 onChange={handleChangeCiudad}
               />
-                <TextField
+              <TextField
                 label="Telefono cliente"
-                
                 defaultValue={clienteEdit.telefono_cliente}
                 onChange={handleChangeTelefono}
               />
-               
-              
-          <div className="accion">
 
-              <ColorButton
-                className="boton-eliminar-producto-modal"
-                variant="contained"
-                onClick={handleDelete}
-              >
-                Eliminar Cliente
-              </ColorButton>
-              <ColorButton
-                className="boton-editar-producto-modal"
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Editar Cliente
-              </ColorButton>
-          </div>
+              <div className="accion">
+                <ColorButton
+                  className="boton-eliminar-producto-modal"
+                  variant="contained"
+                  onClick={handleDelete}
+                >
+                  Eliminar Cliente
+                </ColorButton>
+                <ColorButton
+                  className="boton-editar-producto-modal"
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Editar Cliente
+                </ColorButton>
+              </div>
             </form>
           </div>
           <div className="borde">

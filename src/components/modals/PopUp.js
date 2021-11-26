@@ -8,11 +8,15 @@ function PopUp({
   colorAdd,
   previsionAdd,
   bancoAdd,
+  clientesAdd,
 }) {
   console.log(previsionAdd);
   let display = "";
   if (productoAdd !== undefined) {
     display = productoAdd;
+  }
+  if (clientesAdd !== undefined) {
+    display = clientesAdd.nombre_cliente;
   }
   if (procesoAdd !== undefined) {
     display = procesoAdd.nombre_proceso;
