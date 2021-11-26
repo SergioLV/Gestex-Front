@@ -15,7 +15,7 @@ function PopUp({
     display = productoAdd;
   }
   if (procesoAdd !== undefined) {
-    display = procesoAdd[0];
+    display = procesoAdd.nombre_proceso;
   }
   if (personalAdd !== undefined) {
     display = personalAdd.nombre;

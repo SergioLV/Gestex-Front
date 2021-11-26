@@ -65,17 +65,6 @@ function AgregarProducto({
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
 
   //En el input se muestra el nombre, pero se trabaja con el id del producto
-  const handleChangeIdProductoAsociado = (e) => {
-    setIdProductoAsociado(e.target.value);
-  };
-  const handleChangeNombreProceso = (e) => {
-    setNombreProceso(e.target.value);
-  };
-  const handleChangePrecio = (e) => {
-    setPrecio(e.target.value);
-    setProcesoAdd([nombreProceso, precio, idProductoAsociado]);
-  };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -85,31 +74,36 @@ function AgregarProducto({
       0
     );
     //Se hace la peticion Post a add/producto del productoAdd
-    Axios.post("https://gestex-backend.herokuapp.com/add/proceso", { procesoAdd }).then(
-      (response) => {
-        // console.log(response)
-        // console.log("procesoAdd: ",procesoAdd)
-        if (response.status === 201) {
-          console.log(procesoAdd)
-          setProcesos([
-            ...procesos,
-            {
-              id_proceso: max_id + 1,
-              nombre_proceso: procesoAdd[0],
-              precio: procesoAdd[1],
-              id_producto: procesoAdd[2],
-            },
-          ]);
-          // getProceso()
-          setOpenModal(false);
-          setOpenPopUp(true);
-          //Se cierra el popup despues de 2 seg
-          setTimeout(() => {
-            setOpenPopUp(false);
-          }, 2000);
-        }
+    Axios.post("https://gestex-backend.herokuapp.com/add/proceso", {
+      nombreProceso: nombreProceso,
+      precio: precio,
+      id_producto: idProductoAsociado,
+    }).then((response) => {
+      if (response.status === 201) {
+        setProcesos([
+          ...procesos,
+          {
+            id_proceso: max_id + 1,
+            nombre_proceso: nombreProceso,
+            precio: precio,
+            id_producto: idProductoAsociado,
+          },
+        ]);
+        setProcesoAdd({
+          id_proceso: max_id + 1,
+          nombre_proceso: nombreProceso,
+          precio: precio,
+          id_producto: idProductoAsociado,
+        });
+        setOpenModal(false);
+        setOpenPopUp(true);
+
+        //Se cierra el popup despues de 2 seg
+        setTimeout(() => {
+          setOpenPopUp(false);
+        }, 2000);
       }
-    );
+    });
   };
 
   return (
@@ -134,7 +128,10 @@ function AgregarProducto({
                 className="select-agregar-proceso"
                 native
                 //   value={state.age}
-                onChange={handleChangeIdProductoAsociado}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setIdProductoAsociado(value);
+                }}
                 inputProps={{
                   name: "age",
                   id: "age-native-simple",
@@ -149,12 +146,18 @@ function AgregarProducto({
               </StyledSelect>
               <TextField
                 label="Nombre Proceso"
-                onChange={handleChangeNombreProceso}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setNombreProceso(value);
+                }}
               />
               <TextField
                 type="text"
                 label="Precio"
-                onChange={handleChangePrecio}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setPrecio(value);
+                }}
               />
 
               <ColorButton
