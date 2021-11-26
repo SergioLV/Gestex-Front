@@ -180,6 +180,7 @@ export default function Procesos() {
       : rowsPerPage -
         Math.min(rowsPerPage, [...procesos].length - page * rowsPerPage);
   const [productos, setProductos] = useState([]);
+
   //State que almacena el producto al hacer click en el icono de edit
   const [procesoEdit, setProcesoEdit] = useState([]);
 
@@ -196,8 +197,8 @@ export default function Procesos() {
   const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
   //State para mostrar el producto que se edito
-
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
+
   const getProcesos = async () => {
     await Axios.get("https://gestex-backend.herokuapp.com/get/procesos").then(
       (response) => {
@@ -214,11 +215,27 @@ export default function Procesos() {
       }
     );
   };
-
+  const mostrarProducto = (proceso) => {
+    let nombre = "";
+    try {
+      nombre = [...productos].find(
+        (producto) => producto.id_producto === proceso.id_producto
+      ).nombre_producto;
+    } catch (e) {
+      nombre = proceso.id_producto;
+      [...productos].map((p) => {
+        if (p.id_producto == proceso.id_producto) {
+          nombre = p.nombre_producto;
+        }
+      });
+    }
+    return nombre;
+  };
   const editarProceso = (proceso) => {
     setProcesoEdit(proceso);
     setOpenEdit(true);
   };
+
   useEffect(() => {
     getProcesos();
   }, []);
@@ -315,10 +332,7 @@ export default function Procesos() {
                           </TableCell>
                           <TableCell style={{ width: 200 }} align="left">
                             {[...productos].length > 0
-                              ? productos.find(
-                                  (producto) =>
-                                    producto.id_producto === proceso.id_producto
-                                ).nombre_producto
+                              ? mostrarProducto(proceso)
                               : proceso.id_producto}
                           </TableCell>
                           <TableCell component="th" scope="row" align="center">
@@ -382,7 +396,7 @@ export default function Procesos() {
                         { label: "All", value: -1 },
                       ]}
                       colSpan={3}
-                      count={[...productos].length}
+                      count={[...procesos].length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       labelRowsPerPage={"Filas por paginas"}
