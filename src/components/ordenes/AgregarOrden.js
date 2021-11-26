@@ -75,6 +75,7 @@ const StyledSelectColor = withStyles((theme) => ({
 }))(Select);
 
 function AgregarProducto({
+  celdasExcel,
   setOpenModal,
   ordenAdd,
   setOrdenAdd,
@@ -94,7 +95,7 @@ function AgregarProducto({
   const [comentario, setComentario] = useState("");
   const [procesos, setProcesos] = useState([]);
   const [colores, setColores] = useState([]);
-  let celdasExcel = [];
+  // let celdasExcel = [];
 
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -192,6 +193,7 @@ function AgregarProducto({
           },
         ]);
         setOrdenAdd({
+          id_ordenes_de_corte: max_id + 1,
           id_cliente: cliente,
           id_producto: producto,
           cantidad: cantidad,
@@ -208,9 +210,10 @@ function AgregarProducto({
         }, 2000);
       }
     });
-    Axios.post("http://localhost:3001/add/paquete", paquetes).then(
-      (response) => {}
-    );
+    Axios.post(
+      "https://gestex-backend.herokuapp.com/add/paquete",
+      paquetes
+    ).then((response) => {});
   };
 
   const [paquetes, setPaquetes] = useState([
@@ -471,11 +474,12 @@ function AgregarProducto({
                   variant="contained"
                   color="primary"
                   type="submit"
-                  // onClick={handleGenerar}
+                  onClick={handleGenerar}
                 >
                   Añadir Orden
                 </ColorButton>
                 <ExcelFile
+                  filename={"tickets"}
                   element={
                     <ColorButton
                       className="boton-agregar-producto-modal"

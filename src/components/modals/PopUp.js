@@ -25,7 +25,7 @@ function PopUp({
     display = personalAdd.nombre;
   }
   if (ordenAdd !== undefined) {
-    display = ordenAdd.id_cliente;
+    display = ordenAdd.id_ordenes_de_corte;
   }
   if (colorAdd !== undefined) {
     display = colorAdd;

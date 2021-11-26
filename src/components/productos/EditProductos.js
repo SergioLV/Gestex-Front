@@ -84,7 +84,6 @@ function EditProductos({
   };
 
   const handleDelete = () => {
-    console.log(productoEdit);
     Axios.delete("https://gestex-backend.herokuapp.com/delete/producto", {
       params: productoEdit,
     }).then((response) => {

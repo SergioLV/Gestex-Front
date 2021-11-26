@@ -98,35 +98,36 @@ function EditCliente({
     e.preventDefault();
     // console.log(openPopUpEdit)
 
-    Axios.put("http://localhost:3001/update/cliente", clienteEdit).then(
-      (response) => {
-        setOpenEdit(false);
-        const aux = [...clientes];
-        if (!clienteEdit) {
-          setOpenPopUpEditError(true);
-          setTimeout(() => {
-            setOpenPopUpEditError(false);
-          }, 1999);
-        } else {
-          const objIndex = aux.findIndex(
-            (obj) => obj.id_cliente === clienteEdit.id_cliente
-          );
-          aux[objIndex].nombre_cliente = clienteEdit.nombre_cliente;
-          aux[objIndex].rut_cliente = clienteEdit.rut_cliente;
-          aux[objIndex].correo_electronico_cliente =
-            clienteEdit.correo_electronico_cliente;
-          aux[objIndex].direccion_cliente = clienteEdit.direccion_cliente;
-          aux[objIndex].comuna_cliente = clienteEdit.comuna_cliente;
-          aux[objIndex].ciudad_cliente = clienteEdit.ciudad_cliente;
-          aux[objIndex].telefono_cliente = clienteEdit.telefono_cliente;
-          setClientes(aux);
-          setOpenPopUpEdit(true);
-          setTimeout(() => {
-            setOpenPopUpEdit(false);
-          }, 1999);
-        }
+    Axios.put(
+      "https://gestex-backend.herokuapp.com/update/cliente",
+      clienteEdit
+    ).then((response) => {
+      setOpenEdit(false);
+      const aux = [...clientes];
+      if (!clienteEdit) {
+        setOpenPopUpEditError(true);
+        setTimeout(() => {
+          setOpenPopUpEditError(false);
+        }, 1999);
+      } else {
+        const objIndex = aux.findIndex(
+          (obj) => obj.id_cliente === clienteEdit.id_cliente
+        );
+        aux[objIndex].nombre_cliente = clienteEdit.nombre_cliente;
+        aux[objIndex].rut_cliente = clienteEdit.rut_cliente;
+        aux[objIndex].correo_electronico_cliente =
+          clienteEdit.correo_electronico_cliente;
+        aux[objIndex].direccion_cliente = clienteEdit.direccion_cliente;
+        aux[objIndex].comuna_cliente = clienteEdit.comuna_cliente;
+        aux[objIndex].ciudad_cliente = clienteEdit.ciudad_cliente;
+        aux[objIndex].telefono_cliente = clienteEdit.telefono_cliente;
+        setClientes(aux);
+        setOpenPopUpEdit(true);
+        setTimeout(() => {
+          setOpenPopUpEdit(false);
+        }, 1999);
       }
-    );
+    });
   };
 
   const handleDelete = () => {

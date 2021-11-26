@@ -154,6 +154,7 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Productos() {
   const min_prod = [1, 2, 3, 4, 5];
+  let celdasExcel = [];
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const handleChangePage = (event, newPage) => {
@@ -182,6 +183,9 @@ export default function Productos() {
   //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
   const [ordenAdd, setOrdenAdd] = useState("");
 
+  const [clientes, setClientes] = useState([]);
+  const [productos, setProductos] = useState([]);
+
   //State del
   const [openEdit, setOpenEdit] = useState(false);
   //Estado del modal para agregar y editar producto
@@ -193,24 +197,32 @@ export default function Productos() {
   //State del popup para el feedback de producto editado ha producido un error
   const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
-  const [clientes, setClientes] = useState([]);
-  const [productos, setProductos] = useState([]);
-
   //State para mostrar el producto que se edito
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
 
   const editarOrden = (orden) => {
     // setBeforeEdit(producto);
-    alert("En desarrollo");
-    // setOrdenEdit(orden);
-    // setOpenEdit(true);
+    let cliente = "";
+    clientes.map((c) => {
+      if (c.id_cliente === orden.id_cliente) {
+        cliente = c.nombre_cliente;
+      }
+    });
+    let producto = "";
+    productos.map((p) => {
+      if (p.id_producto === orden.id_producto) {
+        producto = p.nombre_producto;
+      }
+    });
+
+    setOrdenEdit({ ...orden, cliente: cliente, producto: producto });
+    setOpenEdit(true);
   };
 
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-
   useEffect(() => {
     const getClientes = async () => {
       await Axios.get("https://gestex-backend.herokuapp.com/get/clientes").then(
@@ -280,15 +292,14 @@ export default function Productos() {
     <div className="productos">
       {openEdit && (
         <EditOrden
+          
           setOpenModal={setOpenModal}
           ordenes={ordenes}
           setOrdenes={setOrdenes}
           setOpenEdit={setOpenEdit}
           ordenEdit={ordenEdit}
           setOpenPopUpEdit={setOpenPopUpEdit}
-          setOpenPopUpEditError={setOpenPopUpEditError}
           openPopUpEdit={openPopUpEdit}
-          // setBeforeEdit={setBeforeEdit}
         />
       )}
       {openPopUp && <PopUp ordenAdd={ordenAdd} />}
@@ -296,6 +307,7 @@ export default function Productos() {
       {openPopUpEditError && <PopUpEditError ordenEdit={ordenEdit} />}
       {openModal && (
         <AgregarOrden
+          celdasExcel={celdasExcel}
           setOpenModal={setOpenModal}
           ordenAdd={ordenAdd}
           setOrdenAdd={setOrdenAdd}

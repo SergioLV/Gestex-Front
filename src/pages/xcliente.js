@@ -12,7 +12,6 @@ import {
   Paper,
 } from "@material-ui/core";
 
-
 import Button from "@material-ui/core/Button";
 
 import PopUp from "../components/modals/PopUp";
@@ -46,11 +45,11 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Productos() {
   const classes = useStyles();
-const [clienteAdd, setClienteAdd] = useState([]);
+  const [clienteAdd, setClienteAdd] = useState([]);
   //State que almacena la peticion HTTP a la api y contiene una lista de objetos con los productos
   const [xCliente, setXcliente] = useState([]);
   //State que almacena el producto al hacer click en el icono de edit
-  
+
   //State del
   //Estado del modal para agregar y editar producto
   const [openModal, setOpenModal] = useState(false);
@@ -61,47 +60,35 @@ const [clienteAdd, setClienteAdd] = useState([]);
   const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
   const [clientes, setClientes] = useState([]);
- 
 
   //State para mostrar el producto que se edito
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
 
-  
   useEffect(() => {
     const getClientes = async () => {
-      await Axios.get("https://gestex-backend.herokuapp.com/get/clientes").then((response) => {
-        setClientes(response.data);
-      });
+      await Axios.get("https://gestex-backend.herokuapp.com/get/clientes").then(
+        (response) => {
+          setClientes(response.data);
+        }
+      );
     };
-    getClientes()
+    getClientes();
   }, []);
-//   useEffect(() => {
-//     const getXClientes = async () => {
-//       await Axios.get("http://localhost:3001/get/xcliente",{params:{cliente:cliente}}).then((response) => {
-//         setClientes(response.data);
-//       });
-//     };
-//     getXClientes();
-//   }, []);
 
   return (
     <div className="productos">
-      
       {openPopUp && <PopUp setXcliente={setXcliente} />}
-     
-      {openPopUpEditError && (<PopUpEditError setXcliente={setXcliente}/>)}
+
+      {openPopUpEditError && <PopUpEditError setXcliente={setXcliente} />}
       {openModal && (
         <FiltrarProducto
-        setOpenModal={setOpenModal}
-        setXcliente={setXcliente}
-        setClienteAdd={setClienteAdd}
-        clienteAdd={clienteAdd}
-        
-        setOpenPopUp={setOpenPopUp}
-    
-        clientes={clientes}
-         
+          setOpenModal={setOpenModal}
+          setXcliente={setXcliente}
+          setClienteAdd={setClienteAdd}
+          clienteAdd={clienteAdd}
+          setOpenPopUp={setOpenPopUp}
+          clientes={clientes}
         />
       )}
       <div className="content">
@@ -127,11 +114,10 @@ const [clienteAdd, setClienteAdd] = useState([]);
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell className={classes.head}>Nombre Cliente</TableCell>
                     <TableCell className={classes.head}>
-                     Producto
+                      Nombre Cliente
                     </TableCell>
-                    
+                    <TableCell className={classes.head}>Producto</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -142,7 +128,7 @@ const [clienteAdd, setClienteAdd] = useState([]);
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {producto.nombre_producto}
-                      </TableCell>                    
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
