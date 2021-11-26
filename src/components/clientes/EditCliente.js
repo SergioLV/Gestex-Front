@@ -40,43 +40,90 @@ function EditCliente({
     setOpenPopUpEdit,
     setOpenPopUpEditError,
     openPopUpEdit,
+    setClienteEdit,
 }) {
   const classesForm = useStylesForm();
-  //State para lo que se va a enviar con la request. Al modificar el estado de personalEdit, tira error de que no es una funcion
+  //State para lo que se va a enviar con la request. Al modificar el estado de clienteEdit, tira error de que no es una funcion
   const [updatedCliente, setUpdatedCliente] = useState();
 
   //Handler para almacenar la edicion del personal
-  const handleChangeNombre = (e) => {
-    setUpdatedCliente({
-      id_personal: clienteEdit.id_cliente,
-      nombre_personal: e.target.value,
+  const handleChangeId = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      id_cliente: e.target.value,
     });
-    
   };
- 
+  const handleChangeNombre = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      nombre_cliente: e.target.value,
+    });
+  };
+  const handleChangeRut = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      rut_cliente: e.target.value,
+    });
+  };
+  const handleChangeCorreo = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      correo_electronico_cliente: e.target.value,
+    });
+  };
+  const handleChangeDireccion = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      direccion_cliente: e.target.value,
+    });
+  };
+  const handleChangeComuna = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      comuna_cliente: e.target.value,
+    });
+  };
+  const handleChangeCiudad = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      ciudad_cliente: e.target.value,
+    });
+  };
+  const handleChangeTelefono = (e) => {
+    setClienteEdit({
+      ...clienteEdit,
+      telefono_cliente: e.target.value,
+    });
+  };
   const handleSubmit = (e) => {
     console.log(clienteEdit)
     e.preventDefault();
     // console.log(openPopUpEdit)
     
-    // Axios.put("http://localhost:3001/update/personal", updatedPersonal).then(
-    //   (response) => {
-    //     setOpenEdit(false);
-    //     const aux = [...personal]
-    //     if(!updatedPersonal){
-    //       setOpenPopUpEditError(true);
-    //       setTimeout(() => {setOpenPopUpEditError(false); }, 1999);
-    //     }else{
-    //       const objIndex = aux.findIndex(
-    //         (obj) => obj.id_personal === updatedPersonal.id_personal
-    //       );
-    //       aux[objIndex].nombre_personal = updatedPersonal.nombre_personal;
-    //       setPersonal(aux)
-    //       setOpenPopUpEdit(true)
-    //       setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
-    //     }
-    //   }
-    // );
+    Axios.put("http://localhost:3001/update/cliente", clienteEdit).then(
+      (response) => {
+        setOpenEdit(false);
+        const aux = [...clientes]
+        if(!clienteEdit){
+          setOpenPopUpEditError(true);
+          setTimeout(() => {setOpenPopUpEditError(false); }, 1999);
+        }else{
+          const objIndex = aux.findIndex(
+            (obj) => obj.id_cliente === clienteEdit.id_cliente
+          );
+          aux[objIndex].nombre_cliente = clienteEdit.nombre_cliente;
+          aux[objIndex].rut_cliente = clienteEdit.rut_cliente;
+          aux[objIndex].correo_electronico_cliente = clienteEdit.correo_electronico_cliente;
+          aux[objIndex].direccion_cliente = clienteEdit.direccion_cliente;
+          aux[objIndex].comuna_cliente = clienteEdit.comuna_cliente;
+          aux[objIndex].ciudad_cliente = clienteEdit.ciudad_cliente;
+          aux[objIndex].telefono_cliente = clienteEdit.telefono_cliente;
+          setClientes(aux)
+          setOpenPopUpEdit(true)
+          setTimeout(() => {  setOpenPopUpEdit(false); }, 1999);
+        }
+      }
+    );
   };
 
   const handleDelete = () => {
@@ -117,19 +164,50 @@ function EditCliente({
                 label="Id cliente"
                 disabled
                 defaultValue={clienteEdit.id_cliente}
-                onChange={handleChangeNombre}
+                onChange={handleChangeId}
               />
-              <TextField
-                label="Nombre"
-                disabled
+                <TextField
+                label="Nombre cliente"
+                
                 defaultValue={clienteEdit.nombre_cliente}
                 onChange={handleChangeNombre}
               />
-              <TextField
-                label="Nombre"
-                disabled
+                <TextField
+                label="Rut cliente"
+                
                 defaultValue={clienteEdit.rut_cliente}
-                onChange={handleChangeNombre}
+                onChange={handleChangeRut}
+              />
+              
+              <TextField
+                label="Correo cliente"
+                
+                defaultValue={clienteEdit.correo_electronico_cliente}
+                onChange={handleChangeCorreo}
+              />
+              <TextField
+                label="Direccion cliente"
+                
+                defaultValue={clienteEdit.direccion_cliente}
+                onChange={handleChangeDireccion}
+              />
+              <TextField
+                label="Comuna cliente"
+                
+                defaultValue={clienteEdit.comuna_cliente}
+                onChange={handleChangeComuna}
+              />
+                <TextField
+                label="Ciudad cliente"
+                
+                defaultValue={clienteEdit.ciudad_cliente}
+                onChange={handleChangeCiudad}
+              />
+                <TextField
+                label="Telefono cliente"
+                
+                defaultValue={clienteEdit.telefono_cliente}
+                onChange={handleChangeTelefono}
               />
                
               
