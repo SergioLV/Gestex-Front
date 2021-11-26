@@ -29,8 +29,8 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import PopUp from "../components/modals/PopUp";
 import PopUpEdit from "../components/modals/PopUpEdit";
 import PopUpEditError from "../components/modals/PopUpEditError";
-import AgregarOrden from "../components/ordenes/AgregarOrden";
-import EditOrden from "../components/ordenes/EditOrden";
+import AgregarCliente from "../components/clientes/AgregarCliente";
+import EditCliente from "../components/clientes/EditCliente";
 
 const useStyles1 = makeStyles((theme) => ({
   root: {
@@ -126,6 +126,7 @@ const useStyles2 = makeStyles({
   },
 });
 
+
 const useStyles = makeStyles({
   table: {
     minWidth: 300,
@@ -140,6 +141,7 @@ const useStyles = makeStyles({
     fontWeight: "700",
   },
 });
+
 
 const ColorButton = withStyles((theme) => ({
   root: {
@@ -181,10 +183,11 @@ export default function Clientes() {
       : rowsPerPage -
         Math.min(rowsPerPage, [...clientes].length - page * rowsPerPage);
 
+
   //State que almacena el producto al hacer click en el icono de edit
-  const [clientesEdit, setClientesEdit] = useState([]);
+  const [clienteEdit, setClienteEdit] = useState([]);
   //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
-  const [clienteAdd, setClienteAdd] = useState("");
+  const [clientesAdd, setClientesAdd] = useState("");
 
   //State del
   const [openEdit, setOpenEdit] = useState(false);
@@ -201,6 +204,12 @@ export default function Clientes() {
 
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
 
+  const editarCliente = (clientes) => {
+    // setBeforeEdit(producto);
+    setClienteEdit(clientes);
+    setOpenEdit(true);
+  };
+
   useEffect(() => {
     const getClientes = async () => {
       await Axios.get("https://gestex-backend.herokuapp.com/get/clientes").then(
@@ -215,34 +224,36 @@ export default function Clientes() {
 
   return (
     <div className="productos">
-      {/* {openEdit && (
-        <EditOrden
+      {openEdit && (
+        <EditCliente
           setOpenModal={setOpenModal}
-          ordenes={ordenes}
-          setOrdenes={setOrdenes}
+          clientes={clientes}
+          setClientes={setClientes}
           setOpenEdit={setOpenEdit}
-          ordenEdit={ordenEdit}
+          clienteEdit={clienteEdit}
           setOpenPopUpEdit={setOpenPopUpEdit}
           setOpenPopUpEditError={setOpenPopUpEditError}
           openPopUpEdit={openPopUpEdit}
-          // setBeforeEdit={setBeforeEdit}
+          setClienteEdit={setClienteEdit}
         />
+        
       )}
-      {openPopUp && <PopUp ordenAdd={ordenAdd} />}
-      {openPopUpEdit && <PopUpEdit ordenEdit={ordenEdit} />}
-      {openPopUpEditError && <PopUpEditError ordenEdit={ordenEdit} />}
+      {openPopUpEdit && <PopUpEdit clienteEdit={clienteEdit} />}
+      {openPopUpEditError && <PopUpEditError clienteEdit={clienteEdit} />}
+      
+      {openPopUp && <PopUp clientesAdd={clientesAdd} />}
+
+      
       {openModal && (
-        <AgregarOrden
+        <AgregarCliente
           setOpenModal={setOpenModal}
-          ordenAdd={ordenAdd}
-          setOrdenAdd={setOrdenAdd}
-          ordenes={ordenes}
-          setOrdenes={setOrdenes}
+          clientesAdd={clientesAdd}
+          setClientesAdd={setClientesAdd}
+          setClientes={setClientes}
           setOpenPopUp={setOpenPopUp}
-          productos={productos}
           clientes={clientes}
         />
-      )} */}
+      )} 
       <div className="content">
         <div className="boton">
           <ColorButton
@@ -280,79 +291,79 @@ export default function Clientes() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {loadingClientes
-                    ? (rowsPerPage > 0
+                  {loadingClientes 
+                  ? (rowsPerPage > 0
                         ? clientes.slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           )
                         : clientes
                       ).map((cliente) => (
-                        <TableRow hover="true" key={cliente.id_cliente}>
-                          <TableCell component="th" scope="row">
-                            {cliente.id_cliente}
-                          </TableCell>
-                          <TableCell component="th" scope="row">
-                            {cliente.nombre_cliente}
-                          </TableCell>
-                          <TableCell component="th" scope="row">
-                            {cliente.rut_cliente}
-                          </TableCell>
-                          <TableCell component="th" scope="row">
-                            {cliente.telefono_cliente}
-                          </TableCell>
-                          <TableCell component="th" scope="row" align="center">
-                            <EditSharpIcon
-                              className="editar"
-                              // onClick={() => {
-                              //   editarOrden(orden);
-                              // }}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    : min_prod.map((num) => (
-                        <TableRow>
-                          <TableCell>
-                            {" "}
-                            <div className={classesSkeleton.root}>
-                              <Skeleton animation="wave" />
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            {" "}
-                            <div className={classesSkeleton.root}>
-                              <Skeleton animation="wave" />
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            {" "}
-                            <div className={classesSkeleton.root}>
-                              <Skeleton animation="wave" />
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            {" "}
-                            <div className={classesSkeleton.root}>
-                              <Skeleton animation="wave" />
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            {" "}
-                            <div className={classesSkeleton.root}>
-                              <Skeleton animation="wave" />
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  {emptyRows > 0 && (
+                      <TableRow hover="true" key={cliente.id_cliente}>
+                        <TableCell component="th" scope="row">
+                          {cliente.id_cliente}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {cliente.nombre_cliente}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {cliente.rut_cliente}
+                        </TableCell>
+                        <TableCell component="th" scope="row">
+                          {cliente.telefono_cliente}
+                        </TableCell>
+                        <TableCell component="th" scope="row" align="center">
+                          <EditSharpIcon
+                            className="editar"
+                             onClick={() => {
+                              editarCliente(cliente);
+                             }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                      : min_prod.map((num) => (
+                      <TableRow>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <div className={classesSkeleton.root}>
+                            <Skeleton animation="wave" />
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {emptyRows > 0 && (
                     <TableRow style={{ height: 59 * emptyRows }}>
                       <TableCell colSpan={6} />
                     </TableRow>
                   )}
                 </TableBody>
                 <TableFooter>
-                  <TableRow>
+                <TableRow>
                     <TablePagination
                       rowsPerPageOptions={[
                         5,
@@ -374,7 +385,7 @@ export default function Clientes() {
                       onRowsPerPageChange={handleChangeRowsPerPage}
                       ActionsComponent={TablePaginationActions}
                     />
-                  </TableRow>
+                </TableRow>
                 </TableFooter>
               </Table>
             </TableContainer>

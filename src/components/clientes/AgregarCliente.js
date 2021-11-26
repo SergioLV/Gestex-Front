@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React,{useState} from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
@@ -32,14 +32,15 @@ const ColorButton = withStyles((theme) => ({
 }))(Button);
 
 function AgregarCliente({
-  setOpenModal,
-  clienteAdd,
-  setClienteAdd,
+  clientesAdd,
+  setClientesAdd,
   clientes,
   setClientes,
+  setOpenModal,
   setOpenPopUp,
 }) {
   const classesForm = useStylesForm();
+
   const [nombre, setNombre] = useState("");
   const [rut, setRut] = useState("");
   const [mail, setMail] = useState("");
@@ -54,22 +55,30 @@ function AgregarCliente({
   };
   const handleChangeRut = (e) => {
     setRut(e.target.value);
+    
   };
   const handleChangeMail = (e) => {
     setMail(e.target.value);
+    
   };
   const handleChangeDireccion = (e) => {
     setDireccion(e.target.value);
+    
   };
   const handleChangeComuna = (e) => {
     setComuna(e.target.value);
+    
   };
   const handleChangeCiudad = (e) => {
     setCiudad(e.target.value);
+   
   };
   const handleChangeTelefono = (e) => {
     setTelefono(e.target.value);
-    setClienteAdd({
+    
+
+
+    setClientesAdd({
       nombre_cliente: nombre,
       rut_cliente: rut,
       correo_electronico_cliente: mail,
@@ -78,25 +87,28 @@ function AgregarCliente({
       ciudad_cliente: ciudad,
       telefono_cliente: telefono,
     });
+    
   };
 
-  //Handler para el boton de agregar producto
+  //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
+  //Handler para el boton de agregar cliente
   const handleSubmit = (e) => {
     //Se previene el refresh automatico del form
     e.preventDefault();
     //Se hace la peticion Post a add/producto del productoAdd
-    // console.log(personal);
-    // //Max id para asignarselo al nuevo
+    //Max id para asignarselo al nuevo
     const max_id = clientes.reduce(
       (acc, cliente) =>
-        (acc = acc > cliente.id_cliente ? acc : cliente.id_cliente),
+        (acc = acc > clientes.id_cliente ? acc : cliente.id_cliente),
       0
     );
-    console.log(clienteAdd)
+
+    
     //Ya que axios post
-    Axios.post("https://gestex-backend.herokuapp.com/add/cliente", clienteAdd).then(
+    Axios.post("http://localhost:3001/add/cliente", clientesAdd).then(
       (response) => {
         setOpenModal(false);
+        console.log(response)
         if (response.status === 201) {
           setClientes([
             ...clientes,
@@ -123,6 +135,7 @@ function AgregarCliente({
     );
   };
 
+ 
   return (
     <div>
       <div className="background-agregar">
@@ -151,7 +164,7 @@ function AgregarCliente({
                 color="primary"
                 type="submit"
               >
-                Añadir Personal
+                Añadir Cliente
               </ColorButton>
             </form>
           </div>

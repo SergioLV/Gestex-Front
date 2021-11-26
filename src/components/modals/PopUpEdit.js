@@ -7,6 +7,7 @@ function PopUpEdit({
   colorEdit,
   previsionEdit,
   bancoEdit,
+  clienteEdit,
 }) {
   let display = "";
   if (productoEdit !== undefined) {
@@ -31,6 +32,10 @@ function PopUpEdit({
 
   if (bancoEdit !== undefined) {
     display = bancoEdit.nombre_banco;
+  }
+
+  if (clienteEdit !== undefined) {
+    display = clienteEdit.nombre_cliente;
   }
   return (
     <div>
