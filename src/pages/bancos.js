@@ -155,7 +155,6 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Productos() {
   const min_prod = [1, 2, 3, 4, 5];
-  const classesT = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -199,7 +198,6 @@ export default function Productos() {
   //State del popup para el feedback de producto editado satisfactoriamente
   const [openPopUpEdit, setOpenPopUpEdit] = useState(false);
   //State del popup para el feedback de producto editado ha producido un error
-  const [openPopUpEditError, setOpenPopUpEditError] = useState(false);
 
   //State para mostrar el producto que se edito
 
@@ -217,7 +215,6 @@ export default function Productos() {
         (response) => {
           setLoadingBancos(true);
           setBancos(response.data);
-          console.log(bancos);
         }
       );
     };
@@ -235,7 +232,6 @@ export default function Productos() {
           bancoEdit={bancoEdit}
           setBancoEdit={setBancoEdit}
           setOpenPopUpEdit={setOpenPopUpEdit}
-          setOpenPopUpEditError={setOpenPopUpEditError}
           openPopUpEdit={openPopUpEdit}
         />
       )}
@@ -284,7 +280,7 @@ export default function Productos() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {setLoadingBancos
+                  {loadingBancos
                     ? (rowsPerPage > 0
                         ? bancos.slice(
                             page * rowsPerPage,

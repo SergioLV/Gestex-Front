@@ -9,7 +9,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import ReactExport from "react-data-export";
-import FormControl from "@material-ui/core/FormControl";
 
 import Grid from "@material-ui/core/Grid";
 const useStylesGrid = makeStyles((theme) => ({
@@ -95,9 +94,7 @@ function AgregarProducto({
   const [comentario, setComentario] = useState("");
   const [procesos, setProcesos] = useState([]);
   const [colores, setColores] = useState([]);
-  const [openGenerar, setOpenGenerar] = useState(false);
   let celdasExcel = [];
-  const [celdasExcelReact, setCeldasExcelReact] = useState([]);
 
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -145,13 +142,6 @@ function AgregarProducto({
   };
   const handleChangeComentario = (e) => {
     setComentario(e.target.value);
-    setOrdenAdd({
-      id_cliente: cliente,
-      id_producto: producto,
-      cantidad: cantidad,
-      fecha_entrega: fecha,
-      comentario: comentario,
-    });
   };
   const max_id = () => {
     const max_id = ordenes.reduce(
@@ -181,32 +171,43 @@ function AgregarProducto({
     );
     // console.log(paquetes);
 
-    Axios.post("https://gestex-backend.herokuapp.com/add/orden", ordenAdd).then(
-      (response) => {
-        if (response.status === 201) {
-          // getProducto(productoAdd);
-          setOrdenes([
-            ...ordenes,
-            {
-              id_ordenes_de_corte: max_id + 1,
-              id_cliente: cliente,
-              id_producto: producto,
-              cantidad: cantidad,
-              fecha_entrega: fecha,
-              comentario: comentario,
-            },
-          ]);
-          //Se cierra el modal de agregar
-          setOpenModal(false);
-          //Se abre el popup de satisfaccion
-          setOpenPopUp(true);
-          //Se cierra el popup despues de 2 seg
-          setTimeout(() => {
-            setOpenPopUp(false);
-          }, 2000);
-        }
+    Axios.post("https://gestex-backend.herokuapp.com/add/orden", {
+      id_cliente: cliente,
+      id_producto: producto,
+      cantidad: cantidad,
+      fecha_entrega: fecha,
+      comentario: comentario,
+    }).then((response) => {
+      if (response.status === 201) {
+        // getProducto(productoAdd);
+        setOrdenes([
+          ...ordenes,
+          {
+            id_ordenes_de_corte: max_id + 1,
+            id_cliente: cliente,
+            id_producto: producto,
+            cantidad: cantidad,
+            fecha_entrega: fecha,
+            comentario: comentario,
+          },
+        ]);
+        setOrdenAdd({
+          id_cliente: cliente,
+          id_producto: producto,
+          cantidad: cantidad,
+          fecha_entrega: fecha,
+          comentario: comentario,
+        });
+        //Se cierra el modal de agregar
+        setOpenModal(false);
+        //Se abre el popup de satisfaccion
+        setOpenPopUp(true);
+        //Se cierra el popup despues de 2 seg
+        setTimeout(() => {
+          setOpenPopUp(false);
+        }, 2000);
       }
-    );
+    });
     Axios.post("http://localhost:3001/add/paquete", paquetes).then(
       (response) => {}
     );
@@ -445,14 +446,6 @@ function AgregarProducto({
                           </option>
                         ))}
                       </StyledSelectColor>
-
-                      {/* <TextField
-                          id="outlined-basic"
-                          label="Color"
-                          variant="outlined"
-                          name="color"
-                          onChange={(e) => handlePaquetes(e, i)}
-                        /> */}
                     </Grid>
 
                     <Grid>

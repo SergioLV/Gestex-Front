@@ -243,6 +243,39 @@ export default function Productos() {
     getOrdenes();
   }, []);
 
+  const mostrarCliente = (orden) => {
+    let nombre = "";
+    try {
+      nombre = [...clientes].find(
+        (cliente) => cliente.id_cliente === orden.id_cliente
+      ).nombre_cliente;
+    } catch (e) {
+      nombre = orden.id_cliente;
+      [...clientes].map((p) => {
+        if (p.id_cliente == orden.id_cliente) {
+          nombre = p.nombre_cliente;
+        }
+      });
+    }
+    return nombre;
+  };
+  const mostrarProducto = (orden) => {
+    let nombre = "";
+    try {
+      nombre = [...productos].find(
+        (producto) => producto.id_producto === orden.id_producto
+      ).nombre_producto;
+    } catch (e) {
+      nombre = orden.id_producto;
+      [...productos].map((p) => {
+        if (p.id_producto == orden.id_producto) {
+          nombre = p.nombre_producto;
+        }
+      });
+    }
+    return nombre;
+  };
+
   return (
     <div className="productos">
       {openEdit && (
@@ -325,18 +358,12 @@ export default function Productos() {
                           </TableCell>
                           <TableCell component="th" scope="row">
                             {[...clientes].length > 0
-                              ? clientes.find(
-                                  (cliente) =>
-                                    cliente.id_cliente === orden.id_cliente
-                                ).nombre_cliente
+                              ? mostrarCliente(orden)
                               : orden.id_cliente}
                           </TableCell>
                           <TableCell component="th" scope="row">
                             {[...productos].length > 0
-                              ? productos.find(
-                                  (producto) =>
-                                    producto.id_producto === orden.id_producto
-                                ).nombre_producto
+                              ? mostrarProducto(orden)
                               : orden.id_producto}
                           </TableCell>
                           <TableCell component="th" scope="row">

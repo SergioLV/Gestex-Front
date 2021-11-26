@@ -93,38 +93,6 @@ function AgregarPersonal({
   };
   const handleChangeSueldo = (e) => {
     setSueldo(e.target.value);
-    setPersonalAdd({
-      nombre,
-      rut,
-      mail,
-      direccion,
-      comuna,
-      ciudad,
-      telefono,
-      fecha,
-      afp,
-      isapre,
-      banco,
-      cuenta,
-      sueldo,
-    });
-    // setPersonalAdd(
-    //   {
-    //     nombre_personal: nombre,
-    //     rut_personal: rut,
-    //     correo_electronico_personal: mail,
-    //     direccion_personal: direccion,
-    //     comuna_personal: comuna,
-    //     ciudad_personal: ciudad,
-    //     telefono_personal: telefono,
-    //     fecha_ingreso: fecha,
-    //     id_afp: afp,
-    //     id_isapre: isapre,
-    //     id_banco: banco,
-    //     numero_cuenta: cuenta,
-    //     sueldo_base: sueldo
-    //    },
-    // );
   };
 
   //Handler para el boton de agregar producto
@@ -141,34 +109,58 @@ function AgregarPersonal({
       0
     );
     // //Ya que axios post
-    Axios.post(
-      "https://gestex-backend.herokuapp.com/add/personal",
-      personalAdd
-    ).then((response) => {
-      console.log(response.status);
+    Axios.post("https://gestex-backend.herokuapp.com/add/personal", {
+      nombre: nombre,
+      rut: rut,
+      mail: mail,
+      direccion: direccion,
+      comuna: comuna,
+      ciudad: ciudad,
+      telefono: telefono,
+      fecha: fecha,
+      afp: afp,
+      isapre: isapre,
+      banco: banco,
+      cuenta: cuenta,
+      sueldo: sueldo,
+    }).then((response) => {
       if (response.status === 200) {
         // getProducto(productoAdd);
         setPersonal([
           ...personal,
           {
             id_personal: max_id + 1,
-            nombre_personal: personalAdd.nombre,
-            rut_personal: personalAdd.rut,
-            correo_electronico_personal: personalAdd.mail,
-            direccion_personal: personalAdd.direccion,
-            comuna_personal: personalAdd.comuna,
-            ciudad_personal: personalAdd.ciudad,
-            telefono_personal: personalAdd.telefono,
-            fecha_ingreso: personalAdd.fecha,
-            id_afp: personalAdd.afp,
-            id_isapre: personalAdd.isapre,
-            id_banco: personalAdd.banco,
-            numero_cuenta: personalAdd.cuenta,
-            sueldo_base: personalAdd.sueldo,
+            nombre_personal: nombre,
+            rut_personal: rut,
+            correo_electronico_personal: mail,
+            direccion_personal: direccion,
+            comuna_personal: comuna,
+            ciudad_personal: ciudad,
+            telefono_personal: telefono,
+            fecha_ingreso: fecha,
+            id_afp: afp,
+            id_isapre: isapre,
+            id_banco: banco,
+            numero_cuenta: cuenta,
+            sueldo_base: sueldo,
           },
         ]);
-        console.log("jeje");
-        console.log(personal);
+        setPersonalAdd({
+          nombre,
+          rut,
+          mail,
+          direccion,
+          comuna,
+          ciudad,
+          telefono,
+          fecha,
+          afp,
+          isapre,
+          banco,
+          cuenta,
+          sueldo,
+        });
+
         //Se cierra el modal de agregar
         setOpenModal(false);
         //Se abre el popup de satisfaccion

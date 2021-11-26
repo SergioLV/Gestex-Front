@@ -155,7 +155,6 @@ const ColorButton = withStyles((theme) => ({
 
 export default function Productos() {
   const min_prod = [1, 2, 3, 4, 5];
-  const classesT = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
