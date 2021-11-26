@@ -470,6 +470,12 @@ function AgregarProducto({
               ))}
               <div className="accion">
                 <ColorButton
+                  style={{
+                    paddingLeft: "0.8rem",
+                    paddingRight: "0.7rem",
+                    paddingTop: "0.2rem",
+                    paddingBottom: "0.2rem",
+                  }}
                   className="boton-agregar-producto-modal"
                   variant="contained"
                   color="primary"
@@ -482,6 +488,12 @@ function AgregarProducto({
                   filename={"tickets"}
                   element={
                     <ColorButton
+                      style={{
+                        paddingLeft: "0.8rem",
+                        paddingRight: "0.7rem",
+                        paddingTop: "0.2rem",
+                        paddingBottom: "0.2rem",
+                      }}
                       className="boton-agregar-producto-modal"
                       variant="contained"
                       color="primary"

@@ -432,3 +432,23 @@ border-radius: 1px;
 .agregar-excel .producto-title{
   width: 20rem;
 }
+
+.tickets-header{
+  display: flex !important;
+  flex-direction: row;
+  margin-top: 2rem;
+  /* align-items: center;
+  justify-content: center; */
+}
+.tickets-header .numero{
+  width: 11.5rem;
+}
+.tickets-header .cantidad{
+  width: 18rem;
+}
+.tickets-header .talla{
+  width: 10.9rem;
+}
+.tickets-header .color{
+  width: 4rem;
+}

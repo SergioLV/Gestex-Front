@@ -54,11 +54,11 @@ export const SidebarData = [
     path: "/productos",
     cName: "nav-text",
   },
-  // {
-  //   title: "Tickets",
-  //   path: "/tickets",
-  //   cName: "nav-text",
-  // },
+  {
+    title: "Tickets",
+    path: "/tickets",
+    cName: "nav-text",
+  },
 
   /*  {
     title: "Test",

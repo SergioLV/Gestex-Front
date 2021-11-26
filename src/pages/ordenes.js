@@ -292,7 +292,6 @@ export default function Productos() {
     <div className="productos">
       {openEdit && (
         <EditOrden
-          
           setOpenModal={setOpenModal}
           ordenes={ordenes}
           setOrdenes={setOrdenes}
