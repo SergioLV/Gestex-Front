@@ -202,16 +202,15 @@ export default function Productos() {
   //Funcion que llama a get/productos y almacena en productos una lista de objetos con todos los productos de la tabla productos
 
   const editarOrden = (orden) => {
-    // setBeforeEdit(producto);
     let cliente = "";
     clientes.map((c) => {
-      if (c.id_cliente === orden.id_cliente) {
+      if (c.id_cliente == orden.id_cliente) {
         cliente = c.nombre_cliente;
       }
     });
     let producto = "";
     productos.map((p) => {
-      if (p.id_producto === orden.id_producto) {
+      if (p.id_producto == orden.id_producto) {
         producto = p.nombre_producto;
       }
     });

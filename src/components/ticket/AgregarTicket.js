@@ -89,19 +89,14 @@ function AgregarTicket({
   const classesGrid = useStylesGrid();
 
   const [personal, setPersonal] = useState("");
-  const [total, setTotal] = useState(0);
-  const [trabajador, setTrabajador] = useState("");
-  const [producto, setProducto] = useState("");
-  const [cantidad, setCantidad] = useState(0);
-  const [fecha, setFecha] = useState("");
-  const [comentario, setComentario] = useState("");
-  const [procesos, setProcesos] = useState([]);
-  const [colores, setColores] = useState([]);
-  // let celdasExcel = [];
 
-  const ExcelFile = ReactExport.ExcelFile;
-  const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-  const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+  const [paquetes, setPaquetes] = useState([]);
+  const [procesos, setProcesos] = useState([]);
+
+  const [trabajador, setTrabajador] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [total, setTotal] = useState(0);
+
   const getPersonal = async () => {
     await Axios.get("https://gestex-backend.herokuapp.com/get/personal").then(
       (response) => {
@@ -112,40 +107,36 @@ function AgregarTicket({
   useEffect(() => {
     getPersonal();
   }, []);
-  const getColores = async () => {
-    await Axios.get("https://gestex-backend.herokuapp.com/get/colores").then(
+  const getPaquetes = async () => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/paquetes").then(
       (response) => {
-        setColores(response.data);
+        setPaquetes(response.data);
       }
     );
   };
   useEffect(() => {
-    getColores();
+    getPaquetes();
+  }, []);
+  const getProcesos = async () => {
+    await Axios.get("https://gestex-backend.herokuapp.com/get/procesos").then(
+      (response) => {
+        setProcesos(response.data);
+      }
+    );
+  };
+  useEffect(() => {
+    getProcesos();
   }, []);
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
-  //   const handleChangeTrabajador = (e) => {
-  //     setTrabajador(e.target.value);
-  //   };
-  //   const handleChangeProducto = (e) => {
-  //     setProducto(e.target.value);
-  //   };
-  //   const handleChangeCantidad = (e) => {
-  //     setCantidad(e.target.value);
-  //   };
-  //   const handleChangeFecha = (e) => {
-  //     setFecha(e.target.value);
-  //     setOrdenAdd({
-  //       id_cliente: cliente,
-  //       id_producto: producto,
-  //       cantidad: cantidad,
-  //       fecha_entrega: fecha,
-  //       comentario: comentario,
-  //     });
-  //   };
-  //   const handleChangeComentario = (e) => {
-  //     setComentario(e.target.value);
-  //   };
+  const handleChangeTrabajador = (e) => {
+    setTrabajador(e.target.value);
+  };
+
+  const handleChangeFecha = (e) => {
+    setFecha(e.target.value);
+  };
+
   const max_id = () => {
     const max_id = ordenes.reduce(
       (acc, orden) =>
@@ -226,22 +217,41 @@ function AgregarTicket({
       id_producto: "",
       id_proceso: "",
       fecha_lectura: "",
+      precio: "",
     },
   ]);
 
   const handleTickets = (e, index) => {
     const tick = [...ticketsTrabajador];
-    // const name = e.target.name;
-    // if (name == "color") {
-    //   colores.map((c) => {
-    //     if (c.nombre_color == e.target.value) {
-    //       paq[index]["id_color"] = c.id_color;
-    //     }
-    //   });
-    // }
-    // paq[index][name] = e.target.value;
-    // paq[index]["numero_paquete"] = index + 1;
-    // setPaquetes(paq);
+    const name = e.target.name;
+    tick[index][name] = e.target.value;
+    tick[index]["id_personal"] = parseInt(trabajador);
+    tick[index]["fecha_lectura"] = fecha;
+    tick[index]["id_orden_de_corte"] = parseInt(e.target.value.substring(0, 5));
+    tick[index]["numero_paquete"] = parseInt(e.target.value.substring(6, 8));
+    tick[index]["id_proceso"] = parseInt(e.target.value.substring(9, 11));
+    tick[index]["id_producto"] = ordenes.find(
+      (o) => o.id_ordenes_de_corte === parseInt(e.target.value.substring(0, 5))
+    ).id_producto;
+    tick[index]["id_paquete"] = paquetes.find(
+      (p) =>
+        p.id_orden_de_corte === parseInt(e.target.value.substring(0, 5)) &&
+        p.numero_paquete === parseInt(e.target.value.substring(9, 11))
+    ).id_paquete;
+
+    tick[index]["precio"] =
+      paquetes.find(
+        (p) =>
+          p.id_orden_de_corte === parseInt(e.target.value.substring(0, 5)) &&
+          p.numero_paquete === parseInt(e.target.value.substring(9, 11))
+      ).cantidad_paquete *
+      procesos.find(
+        (pro) => pro.id_proceso === parseInt(e.target.value.substring(9, 11))
+      ).precio;
+
+    setTicketsTrabajador(tick);
+    console.log(tick);
+    console.log(procesos);
   };
 
   const handleAdd = () => {
@@ -255,6 +265,7 @@ function AgregarTicket({
         id_producto: "",
         id_proceso: "",
         fecha_lectura: "",
+        precio: "",
       },
     ]);
   };
@@ -274,6 +285,11 @@ function AgregarTicket({
     console.log("total: ", total);
     console.log(e.target.value);
     setTotal(total + parseInt(e.target.value));
+  };
+  const [price, setPrice] = useState(0);
+  const calcularPrecio = (e, p) => {
+    setPrice(price + p);
+    setTotal(total + price);
   };
 
   //   const handleGenerar = () => {
@@ -314,13 +330,13 @@ function AgregarTicket({
               <h1 className="producto-title">Lectura Tickets</h1>
               <hr className="divisor" id="agregar-orden-line" />
               <div className={classesGrid.root}>
-                <Grid container spacing={13} style={{ gap: 70 }}>
+                <Grid container style={{ gap: 70 }}>
                   <Grid item md={2}>
                     <InputLabel htmlFor="cliente">Trabajador</InputLabel>
                     <StyledSelect
                       className="select-agregar-proceso"
                       native
-                      //   onChange={handleChangeCliente}
+                      onChange={handleChangeTrabajador}
                       inputProps={{
                         name: "cliente",
                         id: "cliente",
@@ -341,7 +357,7 @@ function AgregarTicket({
                       label="Fecha Lectura"
                       type="date"
                       defaultValue="2021-11-26"
-                      //   onChange={handleChangeFecha}
+                      onChange={handleChangeFecha}
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -378,28 +394,30 @@ function AgregarTicket({
                       <TextField
                         id="outlined-basic"
                         label="Codigo"
-                        tyoe="number"
+                        type="number"
                         style={{ width: 120 }}
                         // variant="outlined"
+                        // onBlur={(e) => calcularPrecio(e, 100)}
                         name="codigo"
                         value={ticketsTrabajador.codigo}
-                        onChange={(e) => handleTickets(e, i)}
+                        onBlur={(e) => handleTickets(e, i)}
                       />
                     </Grid>
-                    <Grid>
+                    {/* <Grid>
                       <TextField
                         id="outlined-basic"
                         label="Precio"
+                        type="number"
                         // disabled
                         // variant="outlined"
                         name="precio"
                         style={{ width: 100 }}
-                        value={ticketsTrabajador.precio}
-                        onBlur={(e) =>
+                        value={price}
+                        onChange={(e) =>
                           setTotal(total + parseInt(e.target.value))
                         }
                       />
-                    </Grid>
+                    </Grid> */}
 
                     <Grid style={{ marginTop: "1.3rem" }}>
                       {ticketsTrabajador.length !== 1 && (
