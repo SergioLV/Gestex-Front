@@ -18,6 +18,7 @@ import Productos from "./pages/productos";
 import Colores from "./pages/colores";
 import Bancos from "./pages/bancos";
 import Xcliente from "./pages/xcliente";
+import Xtrabajador from "./pages/xtrabajador";
 
 function App() {
   const [ventanaActiva, setVentanaActiva] = useState("");
@@ -112,6 +113,12 @@ function App() {
             component={Bancos}
             setVentanaActiva={setVentanaActiva}
             route={"Bancos"}
+          />
+          <PrivateRoute
+            path="/xtrabajador"
+            component={Xtrabajador}
+            setVentanaActiva={setVentanaActiva}
+            route={"Tickets por Trabajador"}
           />
         </Switch>
       </Router>

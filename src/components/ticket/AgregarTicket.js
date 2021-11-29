@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { makeStyles, withStyles } from "@material-ui/styles";
 import TextField from "@material-ui/core/TextField";
 import Axios from "axios";
@@ -8,7 +8,6 @@ import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import ReactExport from "react-data-export";
 
 import Grid from "@material-ui/core/Grid";
 const useStylesGrid = makeStyles((theme) => ({
@@ -84,11 +83,14 @@ function AgregarTicket({
   setOpenPopUp,
   clientes,
   productos,
+  tickets,
 }) {
   const classesForm = useStylesForm();
   const classesGrid = useStylesGrid();
+  const duplicated = useRef();
 
   const [personal, setPersonal] = useState("");
+  const [isDuplicated, setIsDuplicated] = useState(false);
 
   const [paquetes, setPaquetes] = useState([]);
   const [procesos, setProcesos] = useState([]);
@@ -96,6 +98,8 @@ function AgregarTicket({
   const [trabajador, setTrabajador] = useState("");
   const [fecha, setFecha] = useState("");
   const [total, setTotal] = useState(0);
+  const [precios, setPrecios] = useState([]);
+  const [codigo, setCodigo] = useState("");
 
   const getPersonal = async () => {
     await Axios.get("https://gestex-backend.herokuapp.com/get/personal").then(
@@ -152,10 +156,11 @@ function AgregarTicket({
   //Handler para el boton de agregar producto
 
   const handleSubmit = (e) => {
-    //Se previene el refresh automatico del form
-    // console.log("front");
-    // e.preventDefault();
-    // //Se hace la peticion Post a add/producto del productoAdd
+    e.preventDefault();
+    console.log(e.charCode);
+    // console.log(add);
+
+    //Se hace la peticion Post a add/producto del productoAdd
     // //Max id para asignarselo al nuevo
     // const max_id = ordenes.reduce(
     //   (acc, orden) =>
@@ -209,112 +214,116 @@ function AgregarTicket({
   };
 
   const [ticketsTrabajador, setTicketsTrabajador] = useState([
-    {
-      codigo: "",
-      id_orden_de_corte: "",
-      id_personal: "",
-      id_paquete: "",
-      id_producto: "",
-      id_proceso: "",
-      fecha_lectura: "",
-      precio: "",
-    },
+    // {
+    //   codigo: "",
+    //   id_orden_de_corte: "",
+    //   id_personal: "",
+    //   id_paquete: "",
+    //   id_producto: "",
+    //   id_proceso: "",
+    //   fecha_lectura: "",
+    //   precio: "",
+    // },
   ]);
 
-  const handleTickets = (e, index) => {
+  const handleTickets = (e) => {
+    setCodigo(e.target.value);
     const tick = [...ticketsTrabajador];
+    const index = tick.length - 1;
     const name = e.target.name;
-    tick[index][name] = e.target.value;
-    tick[index]["id_personal"] = parseInt(trabajador);
-    tick[index]["fecha_lectura"] = fecha;
-    tick[index]["id_orden_de_corte"] = parseInt(e.target.value.substring(0, 5));
-    tick[index]["numero_paquete"] = parseInt(e.target.value.substring(6, 8));
-    tick[index]["id_proceso"] = parseInt(e.target.value.substring(9, 11));
-    tick[index]["id_producto"] = ordenes.find(
-      (o) => o.id_ordenes_de_corte === parseInt(e.target.value.substring(0, 5))
-    ).id_producto;
-    tick[index]["id_paquete"] = paquetes.find(
-      (p) =>
-        p.id_orden_de_corte === parseInt(e.target.value.substring(0, 5)) &&
-        p.numero_paquete === parseInt(e.target.value.substring(9, 11))
-    ).id_paquete;
+    // tick[index][name] = e.target.value;
+    // tick[index]["id_personal"] = parseInt(trabajador);
+    // tick[index]["fecha_lectura"] = fecha;
+    // tick[index]["id_orden_de_corte"] = parseInt(e.target.value.substring(0, 5));
+    // tick[index]["numero_paquete"] = parseInt(e.target.value.substring(6, 8));
+    // tick[index]["id_proceso"] = parseInt(e.target.value.substring(9, 11));
+    // tick[index]["id_producto"] = ordenes.find(
+    //   (o) => o.id_ordenes_de_corte === parseInt(e.target.value.substring(0, 5))
+    // ).id_producto;
+    // tick[index]["id_paquete"] = paquetes.find(
+    //   (p) =>
+    //     p.id_orden_de_corte === parseInt(e.target.value.substring(0, 5)) &&
+    //     p.numero_paquete === parseInt(e.target.value.substring(9, 11))
+    // ).id_paquete;
 
-    tick[index]["precio"] =
-      paquetes.find(
-        (p) =>
-          p.id_orden_de_corte === parseInt(e.target.value.substring(0, 5)) &&
-          p.numero_paquete === parseInt(e.target.value.substring(9, 11))
-      ).cantidad_paquete *
-      procesos.find(
-        (pro) => pro.id_proceso === parseInt(e.target.value.substring(9, 11))
-      ).precio;
+    // tick[index]["precio"] =
+    //   paquetes.find(
+    //     (p) =>
+    //       p.id_orden_de_corte === parseInt(e.target.value.substring(0, 5)) &&
+    //       p.numero_paquete === parseInt(e.target.value.substring(9, 11))
+    //   ).cantidad_paquete *
+    //   procesos.find(
+    //     (pro) => pro.id_proceso === parseInt(e.target.value.substring(9, 11))
+    //   ).precio;
 
-    setTicketsTrabajador(tick);
-    console.log(tick);
-    console.log(procesos);
+    // console.log(tick)
+    // setTicketsTrabajador(tick);
   };
 
   const handleAdd = () => {
-    setTicketsTrabajador([
-      ...ticketsTrabajador,
-      {
-        codigo: "",
-        id_orden_de_corte: "",
-        id_personal: "",
-        id_paquete: "",
-        id_producto: "",
-        id_proceso: "",
-        fecha_lectura: "",
-        precio: "",
-      },
-    ]);
+    const ticket = {
+      codigo: codigo,
+      id_personal: parseInt(trabajador),
+      fecha_lectura: fecha,
+      id_orden_de_corte: parseInt(codigo.substring(0, 5)),
+      numero_paquete: parseInt(codigo.substring(6, 8)),
+      id_proceso: parseInt(codigo.substring(9, 11)),
+      id_producto: ordenes.find(
+        (o) => o.id_ordenes_de_corte === parseInt(codigo.substring(0, 5))
+      ).id_producto,
+      id_paquete: paquetes.find(
+        (p) =>
+          p.id_orden_de_corte === parseInt(codigo.substring(0, 5)) &&
+          p.numero_paquete === parseInt(codigo.substring(6, 8))
+      ).id_paquete,
+
+      precio:
+        paquetes.find(
+          (p) =>
+            p.id_orden_de_corte === parseInt(codigo.substring(0, 5)) &&
+            p.numero_paquete === parseInt(codigo.substring(6, 8))
+        ).cantidad_paquete *
+        procesos.find(
+          (pro) => pro.id_proceso === parseInt(codigo.substring(9, 11))
+        ).precio,
+    };
+
+    tickets.map((t) => {
+      if (
+        t.id_orden_de_corte == ticket.id_orden_de_corte &&
+        t.id_paquete == ticket.id_paquete
+      ) {
+        setIsDuplicated(true);
+        console.log("dup");
+      }
+    });
+    setTicketsTrabajador([...ticketsTrabajador, ticket]);
+    setTotal(
+      total +
+        paquetes.find(
+          (p) =>
+            p.id_orden_de_corte === parseInt(codigo.substring(0, 5)) &&
+            p.numero_paquete === parseInt(codigo.substring(6, 8))
+        ).cantidad_paquete *
+          procesos.find(
+            (pro) => pro.id_proceso === parseInt(codigo.substring(9, 11))
+          ).precio
+    );
   };
   const handleRemove = (index) => {
+    try {
+      if (duplicated.current.textContent == "Ticket Duplicado!") {
+        setIsDuplicated(false);
+      }
+    } catch (e) {
+      console.log("xd");
+    }
     const tick = [...ticketsTrabajador];
     tick.splice(index, 1);
+    let intersection = [...ticketsTrabajador].filter((x) => !tick.includes(x));
     setTicketsTrabajador(tick);
+    setTotal(total - parseInt(intersection[0].precio));
   };
-  function FormatNumberLength(num, length) {
-    var r = "" + num;
-    while (r.length < length) {
-      r = "0" + r;
-    }
-    return r;
-  }
-  const aumentarTotal = (e) => {
-    console.log("total: ", total);
-    console.log(e.target.value);
-    setTotal(total + parseInt(e.target.value));
-  };
-  const [price, setPrice] = useState(0);
-  const calcularPrecio = (e, p) => {
-    setPrice(price + p);
-    setTotal(total + price);
-  };
-
-  //   const handleGenerar = () => {
-  //     const proc_prod = [...procesos].filter((p) => p.id_producto == producto);
-
-  //     paquetes.map((p) =>
-  //       proc_prod.map((proc) =>
-  //         celdasExcel.push({
-  //           codigo:
-  //             FormatNumberLength(id_orden, 5) +
-  //             FormatNumberLength(p.numero_paquete, 3) +
-  //             FormatNumberLength(proc.id_proceso, 3),
-  //           orden_de_corte: id_orden,
-  //           paquete: p.numero_paquete,
-  //           producto: parseInt(producto),
-  //           proceso: proc.nombre_proceso,
-  //           cantidad: parseInt(p.cantidad),
-  //           unitario: proc.precio,
-  //           total: parseInt(p.cantidad) * proc.precio,
-  //           talla: p.talla,
-  //           color: p.color,
-  //         })
-  //       )
-  //     );
-  //   };
 
   return (
     <div>
@@ -330,7 +339,7 @@ function AgregarTicket({
               <h1 className="producto-title">Lectura Tickets</h1>
               <hr className="divisor" id="agregar-orden-line" />
               <div className={classesGrid.root}>
-                <Grid container style={{ gap: 70 }}>
+                <Grid container style={{ gap: 100 }}>
                   <Grid item md={2}>
                     <InputLabel htmlFor="cliente">Trabajador</InputLabel>
                     <StyledSelect
@@ -341,7 +350,7 @@ function AgregarTicket({
                         name: "cliente",
                         id: "cliente",
                       }}
-                      style={{ width: 145 }}
+                      style={{ width: 160 }}
                     >
                       <option value=""></option>
                       {[...personal].map((personal) => (
@@ -369,6 +378,43 @@ function AgregarTicket({
 
               <h1 className="producto-title ">Tickets</h1>
               <hr className="divisor" id="paquetes-line" />
+              <div className={classesGrid.root}>
+                <Grid
+                  container
+                  spacing={5}
+                  style={{ gap: 63, marginLeft: "-1rem" }}
+                >
+                  <Grid>
+                    <TextField
+                      id="outlined-basic"
+                      label="Codigo"
+                      type="number"
+                      style={{ width: 120 }}
+                      // variant="outlined"
+                      // onBlur={(e) => calcularPrecio(e, 100)}
+                      name="codigo"
+                      // ref={input}
+                      // value={ticketsTrabajador.codigo}
+                      onBlur={(e) => handleTickets(e)}
+                    />
+                  </Grid>
+
+                  <Grid style={{ marginTop: "1.3rem" }}>
+                    {/* {ticketsTrabajador.length !== 1 && (
+                      <RemoveIcon
+                      className="removePaquete"
+                      onClick={(e) => handleRemove(i)}
+                      />
+                    )} */}
+                    {
+                      <AddIcon
+                        className="addPaquete"
+                        onClick={(e) => handleAdd()}
+                      />
+                    }
+                  </Grid>
+                </Grid>
+              </div>
 
               <div className="tickets-header">
                 <div className="numero">
@@ -383,59 +429,84 @@ function AgregarTicket({
                 </div>
               </div>
 
-              {ticketsTrabajador.map((ticket, i) => (
-                <div className={classesGrid.root}>
-                  <Grid
-                    container
-                    spacing={5}
-                    style={{ gap: 63, marginLeft: "-1rem" }}
-                  >
-                    <Grid>
-                      <TextField
-                        id="outlined-basic"
-                        label="Codigo"
-                        type="number"
-                        style={{ width: 120 }}
-                        // variant="outlined"
-                        // onBlur={(e) => calcularPrecio(e, 100)}
-                        name="codigo"
-                        value={ticketsTrabajador.codigo}
-                        onBlur={(e) => handleTickets(e, i)}
-                      />
-                    </Grid>
-                    {/* <Grid>
-                      <TextField
-                        id="outlined-basic"
-                        label="Precio"
-                        type="number"
-                        // disabled
-                        // variant="outlined"
-                        name="precio"
-                        style={{ width: 100 }}
-                        value={price}
-                        onChange={(e) =>
-                          setTotal(total + parseInt(e.target.value))
-                        }
-                      />
-                    </Grid> */}
+              {[...ticketsTrabajador].length >= 0
+                ? ticketsTrabajador.map((ticket, i) => (
+                    <div className={classesGrid.root}>
+                      <Grid
+                        container
+                        spacing={5}
+                        style={{ gap: 63, marginLeft: "-1rem" }}
+                      >
+                        <Grid>
+                          <TextField
+                            id="outlined-basic"
+                            label="Codigo"
+                            type="number"
+                            style={{ width: 120 }}
+                            disabled
+                            // variant="outlined"
+                            // onBlur={(e) => calcularPrecio(e, 100)}
+                            name="codigo"
+                            value={[...ticketsTrabajador][i].codigo}
+                            // onBlur={(e) => handleTickets(e, i)}
+                          />
+                        </Grid>
+                        <Grid>
+                          <TextField
+                            id="outlined-basic"
+                            label="Precio"
+                            type="number"
+                            disabled
+                            // variant="outlined"
+                            name="precio"
+                            style={{ width: 100 }}
+                            value={[...ticketsTrabajador][i].precio}
+                          />
+                        </Grid>
 
-                    <Grid style={{ marginTop: "1.3rem" }}>
-                      {ticketsTrabajador.length !== 1 && (
-                        <RemoveIcon
-                          className="removePaquete"
-                          onClick={(e) => handleRemove(i)}
-                        />
-                      )}
-                      {ticketsTrabajador.length - 1 === i && (
+                        <Grid style={{ marginTop: "1.3rem" }}>
+                          {
+                            <RemoveIcon
+                              className="removePaquete"
+                              onClick={(e) => handleRemove(i)}
+                            />
+                          }
+                          {/* {ticketsTrabajador.length - 1 === i && (
                         <AddIcon
                           className="addPaquete"
                           onClick={(e) => handleAdd(e, i)}
                         />
-                      )}
-                    </Grid>
-                  </Grid>
-                </div>
-              ))}
+                      )} */}
+                        </Grid>
+                        {/* {isDuplicated && ticketsTrabajador.length - 1 === i && (
+                          <Grid
+                            style={{
+                              marginLeft: "0.2rem",
+                              marginTop: "1.1rem",
+                              color: "red",
+                            }}
+                          >
+                            <p ref={duplicated}>Ticket Duplicado!</p>
+                          </Grid>
+                        )} */}
+
+                        <Grid
+                          style={{
+                            marginLeft: "0.2rem",
+                            marginTop: "1.1rem",
+                            color: "red",
+                          }}
+                        >
+                          <p ref={duplicated}>
+                            {isDuplicated &&
+                              ticketsTrabajador.length - 1 === i &&
+                              "Ticket Duplicado!"}
+                          </p>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  ))
+                : "0"}
               <h1 className="producto-title" style={{ marginTop: "2rem" }}>
                 Total: {total}
               </h1>

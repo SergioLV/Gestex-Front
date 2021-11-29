@@ -173,10 +173,10 @@ export default function Productos() {
   const [ordenes, setOrdenes] = useState([]);
   //State que almacena el producto al hacer click en el icono de edit
   const emptyRows =
-    [...ordenes].length === 0
+    [...tickets].length === 0
       ? rowsPerPage - Math.min(rowsPerPage, 5 - page * rowsPerPage)
       : rowsPerPage -
-        Math.min(rowsPerPage, [...ordenes].length - page * rowsPerPage);
+        Math.min(rowsPerPage, [...tickets].length - page * rowsPerPage);
   const [ordenEdit, setOrdenEdit] = useState([]);
   //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
   const [ordenAdd, setOrdenAdd] = useState("");
@@ -203,7 +203,6 @@ export default function Productos() {
       await Axios.get("http://localhost:3001/get/tickets").then((response) => {
         setTickets(response.data);
         setLoadingTickets(true);
-        console.log(response.data);
       });
     };
     getTickets();
@@ -299,6 +298,7 @@ export default function Productos() {
           setOpenPopUp={setOpenPopUp}
           productos={productos}
           clientes={clientes}
+          tickets={tickets}
         />
       )}
       <div className="content">
@@ -347,7 +347,7 @@ export default function Productos() {
                       ).map((ticket) => (
                         <TableRow hover="true">
                           <TableCell component="th" scope="row">
-                            {ticket.ticket}
+                            {ticket.id_ticket}
                           </TableCell>
                           <TableCell component="th" scope="row">
                             {/* {[...clientes].length > 0

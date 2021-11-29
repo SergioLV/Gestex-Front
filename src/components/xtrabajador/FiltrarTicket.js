@@ -43,22 +43,20 @@ const StyledSelect = withStyles((theme) => ({
   },
 }))(Select);
 
-function FiltrarProducto({
+function FiltrarTicket({
   setOpenModal,
-  setXcliente,
-  setClienteAdd,
-  clienteAdd,
-
+  setXtrabajador,
+  setTrabajadorAdd,
+  trabajadorAdd,
   setOpenPopUp,
-
-  clientes,
+  personal,
 }) {
   const classesForm = useStylesForm();
 
   //Handler para modificar el producto que se inserta y que se le pasa al PopUp de satisfaccion
   const handleChangeCliente = (e) => {
     // setCliente(e.target.value);
-    setClienteAdd(e.target.value);
+    setTrabajadorAdd(e.target.value);
   };
 
   //Handler para el boton de agregar producto
@@ -68,13 +66,15 @@ function FiltrarProducto({
     //Se hace la peticion Post a add/producto del productoAdd
     //Max id para asignarselo al nuevo
 
-    Axios.get("https://gestex-backend.herokuapp.com/get/xcliente", {
-      params: { clienteAdd },
-    }).then((response) => {
+    Axios.get(
+      "https://gestex-backend.herokuapp.com/get/xpersonal/".concat(
+        trabajadorAdd
+      )
+    ).then((response) => {
       // console.log(response.data)
       if (response.status === 200) {
-        setXcliente([]);
-        setXcliente(response.data);
+        setXtrabajador([]);
+        setXtrabajador(response.data);
         // setOrdenes([
         //   ...ordenes,
         //   {
@@ -110,7 +110,7 @@ function FiltrarProducto({
               noValidate
               autoComplete="off"
             >
-              <h1 className="producto-title">Filtrar Producto por Cliente</h1>
+              <h1 className="producto-title">Filtrar Ticket por Trabajador</h1>
               <hr className="divisor" id="agregar-producto" />
               <InputLabel htmlFor="cliente">Cliente</InputLabel>
 
@@ -125,10 +125,8 @@ function FiltrarProducto({
                 }}
               >
                 <option value=""></option>
-                {clientes.map((cliente) => (
-                  <option value={cliente.id_cliente}>
-                    {cliente.nombre_cliente}
-                  </option>
+                {personal.map((p) => (
+                  <option value={p.id_personal}>{p.nombre_personal}</option>
                 ))}
               </StyledSelect>
 
@@ -156,4 +154,4 @@ function FiltrarProducto({
   );
 }
 
-export default FiltrarProducto;
+export default FiltrarTicket;

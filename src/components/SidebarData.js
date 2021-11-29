@@ -19,11 +19,11 @@ export const SidebarData = [
     path: "/clientes",
     cName: "nav-text",
   },
-  // {
-  //   title: "Productos por Cliente",
-  //   path: "/xcliente",
-  //   cName: "nav-text",
-  // },
+  {
+    title: "Productos por Cliente",
+    path: "/xcliente",
+    cName: "nav-text",
+  },
   {
     title: "Órdenes",
     path: "/ordenes",
@@ -59,7 +59,11 @@ export const SidebarData = [
     path: "/tickets",
     cName: "nav-text",
   },
-
+  {
+    title: "Tickets por Trabajador",
+    path: "/xtrabajador",
+    cName: "nav-text",
+  },
   /*  {
     title: "Test",
     path: "/test",
