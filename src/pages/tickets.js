@@ -200,10 +200,12 @@ export default function Productos() {
 
   useEffect(() => {
     const getTickets = async () => {
-      await Axios.get("http://localhost:3001/get/tickets").then((response) => {
-        setTickets(response.data);
-        setLoadingTickets(true);
-      });
+      await Axios.get("https://gestex-backend.herokuapp.com/get/tickets").then(
+        (response) => {
+          setTickets(response.data);
+          setLoadingTickets(true);
+        }
+      );
     };
     getTickets();
   }, []);
