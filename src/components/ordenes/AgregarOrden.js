@@ -268,6 +268,9 @@ function AgregarProducto({
 
   const handleGenerar = () => {
     const proc_prod = [...procesos].filter((p) => p.id_producto == producto);
+    if (celdasExcel.length > 0) {
+      return;
+    }
 
     paquetes.map((p) =>
       proc_prod.map((proc) =>
