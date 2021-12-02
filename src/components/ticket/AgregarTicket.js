@@ -74,16 +74,14 @@ const StyledSelectColor = withStyles((theme) => ({
 }))(Select);
 
 function AgregarTicket({
-  celdasExcel,
   setOpenModal,
-  ordenAdd,
-  setOrdenAdd,
+
   ordenes,
-  setOrdenes,
+
   setOpenPopUp,
-  clientes,
-  productos,
+
   tickets,
+  setTicketsAdd,
 }) {
   const classesForm = useStylesForm();
   const classesGrid = useStylesGrid();
@@ -98,7 +96,7 @@ function AgregarTicket({
   const [trabajador, setTrabajador] = useState("");
   const [fecha, setFecha] = useState("");
   const [total, setTotal] = useState(0);
-  const [precios, setPrecios] = useState([]);
+
   const [codigo, setCodigo] = useState("");
 
   const getPersonal = async () => {
@@ -151,13 +149,10 @@ function AgregarTicket({
     return max_id;
   };
 
-  const id_orden = max_id() + 1;
-
   //Handler para el boton de agregar producto
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.charCode);
     // console.log(add);
 
     //Se hace la peticion Post a add/producto del productoAdd
@@ -169,48 +164,19 @@ function AgregarTicket({
     //   0
     // );
     // // console.log(paquetes);
-    // Axios.post("https://gestex-backend.herokuapp.com/add/orden", {
-    //   id_cliente: cliente,
-    //   id_producto: producto,
-    //   cantidad: cantidad,
-    //   fecha_entrega: fecha,
-    //   comentario: comentario,
-    // }).then((response) => {
-    //   if (response.status === 201) {
-    //     // getProducto(productoAdd);
-    //     setOrdenes([
-    //       ...ordenes,
-    //       {
-    //         id_ordenes_de_corte: max_id + 1,
-    //         id_cliente: cliente,
-    //         id_producto: producto,
-    //         cantidad: cantidad,
-    //         fecha_entrega: fecha,
-    //         comentario: comentario,
-    //       },
-    //     ]);
-    //     setOrdenAdd({
-    //       id_ordenes_de_corte: max_id + 1,
-    //       id_cliente: cliente,
-    //       id_producto: producto,
-    //       cantidad: cantidad,
-    //       fecha_entrega: fecha,
-    //       comentario: comentario,
-    //     });
-    //     //Se cierra el modal de agregar
-    //     setOpenModal(false);
-    //     //Se abre el popup de satisfaccion
-    //     setOpenPopUp(true);
-    //     //Se cierra el popup despues de 2 seg
-    //     setTimeout(() => {
-    //       setOpenPopUp(false);
-    //     }, 2000);
-    //   }
-    // });
-    // Axios.post(
-    //   "https://gestex-backend.herokuapp.com/add/paquete",
-    //   paquetes
-    // ).then((response) => {});
+    console.log("response");
+    Axios.post(
+      "https://gestex-backend.herokuapp.com/add/tickets",
+      ticketsTrabajador
+    ).then((response) => {});
+    setTicketsAdd({ num_tickets: ticketsTrabajador.length });
+    setOpenModal(false);
+    //Se abre el popup de satisfaccion
+    setOpenPopUp(true);
+    //Se cierra el popup despues de 2 seg
+    setTimeout(() => {
+      setOpenPopUp(false);
+    }, 2000);
   };
 
   const [ticketsTrabajador, setTicketsTrabajador] = useState([
@@ -276,7 +242,6 @@ function AgregarTicket({
           p.id_orden_de_corte === parseInt(codigo.substring(0, 5)) &&
           p.numero_paquete === parseInt(codigo.substring(6, 8))
       ).id_paquete,
-
       precio:
         paquetes.find(
           (p) =>
@@ -287,14 +252,12 @@ function AgregarTicket({
           (pro) => pro.id_proceso === parseInt(codigo.substring(9, 11))
         ).precio,
     };
-
     tickets.map((t) => {
       if (
         t.id_orden_de_corte == ticket.id_orden_de_corte &&
         t.id_paquete == ticket.id_paquete
       ) {
         setIsDuplicated(true);
-        console.log("dup");
       }
     });
     setTicketsTrabajador([...ticketsTrabajador, ticket]);

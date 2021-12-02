@@ -9,8 +9,8 @@ function PopUp({
   previsionAdd,
   bancoAdd,
   clientesAdd,
+  ticketsAdd,
 }) {
-  console.log(previsionAdd);
   let display = "";
   if (productoAdd !== undefined) {
     display = productoAdd;
@@ -39,6 +39,9 @@ function PopUp({
   }
   if (bancoAdd !== undefined) {
     display = bancoAdd.nombre_banco;
+  }
+  if (ticketsAdd !== undefined) {
+    display = ticketsAdd.num_tickets + " Tickets";
   }
   return (
     <div>

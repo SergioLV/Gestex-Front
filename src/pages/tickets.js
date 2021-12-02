@@ -179,7 +179,7 @@ export default function Productos() {
         Math.min(rowsPerPage, [...tickets].length - page * rowsPerPage);
   const [ordenEdit, setOrdenEdit] = useState([]);
   //State que almacena le producto que se agrega en el modal de agregar y luego se pasa al popup de satisfaccion
-  const [ordenAdd, setOrdenAdd] = useState("");
+  const [ticketsAdd, setTicketsAdd] = useState([]);
 
   const [clientes, setClientes] = useState([]);
   const [productos, setProductos] = useState([]);
@@ -285,20 +285,19 @@ export default function Productos() {
         />
       )}
       {openPopUpEdit && <PopUpEdit ordenEdit={ordenEdit} />} */}
-      {openPopUp && <PopUp ordenAdd={ordenAdd} />}
+      {openPopUp && <PopUp ticketsAdd={ticketsAdd} />}
 
       {openModal && (
         <AgregarTicket
           celdasExcel={celdasExcel}
           setOpenModal={setOpenModal}
-          ordenAdd={ordenAdd}
-          setOrdenAdd={setOrdenAdd}
           ordenes={ordenes}
           setOrdenes={setOrdenes}
           setOpenPopUp={setOpenPopUp}
           productos={productos}
           clientes={clientes}
           tickets={tickets}
+          setTicketsAdd={setTicketsAdd}
         />
       )}
       <div className="content">
