@@ -81,6 +81,7 @@ function AgregarTicket({
   setOpenPopUp,
 
   tickets,
+  setTickets,
   setTicketsAdd,
 }) {
   const classesForm = useStylesForm();
@@ -255,7 +256,8 @@ function AgregarTicket({
     tickets.map((t) => {
       if (
         t.id_orden_de_corte == ticket.id_orden_de_corte &&
-        t.id_paquete == ticket.id_paquete
+        t.id_paquete == ticket.id_paquete &&
+        t.id_proceso == ticket.id_proceso
       ) {
         setIsDuplicated(true);
       }
